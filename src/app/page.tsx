@@ -5,7 +5,6 @@ import { getArticles } from "@lib/api_methods/get-articles";
 
 export default async function Page() {
   const articles = await getArticles();
-  console.log("🚀 ~ Page ~ articles:", articles);
 
   function bentoCardAligner(article: Article, index: number) {
     if (index % 2 !== 0) {

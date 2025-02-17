@@ -1,7 +1,6 @@
 "use client";
 
 import { RichTextBlock } from "@lib/interfaces/articles";
-import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -16,17 +15,17 @@ export function RichTextRenderer({ content }: RichTextProps) {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
-            a: ({ href, children }: { href: string; children: ReactNode }) => {
-              if (href?.includes("cloudinary.com") && href?.endsWith(".mp4")) {
+            a: (props) => {
+              if (props.href?.includes("cloudinary.com") && props.href?.endsWith(".mp4")) {
                 return (
                   <video slot="media" controls muted className="aspect-video">
-                    <source src={href} type="video/mp4" />
+                    <source src={props.href} type="video/mp4" />
                     Tu navegador no soporta videos.
                   </video>
                 );
               }
 
-              return <a href={href}>{children}</a>;
+              return <a href={props.href}>{props.children}</a>;
             },
           }}>
           {content.body}
