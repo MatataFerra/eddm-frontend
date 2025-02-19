@@ -24,16 +24,16 @@ export function BentoCard({ article, order, className }: CardArticleProps) {
   return (
     <BentoGridItem
       title={article.title}
-      onClick={() => router.push(`/${article.documentId}`)}
+      onClick={() => router.push(`/${article.slug}`)}
       number={order}
       description={
         <>
-          <p>{article.summary}</p>
+          <p className="line-clamp-2 mb-2">{article.summary}</p>
           <time className="font-bold">{new DateParser(article.publishedAt).formatToHuman()}</time>
         </>
       }
       header={
-        <figure className="rounded-lg overflow-hidden w-full h-40 ">
+        <figure className="rounded-lg overflow-hidden w-full h-40">
           <Image
             className="object-cover size-full group-hover/bento:scale-105 transition-transform duration-300"
             width={400}

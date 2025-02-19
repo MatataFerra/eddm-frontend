@@ -4,14 +4,18 @@ import { BentoWrapper } from "@blocks/articles/bentoGrid";
 import { getArticles } from "@lib/api_methods/get-articles";
 
 export default async function Page() {
-  const articles = await getArticles();
+  const articles = await getArticles<Article[]>({
+    params: {
+      populate: "cover",
+    },
+  });
 
   function bentoCardAligner(article: Article, index: number) {
-    if (index % 2 !== 0) {
-      return { article: { ...article }, className: "col-span-1" };
+    if (index === 0 || index === 1) {
+      return { article: { ...article }, className: "col-span-2" };
     }
 
-    return { article: { ...article }, className: "col-span-3" };
+    return { article: { ...article }, className: "col-span-2" };
   }
 
   return (
