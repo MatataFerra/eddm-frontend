@@ -1,14 +1,13 @@
 "use client";
 
-import { RichTextBlock } from "@lib/interfaces/articles";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 interface RichTextProps {
-  content?: RichTextBlock;
+  content?: string;
 }
 
-export function RichTextRenderer({ content }: RichTextProps) {
+export default function RichTextRenderer({ content }: RichTextProps) {
   return (
     <div className="max-w-none">
       {content && (
@@ -28,7 +27,7 @@ export function RichTextRenderer({ content }: RichTextProps) {
               return <a href={props.href}>{props.children}</a>;
             },
           }}>
-          {content.body}
+          {content}
         </ReactMarkdown>
       )}
     </div>

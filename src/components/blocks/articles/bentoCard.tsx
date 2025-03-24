@@ -1,49 +1,60 @@
 "use client";
 
-import { BentoGridItem } from "@ui/bento-grid";
 import type { Article } from "@lib/interfaces/articles";
 import { cn } from "@lib/utils";
-import { DateParser } from "@lib/services/DateParser";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 
 type CardArticleProps = {
   article: Article;
-  order?: number;
   className?: string;
+  portrait?: boolean;
 };
 
-export function BentoCard({ article, order, className }: CardArticleProps) {
+export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
   const router = useRouter();
   function addBaseUrl(url?: string) {
     if (url && url.startsWith("http")) return url;
 
-    return process.env.NEXT_PUBLIC_STRAPI_URL + url;
+    return process.env.NEXT_PUBLIC_STRAPI_URL! + url;
   }
 
   return (
-    <BentoGridItem
-      title={article.title}
-      onClick={() => router.push(`/${article.slug}`)}
-      number={order}
-      description={
-        <>
-          <p className="line-clamp-2 mb-2">{article.summary}</p>
-          <time className="font-bold">{new DateParser(article.publishedAt).formatToHuman()}</time>
-        </>
-      }
-      header={
-        <figure className="rounded-lg overflow-hidden w-full h-40">
+    <motion.div
+      className={cn(
+        "rounded-xl p-1 size-full bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer",
+        className
+      )}
+      onClick={() => router.push(`/article/${article.slug}`)}
+      style={{
+        rotate: Math.random() * 20 - 10,
+      }}
+      whileHover={{
+        scale: 1.1,
+        rotate: 0,
+        zIndex: 100,
+      }}
+      whileTap={{
+        scale: 1.1,
+        rotate: 0,
+        zIndex: 100,
+      }}>
+      <section className="grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl size-40">
+        {portrait && (
           <Image
-            className="object-cover size-full group-hover/bento:scale-105 transition-transform duration-300"
-            width={400}
-            height={400}
-            src={addBaseUrl(article?.cover?.formats.medium.url)}
-            alt={article?.cover?.alternativeText ?? article.slug}
+            src={addBaseUrl(article?.cover?.url)}
+            alt={article.slug}
+            width={600}
+            height={600}
+            className="rounded-lg aspect-square size-full object-cover shrink-0 col-start-1 row-start-1 z-0 opacity-75"
           />
-        </figure>
-      }
-      className={cn(className, "cursor-pointer")}
-    />
+        )}
+
+        <p className="col-start-1 row-start-1 z-10 p-4 line-clamp-4 font-bold">
+          {article.order}. {article.title}
+        </p>
+      </section>
+    </motion.div>
   );
 }

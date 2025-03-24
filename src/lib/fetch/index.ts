@@ -1,9 +1,11 @@
 import { cache } from "react";
 import { Article } from "@lib/interfaces/articles";
+import { NextResponse } from "next/server";
+import { generateToken } from "../services/jwt";
 
 export type Methods = "GET" | "POST" | "PUT" | "DELETE";
 export type Params = Partial<keyof PopulateOptions> | Partial<keyof PopulateOptions>[];
-type PopulateOptions = Pick<Article, "cover" | "header" | "media" | "blocks">;
+type PopulateOptions = Pick<Article, "cover" | "header" | "media">;
 type AvailableFields<T> = Exclude<keyof T, "cover" | "header" | "media" | "blocks">;
 export type Fields<T> = Array<AvailableFields<T>> | AvailableFields<T>;
 type Url = string;
@@ -16,7 +18,7 @@ type FetchOptions = {
   fields?: Fields<Article>;
 };
 
-type StrapiResponse<T> = {
+export type ApiResponse<T> = {
   data: T;
   meta: {
     pagination: {
@@ -72,9 +74,13 @@ const formatParams = (
 export async function fetchData<T>(
   url: Url,
   { params = {}, method = "GET", fields }: FetchOptions = {}
-): Promise<StrapiResponse<T>> {
+): Promise<ApiResponse<T> | NextResponse<{ message: string }>> {
   const formattedFields = formatFields(fields);
   const formattedPopulate = formatPopulate(params.populate);
+  const createToken = generateToken({
+    user: process.env.TOKEN_USER,
+    password: process.env.TOKEN_PASSWORD,
+  });
 
   const mergedParams = {
     ...formattedPopulate,
@@ -82,28 +88,32 @@ export async function fetchData<T>(
   };
 
   const queryString = new URLSearchParams(formatParams(mergedParams)).toString();
-  const fullUrl = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api${url}${
+  const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api${url}${
     queryString ? `?${queryString}` : ""
   }`;
 
-  const res = await fetch(fullUrl, {
-    method,
-    headers: {
-      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    // next: {
-    //   revalidate: 300,
-    // },
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(fullUrl, {
+      method,
+      headers: {
+        Authorization: `Bearer ${createToken}`,
+        "Content-Type": "application/json",
+      },
+      // next: {
+      //   revalidate: 300,
+      // },
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
-    throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
+    if (!res.ok) {
+      throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
+    }
+
+    const response = await res.json();
+    return response;
+  } catch (error) {
+    return NextResponse.json({ message: "something went wrong" });
   }
-
-  const response = await res.json();
-  return response;
 }
 
 // Versión con cache

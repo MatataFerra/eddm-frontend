@@ -1,26 +1,30 @@
-import { fetchDataCached, Fields, Params } from "@lib/fetch";
+import { fetchDataCached, ApiResponse } from "@lib/fetch";
 import type { Article } from "@lib/interfaces/articles";
 
-type Config = {
-  params?: {
-    populate?: Params | "*";
-  };
-  fields?: Fields<Article>;
-};
-export async function getArticles<T>({ params, fields }: Config = {}): Promise<T> {
-  const { data: articles } = await fetchDataCached<T>("/articles", {
-    params: params,
-    fields: fields,
-  });
-  return articles;
+function isApiResponse<T>(response: unknown): response is ApiResponse<T> {
+  return (response as ApiResponse<T>).data !== undefined;
+}
+
+export async function getArticles<T>(): Promise<T> {
+  const response = await fetchDataCached<T>("/articles");
+
+  if (isApiResponse(response)) {
+    return response.data;
+  } else {
+    return response.statusText as unknown as T;
+  }
 }
 
 export async function getOneArticle(documentId: string) {
-  const { data: article } = await fetchDataCached<Article>(`/articles/${documentId}`, {
+  const response = await fetchDataCached<Article>(`/articles/${documentId}`, {
     params: {
-      populate: ["blocks", "header"],
+      populate: ["header"],
     },
   });
 
-  return article;
+  if (isApiResponse(response)) {
+    return response.data;
+  } else {
+    return response.statusText;
+  }
 }
