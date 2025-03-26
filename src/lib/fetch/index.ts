@@ -16,6 +16,8 @@ type FetchOptions = {
     populate?: Params | "*";
   };
   fields?: Fields<Article>;
+  isExternalUrl?: boolean;
+  headers?: Record<string, string>;
 };
 
 export type ApiResponse<T> = {
@@ -73,7 +75,7 @@ const formatParams = (
 
 export async function fetchData<T>(
   url: Url,
-  { params = {}, method = "GET", fields }: FetchOptions = {}
+  { params = {}, method = "GET", isExternalUrl = false, fields, headers }: FetchOptions = {}
 ): Promise<ApiResponse<T> | NextResponse<{ message: string }>> {
   const formattedFields = formatFields(fields);
   const formattedPopulate = formatPopulate(params.populate);
@@ -88,9 +90,9 @@ export async function fetchData<T>(
   };
 
   const queryString = new URLSearchParams(formatParams(mergedParams)).toString();
-  const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api${url}${
-    queryString ? `?${queryString}` : ""
-  }`;
+  const fullUrl = isExternalUrl
+    ? url
+    : `${process.env.NEXT_PUBLIC_API_URL}/api${url}${queryString ? `?${queryString}` : ""}`;
 
   try {
     const res = await fetch(fullUrl, {
@@ -98,6 +100,7 @@ export async function fetchData<T>(
       headers: {
         Authorization: `Bearer ${createToken}`,
         "Content-Type": "application/json",
+        ...headers,
       },
       // next: {
       //   revalidate: 300,
@@ -111,6 +114,7 @@ export async function fetchData<T>(
 
     const response = await res.json();
     return response;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json({ message: "something went wrong" });
   }
