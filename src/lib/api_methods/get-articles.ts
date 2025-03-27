@@ -15,12 +15,8 @@ export async function getArticles<T>(): Promise<T> {
   }
 }
 
-export async function getOneArticle(documentId: string) {
-  const response = await fetchDataCached<Article>(`/articles/${documentId}`, {
-    params: {
-      populate: ["header"],
-    },
-  });
+export async function getOneArticle(query: string) {
+  const response = await fetchDataCached<Article>(`/articles/${query}`);
 
   if (isApiResponse(response)) {
     return response.data;

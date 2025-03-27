@@ -10,8 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn, monthsOrdered, MonthsOrdered } from "@/lib/utils";
-import { getOrder } from "@/lib/api_methods/get-order";
+import { cn, monthsOrdered } from "@/lib/utils";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -25,7 +24,6 @@ export const revalidate = 100;
 
 export default async function Page() {
   const articles = await getArticles<Article[]>();
-  const order = await getOrder<MonthsOrdered[]>();
 
   return (
     <>
@@ -34,91 +32,48 @@ export default async function Page() {
       </h1>
       {articles ? (
         <BentoWrapper>
-          {order
-            ? order?.map((category, index) => {
-                if (category?.type === "phrase") {
-                  return (
-                    <div
-                      key={category.text + index}
-                      className={cn(
-                        "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-2 text-xl italic text-pretty",
-                        category.className
-                      )}>
-                      {category.text}
-                    </div>
-                  );
-                }
+          {monthsOrdered.map((category, index) => {
+            if (category?.type === "phrase") {
+              return (
+                <div
+                  key={category.text + index}
+                  className={cn(
+                    "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-2 text-xl italic text-pretty",
+                    category.className
+                  )}>
+                  {category.text}
+                </div>
+              );
+            }
 
-                const filteredArticles = articles.filter(
-                  (article) => article.category.name === category.name
-                );
+            const filteredArticles = articles.filter(
+              (article) => article.category.name === category.name
+            );
 
-                if (filteredArticles.length === 0) return null;
+            if (filteredArticles.length === 0) return null;
 
-                return (
-                  <AnimatedModal
-                    key={category.name}
-                    triggerClassName="size-full p-4 rounded-lg shadow-lg text-5xl font-bold cursor-pointer"
-                    trigger={category.name?.charAt(0).toUpperCase() + category.name?.slice(1)}>
-                    <h2 className="text-2xl font-bold">
-                      {categoryHeadings[category?.name] || `Artículos de ${category}`}
-                    </h2>
-                    <Carousel>
-                      <CarouselContent className="p-4">
-                        {filteredArticles.map((article) => (
-                          <CarouselItem key={article.id} className="basis-1/2">
-                            <BentoCard article={article} />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <CarouselPrevious className="-left-8" />
-                      <CarouselNext className="-right-8" />
-                    </Carousel>
-                  </AnimatedModal>
-                );
-              })
-            : monthsOrdered.map((category, index) => {
-                if (category?.type === "phrase") {
-                  return (
-                    <div
-                      key={category.text + index}
-                      className={cn(
-                        "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-2 text-xl italic text-pretty",
-                        category.className
-                      )}>
-                      {category.text}
-                    </div>
-                  );
-                }
-
-                const filteredArticles = articles.filter(
-                  (article) => article.category.name === category.name
-                );
-
-                if (filteredArticles.length === 0) return null;
-
-                return (
-                  <AnimatedModal
-                    key={category.name}
-                    triggerClassName="size-full p-4 rounded-lg shadow-lg text-5xl font-bold cursor-pointer"
-                    trigger={category.name?.charAt(0).toUpperCase() + category.name?.slice(1)}>
-                    <h2 className="text-2xl font-bold">
-                      {categoryHeadings[category?.name] || `Artículos de ${category}`}
-                    </h2>
-                    <Carousel>
-                      <CarouselContent className="p-4">
-                        {filteredArticles.map((article) => (
-                          <CarouselItem key={article.id} className="basis-1/2">
-                            <BentoCard article={article} />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <CarouselPrevious className="-left-8" />
-                      <CarouselNext className="-right-8" />
-                    </Carousel>
-                  </AnimatedModal>
-                );
-              })}
+            return (
+              <AnimatedModal
+                key={category.name}
+                triggerClassName="size-full p-4 rounded-lg shadow-lg text-5xl font-bold cursor-pointer"
+                trigger={category.name?.charAt(0).toUpperCase() + category.name?.slice(1)}>
+                <h2 className="text-2xl font-bold">
+                  {categoryHeadings[category?.name] || `Artículos de ${category}`}
+                </h2>
+                <Carousel>
+                  <CarouselContent className="p-4">
+                    {filteredArticles.map((article) => (
+                      <CarouselItem key={article.id} className="basis-1/2">
+                        <BentoCard article={article} />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="-left-8" />
+                  <CarouselNext className="-right-8" />
+                </Carousel>
+              </AnimatedModal>
+            );
+          })}
         </BentoWrapper>
       ) : (
         <div className="flex justify-center items-center h-96">

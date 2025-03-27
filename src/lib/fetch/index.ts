@@ -102,10 +102,10 @@ export async function fetchData<T>(
         "Content-Type": "application/json",
         ...headers,
       },
-      // next: {
-      //   revalidate: 300,
-      // },
-      cache: "no-store",
+      next: {
+        revalidate: 600,
+      },
+      cache: "force-cache",
     });
 
     if (!res.ok) {
