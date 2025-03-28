@@ -24,10 +24,10 @@ export function ArticleRender({ slug }: { slug: string }) {
       <section className="relative">
         {article ? (
           <>
-            <article className="prose prose-h2:text-4xl prose-h2:m-0 prose-invert max-w-full mb-4">
+            <div className="max-w-full mb-4">
               {article && article.header && (
-                <header className="group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96">
-                  <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto z-10 self-center">
+                <header className="group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 mb-8">
+                  <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto z-10 self-center text-4xl text-white font-bold">
                     {article.title}
                   </h2>
                   <Image
@@ -39,11 +39,11 @@ export function ArticleRender({ slug }: { slug: string }) {
                   />
                 </header>
               )}
-              <div className="max-w-xl mx-auto ">
+              <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert">
                 <blockquote>{article.summary}</blockquote>
                 {article.content && <MarkdownRenderer content={article.content} />}
-              </div>
-            </article>
+              </article>
+            </div>
             <Navigation />
           </>
         ) : (
