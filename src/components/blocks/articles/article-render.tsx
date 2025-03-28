@@ -24,10 +24,10 @@ export function ArticleRender({ slug }: { slug: string }) {
       <section className="relative">
         {article ? (
           <>
-            <article className="prose prose-h1:text-4xl prose-invert max-w-full mb-4">
+            <article className="prose prose-h2:text-4xl prose-h2:m-0 prose-invert max-w-full mb-4">
               {article && article.header && (
                 <header className="group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96">
-                  <h2 className="col-start-1 m-0 col-end-2 row-start-1 row-end-auto z-10 self-center">
+                  <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto z-10 self-center">
                     {article.title}
                   </h2>
                   <Image
