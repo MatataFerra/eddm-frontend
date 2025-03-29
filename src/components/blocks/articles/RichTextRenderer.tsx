@@ -15,13 +15,18 @@ export default function RichTextRenderer({ content }: RichTextProps) {
           remarkPlugins={[remarkGfm]}
           components={{
             a: (props) => {
-              if (props.href?.includes("cloudinary.com") && props.href?.endsWith(".mp4")) {
-                return (
-                  <video slot="media" controls muted className="aspect-video">
-                    <source src={props.href} type="video/mp4" />
-                    Tu navegador no soporta videos.
-                  </video>
-                );
+              if (props.href?.includes("cloudinary.com")) {
+                if (props.href.endsWith(".mp4") || props.href.endsWith(".mov")) {
+                  return (
+                    <video slot="media" controls muted className="aspect-video">
+                      <source
+                        src={props.href}
+                        type={`video/${props.href.endsWith(".mp4") ? "mp4" : "quicktime"}`}
+                      />
+                      Tu navegador no soporta videos.
+                    </video>
+                  );
+                }
               }
 
               return <a href={props.href}>{props.children}</a>;

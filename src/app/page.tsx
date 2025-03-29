@@ -27,7 +27,7 @@ export default async function Page() {
 
   return (
     <>
-      <h1 className="text-2xl my-8 md:text-5xl lg:text-7xl font-bold text-center text-white relative z-2 font-sans">
+      <h1 className="text-3xl my-8 md:text-5xl lg:text-7xl font-bold text-center text-white relative z-2 font-sans">
         El diario de Mati
       </h1>
       {articles ? (

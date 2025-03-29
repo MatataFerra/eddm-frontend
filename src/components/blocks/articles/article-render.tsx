@@ -27,7 +27,7 @@ export function ArticleRender({ slug }: { slug: string }) {
             <div className="max-w-full mb-4">
               {article && article.header && (
                 <header className="group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 mb-8">
-                  <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto z-10 self-center text-4xl text-white font-bold">
+                  <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
                     {article.title}
                   </h2>
                   <Image
