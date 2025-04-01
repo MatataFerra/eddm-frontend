@@ -15,6 +15,7 @@ import { visit } from "unist-util-visit";
 import type { Root, Node, Paragraph, Text, Image } from "mdast";
 import type { Plugin } from "unified";
 import NextImage from "next/image";
+import { Video, type VideoFormat } from "@/components/ui/video";
 
 interface RichTextProps {
   content?: string;
@@ -60,6 +61,8 @@ const remarkCarousel: Plugin<void[], Root> = () => {
   };
 };
 
+const isVideo = (src: string): boolean => /\.(mp4|webm|ogg)$/i.test(src);
+
 export default function RichTextRenderer({ content }: RichTextProps) {
   return (
     <div className="max-w-none">
@@ -75,15 +78,30 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                       {React.Children.toArray(children).map((child, index) => (
                         <CarouselItem
                           key={index}
-                          className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-[100%] [&>p>img]:max-w-[100%] [&>p>img]:h-auto">
+                          className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-[100%] [&>div]:max-w-[100%] [&>p>img]:max-w-[100%] [&>div>video]:max-w-[100%] [&>div>video]:h-auto [&>p>img]:h-auto">
                           {React.isValidElement(child) ? (
-                            <NextImage
-                              src={(child as React.ReactElement<{ href: string }>).props.href}
-                              alt={"image from carousel"}
-                              width={500}
-                              height={500}
-                              className="object-cover max-w-[100%] h-auto"
-                            />
+                            isVideo((child as React.ReactElement<{ href: string }>).props.href) ? (
+                              <Video
+                                className="aspect-video"
+                                src={(child as React.ReactElement<{ href: string }>).props.href}
+                                type={
+                                  `video/${(
+                                    child as React.ReactElement<{ href: string }>
+                                  ).props.href
+                                    .split(".")
+                                    .pop()}` as VideoFormat
+                                }
+                                size="medium"
+                              />
+                            ) : (
+                              <NextImage
+                                src={(child as React.ReactElement<{ href: string }>).props.href}
+                                alt="image from carousel"
+                                width={500}
+                                height={500}
+                                className="object-cover max-w-[100%] h-auto"
+                              />
+                            )
                           ) : (
                             <div className="flex justify-center items-center h-full">{child}</div>
                           )}
@@ -101,13 +119,11 @@ export default function RichTextRenderer({ content }: RichTextProps) {
               if (props.href?.includes("cloudinary.com")) {
                 if (props.href.endsWith(".mp4") || props.href.endsWith(".mov")) {
                   return (
-                    <video slot="media" controls muted className="aspect-video">
-                      <source
-                        src={props.href}
-                        type={`video/${props.href.endsWith(".mp4") ? "mp4" : "quicktime"}`}
-                      />
-                      Tu navegador no soporta videos.
-                    </video>
+                    <Video
+                      src={props.href}
+                      type={`video/${props.href.split(".").pop()}` as VideoFormat}
+                      size="medium"
+                    />
                   );
                 }
               }
