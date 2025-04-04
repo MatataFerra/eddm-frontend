@@ -84,7 +84,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                           {React.isValidElement(child) ? (
                             isVideo((child as React.ReactElement<{ href: string }>).props.href) ? (
                               <Video
-                                className="aspect-video"
+                                className="object-cover"
                                 src={(child as React.ReactElement<{ href: string }>).props.href}
                                 type={
                                   `video/${(
@@ -101,7 +101,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                                 alt="image from carousel"
                                 width={500}
                                 height={500}
-                                className="object-cover max-w-[100%] h-auto"
+                                className="object-cover max-w-[100%] h-full"
                               />
                             )
                           ) : (
@@ -122,6 +122,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                 if (props.href.endsWith(".mp4") || props.href.endsWith(".mov")) {
                   return (
                     <Video
+                      className="object-cover"
                       src={props.href}
                       type={`video/${props.href.split(".").pop()}` as VideoFormat}
                       size="medium"

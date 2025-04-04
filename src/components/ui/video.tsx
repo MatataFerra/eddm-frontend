@@ -45,10 +45,10 @@ export function Video({
 }: VideoProps) {
   return (
     <video
-      className={cn("aspect-video max-w-[100%] h-auto", className)}
+      className={cn("aspect-video max-w-[100%] h-full", className)}
       width={VIDEO_SIZE[size].width}
       height={VIDEO_SIZE[size].height}
-      poster={getCloudinaryCoverUrl(src, 10)}
+      poster={getCloudinaryCoverUrl(src, 7)}
       muted
       controls
       preload="none">
