@@ -40,7 +40,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         rotate: 0,
         zIndex: 100,
       }}>
-      <section className="grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl size-40">
+      <section className="grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl w-full h-40 md:size-40">
         {portrait && (
           <Image
             src={addBaseUrl(article?.cover?.url)}

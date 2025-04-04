@@ -27,7 +27,7 @@ export default async function Page() {
 
   return (
     <>
-      <h1 className="text-3xl my-8 md:text-5xl lg:text-7xl font-bold text-center text-white relative z-2 font-sans">
+      <h1 className="text-5xl my-8 lg:text-7xl font-bold text-center text-white relative z-2 font-sans">
         El diario de Mati
       </h1>
       {articles ? (
@@ -56,17 +56,25 @@ export default async function Page() {
               <AnimatedModal
                 key={category.name}
                 triggerClassName="size-full p-4 rounded-lg shadow-lg text-5xl font-bold cursor-pointer"
-                trigger={category.name?.charAt(0).toUpperCase() + category.name?.slice(1)}>
+                trigger={
+                  category.name === "context"
+                    ? "Acá empieza la aventura"
+                    : category.name?.charAt(0).toUpperCase() + category.name?.slice(1)
+                }>
                 <h2 className="text-2xl font-bold">
-                  {categoryHeadings[category?.name] || `Artículos de ${category}`}
+                  {categoryHeadings[category?.name] || `Artículos de ${category.name}`}
                 </h2>
                 <Carousel>
                   <CarouselContent className="p-4">
-                    {filteredArticles.map((article) => (
-                      <CarouselItem key={article.id} className="basis-1/2">
-                        <BentoCard article={article} />
-                      </CarouselItem>
-                    ))}
+                    {filteredArticles
+                      .toSorted((a, b) => {
+                        return a.order - b.order;
+                      })
+                      .map((article) => (
+                        <CarouselItem key={article.id} className="basis-1/2">
+                          <BentoCard article={article} />
+                        </CarouselItem>
+                      ))}
                   </CarouselContent>
                   <CarouselPrevious className="-left-8" />
                   <CarouselNext className="-right-8" />

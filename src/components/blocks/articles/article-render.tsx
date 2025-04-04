@@ -13,9 +13,11 @@ export function ArticleRender({ slug }: { slug: string }) {
     <>
       <h1 className="text-2xl md:text-5xl m-0 font-bold text-center text-white relative z-2">
         {article &&
-          `${article?.category.name.charAt(0).toUpperCase() + article?.category.name?.slice(1)}
-              
-              `}
+          `${
+            article.category.name === "context"
+              ? "Acá empieza la aventura"
+              : article.category.name?.charAt(0).toUpperCase() + article.category.name?.slice(1)
+          }`}
       </h1>
       {article && (
         <blockquote className="text-center text-white">relato n° {article.order}</blockquote>

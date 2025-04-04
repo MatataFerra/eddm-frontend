@@ -61,7 +61,9 @@ const remarkCarousel: Plugin<void[], Root> = () => {
   };
 };
 
-const isVideo = (src: string): boolean => /\.(mp4|webm|ogg)$/i.test(src);
+function isVideo(src: string): boolean {
+  return /\.(mp4|webm|ogg)$/i.test(src);
+}
 
 export default function RichTextRenderer({ content }: RichTextProps) {
   return (
