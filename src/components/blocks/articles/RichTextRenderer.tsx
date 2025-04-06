@@ -71,6 +71,8 @@ export default function RichTextRenderer({ content }: RichTextProps) {
       {content && (
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkDirective, remarkCarousel]}
+          unwrapDisallowed
+          disallowedElements={["p"]}
           components={{
             div: ({ children, className }) => {
               if (className === "carousel") {
@@ -84,7 +86,6 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                           {React.isValidElement(child) ? (
                             isVideo((child as React.ReactElement<{ href: string }>).props.href) ? (
                               <Video
-                                className="object-cover"
                                 src={(child as React.ReactElement<{ href: string }>).props.href}
                                 type={
                                   `video/${(
@@ -122,7 +123,6 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                 if (props.href.endsWith(".mp4") || props.href.endsWith(".mov")) {
                   return (
                     <Video
-                      className="object-cover"
                       src={props.href}
                       type={`video/${props.href.split(".").pop()}` as VideoFormat}
                       size="medium"
@@ -132,6 +132,17 @@ export default function RichTextRenderer({ content }: RichTextProps) {
               }
 
               return <a href={props.href}>{props.children}</a>;
+            },
+
+            p: ({ children }) => {
+              const hasVideo = React.Children.toArray(children).some((child) => {
+                return (
+                  React.isValidElement(child) &&
+                  isVideo((child as React.ReactElement<{ href: string }>).props.href)
+                );
+              });
+
+              return hasVideo ? <>{children}</> : <p>{children}</p>;
             },
           }}>
           {content}

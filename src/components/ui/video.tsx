@@ -45,7 +45,10 @@ export function Video({
 }: VideoProps) {
   return (
     <video
-      className={cn("aspect-video max-w-[100%] h-full", className)}
+      className={cn(
+        "aspect-video max-w-[100%] h-full rounded-2xl border-accent-foreground shadow-accent-foreground",
+        className
+      )}
       width={VIDEO_SIZE[size].width}
       height={VIDEO_SIZE[size].height}
       poster={getCloudinaryCoverUrl(src, 7)}
