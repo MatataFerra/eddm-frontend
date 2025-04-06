@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased p-8 space-y-8 overflow-auto!`}>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased p-8 overflow-auto!`}>
         <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
       </body>
     </html>
