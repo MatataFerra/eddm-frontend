@@ -27,7 +27,7 @@ export default async function RootLayout({
 }>) {
   const articles = await getArticles<Article[]>();
   return (
-    <html lang="en">
+    <html lang="es">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased p-8 overflow-auto!`}>
         <ArticlesProvider articles={articles}>{children}</ArticlesProvider>

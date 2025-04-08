@@ -27,8 +27,9 @@ export default async function Page() {
 
   return (
     <>
-      <h1 className="text-5xl my-8 lg:text-7xl font-bold text-center text-white relative z-2 font-sans">
-        El diario de Mati
+      <h1 className="text-5xl my-8 lg:text-7xl font-bold text-center text-white z-2 font-sans ">
+        El diario de
+        <span className="text-sky-500 ml-4">Mati</span>
       </h1>
       {articles ? (
         <BentoWrapper>
@@ -56,11 +57,8 @@ export default async function Page() {
               <AnimatedModal
                 key={category.name}
                 triggerClassName="size-full p-4 rounded-lg shadow-lg text-5xl font-bold cursor-pointer"
-                trigger={
-                  category.name === "context"
-                    ? "Acá empieza la aventura"
-                    : category.name?.charAt(0).toUpperCase() + category.name?.slice(1)
-                }>
+                cover={!!category.cover}
+                trigger={category.name}>
                 <h2 className="text-2xl font-bold">
                   {categoryHeadings[category?.name] || `Artículos de ${category.name}`}
                 </h2>
