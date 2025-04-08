@@ -21,41 +21,55 @@ interface RichTextProps {
   content?: string;
 }
 
-const remarkCarousel: Plugin<void[], Root> = () => {
+const isCarouselNode = (node: Node): boolean =>
+  node.type === "containerDirective" && "name" in node && node.name === "carousel";
+
+const isParagraphWithChildren = (node: Node): node is Paragraph =>
+  node.type === "paragraph" && "children" in node;
+
+const transformTextToImage = (node: Node): Node => {
+  if (node.type === "text") {
+    const value = (node as Text).value.trim();
+    if (value.startsWith("http")) {
+      return {
+        type: "image",
+        url: value,
+        alt: "Imagen",
+      } as Image;
+    }
+  }
+  return node;
+};
+
+const transformChildNodes = (children: Node[]): Node[] =>
+  children.flatMap((child) => {
+    if (isParagraphWithChildren(child)) {
+      return child.children.map(transformTextToImage);
+    }
+
+    if (child.type === "image") {
+      return child as Image;
+    }
+
+    return [];
+  });
+
+const handleCarousel = (node: Node): void => {
+  node.data = {
+    hName: "div",
+    hProperties: { className: "carousel" },
+  };
+
+  if ("children" in node && Array.isArray(node.children)) {
+    node.children = transformChildNodes(node.children);
+  }
+};
+
+export const remarkCarousel: Plugin<void[], Root> = () => {
   return (tree: Root) => {
-    visit(tree, (node: Node) => {
-      if (node.type === "containerDirective" && "name" in node && node.name === "carousel") {
-        node.data = {
-          hName: "div",
-          hProperties: { className: "carousel" },
-        };
-
-        if ("children" in node && Array.isArray(node.children)) {
-          node.children = node.children.flatMap((child: Node) => {
-            if (child.type === "paragraph" && "children" in child) {
-              const paragraph = child as Paragraph;
-              return paragraph.children.flatMap((subChild: Node) => {
-                if (subChild.type === "text") {
-                  const textNode = subChild as Text;
-                  if (textNode.value.trim().startsWith("http")) {
-                    return {
-                      type: "image",
-                      url: textNode.value.trim(),
-                      alt: "Imagen",
-                    } as Image;
-                  }
-                }
-                return subChild;
-              });
-            }
-
-            if (child.type === "image") {
-              return child as Image;
-            }
-
-            return [];
-          });
-        }
+    visit(tree, (node) => {
+      if (isCarouselNode(node)) {
+        handleCarousel(node);
       }
     });
   };
@@ -71,8 +85,6 @@ export default function RichTextRenderer({ content }: RichTextProps) {
       {content && (
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkDirective, remarkCarousel]}
-          unwrapDisallowed
-          disallowedElements={["p"]}
           components={{
             div: ({ children, className }) => {
               if (className === "carousel") {
@@ -116,7 +128,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                   </Carousel>
                 );
               }
-              return <div>{children}</div>;
+              return <p>{children}</p>;
             },
             a: (props) => {
               if (props.href?.includes("cloudinary.com")) {

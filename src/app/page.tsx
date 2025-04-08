@@ -20,7 +20,7 @@ const categoryHeadings: Record<string, string> = {
   abril: "Publicaciones de Abril",
 };
 
-export const revalidate = 100;
+export const revalidate = 60;
 
 export default async function Page() {
   const articles = await getArticles<Article[]>();
