@@ -1,7 +1,8 @@
 "use client";
 import { useOutsideClick } from "@/lib/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
+import { isMobile } from "react-device-detect";
+import { AnimatePresence, motion, MotionProps } from "motion/react";
 import React, { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 
 interface ModalContextType {
@@ -26,26 +27,45 @@ export const useModal = () => {
 };
 
 export function Modal({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
+  return <>{children}</>;
 }
+
+const delayAction = (action: () => void, delay: number) => {
+  setTimeout(() => {
+    action();
+  }, delay);
+};
 
 export const ModalTrigger = ({
   children,
   className,
+  ...props
 }: {
   children: ReactNode;
   className?: string;
-}) => {
+} & MotionProps) => {
   const { setOpen } = useModal();
+
   return (
-    <button
+    <motion.button
+      whileHover="hover"
+      initial="rest"
+      animate="rest"
       className={cn(
         "px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden",
         className
       )}
-      onClick={() => setOpen(true)}>
+      onClick={() => {
+        if (isMobile) {
+          delayAction(() => setOpen(true), 500);
+          return;
+        }
+
+        setOpen(true);
+      }}
+      {...props}>
       {children}
-    </button>
+    </motion.button>
   );
 };
 
