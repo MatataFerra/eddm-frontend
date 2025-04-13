@@ -27,7 +27,7 @@ export const useModal = () => {
 };
 
 export function Modal({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return <ModalProvider>{children}</ModalProvider>;
 }
 
 const delayAction = (action: () => void, delay: number) => {

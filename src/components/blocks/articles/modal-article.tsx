@@ -1,12 +1,6 @@
 "use client";
-import React, { useEffect, type PropsWithChildren } from "react";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalTrigger,
-  useModal,
-} from "@/components/ui/animated-modal";
+import React, { type PropsWithChildren } from "react";
+import { Modal, ModalBody, ModalContent, ModalTrigger } from "@/components/ui/animated-modal";
 import { type Category, cn, MOTION_ANIMATIONS } from "@/lib/utils";
 import { motion, useAnimationControls } from "motion/react";
 import Image from "next/image";
@@ -26,15 +20,7 @@ export function ModalArticle({
   children,
 }: AnimatedModalDemoProps) {
   const controls = useAnimationControls();
-  const { open } = useModal();
   const MotionImage = motion(Image);
-
-  useEffect(() => {
-    if (!open) {
-      controls.start("rest");
-      controls.start("initial_image");
-    }
-  }, [controls, open]);
 
   return (
     <div className={cn("flex items-center justify-center", className)}>
@@ -53,6 +39,10 @@ export function ModalArticle({
             controls.start("initial_image");
           }}
           onAnimationComplete={() => controls.start("finalStyle")}
+          onTapCancel={() => {
+            controls.start("rest");
+            controls.start("initial_image");
+          }}
           className={cn(
             "flex justify-center items-center group/modal relative p-4",
             triggerClassName,
