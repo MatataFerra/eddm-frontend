@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";
@@ -8,6 +8,12 @@ import { Article } from "@/lib/interfaces/articles";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-dancing",
 });
 
 const geistMono = Geist_Mono({
@@ -29,7 +35,7 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased p-8 overflow-auto!`}>
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased p-8 overflow-auto!`}>
         <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
       </body>
     </html>

@@ -2,7 +2,7 @@
 
 import { useArticles } from "@/lib/providers/articles-provider";
 import Image from "next/image";
-import MarkdownRenderer from "@/components/blocks/articles/RichTextRenderer";
+import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { Navigation } from "@components/blocks/articles/Navigation";
 
 export function ArticleRender({ slug }: { slug: string }) {
