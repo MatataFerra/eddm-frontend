@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
+import { Geist, Geist_Mono, Dancing_Script, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";
@@ -14,6 +14,12 @@ const dancingScript = Dancing_Script({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-dancing",
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas-neue",
+  weight: "400",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
@@ -35,7 +41,7 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased p-8 overflow-auto!`}>
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased p-8 overflow-auto!`}>
         <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
       </body>
     </html>

@@ -40,7 +40,10 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         rotate: 0,
         zIndex: 100,
       }}>
-      <section className="grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl w-full h-40 md:size-40">
+      <section
+        className={cn(
+          "grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl w-full h-40 md:size-40"
+        )}>
         {portrait && (
           <Image
             src={addBaseUrl(article?.cover?.url)}
@@ -51,9 +54,14 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
           />
         )}
 
-        <p className="col-start-1 row-start-1 z-10 p-4 line-clamp-4 font-bold">
-          {article.order}. {article.title}
-        </p>
+        <div className="col-start-1 row-start-1 z-10 p-4 font-bold flex justify-between gap-1 w-full">
+          <p className="text-9xl font-bold text-pretty font-(family-name:--font-bebas-neue)">
+            {article.order}
+          </p>
+          <p className="text-pretty font-(family-name:--font-bebas-neue) my-2">
+            {article.title.split(" ").slice(0, 5).join(" ")}
+          </p>
+        </div>
       </section>
     </motion.div>
   );
