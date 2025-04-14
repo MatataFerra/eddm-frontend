@@ -68,7 +68,7 @@ export const MOTION_COVER_IMAGE: Record<string, Variants> = {
   },
 };
 
-export const MOTION_ANIMATIONS: Record<string, Variants> = {
+export const MOTION_ANIMATIONS: Record<"cover_image" | "slideToCorner", Variants> = {
   cover_image: MOTION_COVER_IMAGE.cover_image,
   // 1. Animación original (centro a esquina)
   slideToCorner: {
@@ -79,7 +79,7 @@ export const MOTION_ANIMATIONS: Record<string, Variants> = {
       y: "-50%",
       fontSize: "2rem",
       color: "#ffffff",
-      backgroundColor: "transparent",
+      backgroundColor: "hsla(240, 14%, 15%, 0)",
       borderRadius: "0",
       padding: "0",
       boxShadow: "none",
@@ -87,7 +87,7 @@ export const MOTION_ANIMATIONS: Record<string, Variants> = {
     hover: {
       top: 0,
       left: 0,
-      x: "5%", // Puntos intermedios
+      x: "5%",
       y: "10%",
       fontSize: "1.5rem",
       color: "hsla(40, 60%, 95%, 1)",
@@ -103,192 +103,6 @@ export const MOTION_ANIMATIONS: Record<string, Variants> = {
       borderRadius: "10px",
       padding: ".5rem",
       transition: { delay: 0.2, duration: 0.3 },
-    },
-  },
-
-  // 2. Fade out suave
-  fadeOut: {
-    rest: {
-      opacity: 1,
-      color: "#ffffff",
-      scale: 1,
-    },
-    hover: {
-      opacity: 0,
-      color: "#aaaaaa",
-      scale: 0.98,
-    },
-  },
-
-  // 3. Zoom in
-  zoomIn: {
-    rest: {
-      scale: 1,
-      opacity: 0.8,
-    },
-    hover: {
-      scale: 1.2,
-      opacity: 1,
-    },
-  },
-
-  // 4. Rotación 3D
-  rotate3D: {
-    rest: {
-      rotateX: 0,
-      rotateY: 0,
-      rotateZ: 0,
-    },
-    hover: {
-      rotateX: 20,
-      rotateY: 20,
-      rotateZ: 5,
-    },
-  },
-
-  // 5. Efecto de levitación
-  levitate: {
-    rest: {
-      y: 0,
-      boxShadow: "0px 0px 0px rgba(0,0,0,0)",
-    },
-    hover: {
-      y: -15,
-      boxShadow: "0px 10px 20px rgba(0,0,0,0.2)",
-    },
-  },
-
-  // 6. Cambio de color dramático
-  colorChange: {
-    rest: {
-      color: "#ffffff",
-      backgroundColor: "#000000",
-    },
-    hover: {
-      color: "#000000",
-      backgroundColor: "#ffffff",
-      border: "2px solid #000000",
-    },
-  },
-
-  // 7. Efecto de desenfoque
-  blurEffect: {
-    rest: {
-      filter: "blur(0px)",
-    },
-    hover: {
-      filter: "blur(2px)",
-    },
-  },
-
-  // 8. Animación tipo "pulso"
-  pulse: {
-    rest: {
-      scale: 1,
-    },
-    hover: {
-      scale: [1, 1.1, 1],
-      transition: {
-        duration: 0.5,
-        repeat: Infinity,
-      },
-    },
-  },
-
-  // 9. Efecto de onda
-  wave: {
-    rest: {
-      y: 0,
-    },
-    hover: {
-      y: [0, -10, 0, -5, 0],
-      transition: {
-        duration: 1,
-        repeat: Infinity,
-      },
-    },
-  },
-
-  // 10. Efecto de desvanecimiento vertical
-  verticalDownFade: {
-    rest: {
-      y: 0,
-      opacity: 1,
-    },
-    hover: {
-      y: 50,
-      opacity: 0,
-    },
-  },
-  verticalUpFade: {
-    rest: {
-      y: 0,
-      opacity: 1,
-    },
-    hover: {
-      y: -50,
-      opacity: 0,
-    },
-  },
-
-  // 11. Distorsión horizontal
-  horizontalSkew: {
-    rest: {
-      skewX: 0,
-    },
-    hover: {
-      skewX: 15,
-    },
-  },
-
-  // 12. Efecto de texto tipográfico
-  typographyEffect: {
-    rest: {
-      letterSpacing: "0px",
-      fontWeight: 400,
-    },
-    hover: {
-      letterSpacing: "2px",
-      fontWeight: 700,
-    },
-  },
-
-  // 13. Efecto de neón
-  neonEffect: {
-    rest: {
-      textShadow: "0 0 0px #fff",
-      color: "#ffffff",
-    },
-    hover: {
-      textShadow: "0 0 10px #fff, 0 0 20px #ff00de",
-      color: "#ff00de",
-    },
-  },
-
-  // 14. Efecto de mosaico
-  mosaicEffect: {
-    rest: {
-      opacity: 1,
-      scale: 1,
-    },
-    hover: {
-      opacity: 0.8,
-      scale: 0.9,
-    },
-  },
-
-  // 15. Efecto de rebote
-  bounceEffect: {
-    rest: {
-      y: 0,
-    },
-    hover: {
-      y: -20,
-      transition: {
-        type: "spring",
-        stiffness: 500,
-        damping: 10,
-      },
     },
   },
 };
