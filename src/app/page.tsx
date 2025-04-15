@@ -69,7 +69,7 @@ export default async function Page() {
                         return a.order - b.order;
                       })
                       .map((article) => (
-                        <CarouselItem key={article.id} className="basis-1/2">
+                        <CarouselItem key={article.id} className="md:basis-1/2">
                           <BentoCard article={article} />
                         </CarouselItem>
                       ))}
