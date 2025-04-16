@@ -2,8 +2,8 @@ import { fetchDataCached } from "@lib/fetch";
 import type { Article } from "@lib/interfaces/articles";
 import { isApiResponse } from "./api-helpers";
 
-export async function getArticles<T>(): Promise<T> {
-  const response = await fetchDataCached<T>("/articles");
+export async function getTales<T>(): Promise<T> {
+  const response = await fetchDataCached<T>("/tales");
 
   if (isApiResponse(response)) {
     return response.data;
@@ -12,8 +12,8 @@ export async function getArticles<T>(): Promise<T> {
   }
 }
 
-export async function getOneArticle(query: string) {
-  const response = await fetchDataCached<Article>(`/articles/${query}`);
+export async function getOneTale(query: string) {
+  const response = await fetchDataCached<Article>(`/tales/${query}`);
 
   if (isApiResponse(response)) {
     return response.data;

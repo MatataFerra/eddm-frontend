@@ -152,3 +152,7 @@ body {
 .font-dancing {
   font-family: var(--font-dancing);
 }
+
+.font-bebas {
+  font-family: var(--font-bebas-neue);
+}

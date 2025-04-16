@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Dancing_Script, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
+import { TalesProvider } from "@/lib/providers/tales-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";
 import { Article } from "@/lib/interfaces/articles";
+import { getTales } from "@/lib/api_methods/get-tales";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +41,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const articles = await getArticles<Article[]>();
+  const tales = await getTales<Article[]>();
+
   return (
     <html lang="es">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased p-8 overflow-auto!`}>
-        <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
+        <nav className="flex justify-center">
+          <ul>
+            <Link href="/">
+              <li className="border border-zinc-950 px-4 py-2 rounded-md bg-gradient-to-br from-zinc-900 to-zinc-800 hover:from-black hover:to-zinc-900 transition-colors duration-300 cursor-pointer">
+                Home
+              </li>
+            </Link>
+          </ul>
+        </nav>
+        <TalesProvider tales={tales}>
+          <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
+        </TalesProvider>
       </body>
     </html>
   );

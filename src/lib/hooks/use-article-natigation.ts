@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Article } from "@/lib/interfaces/articles";
-import { Category, MonthsOrdered } from "@/lib/utils";
+import { Category, EntriesOrderByCategory } from "@/lib/utils";
 
 /**
  * Obtiene artículos adyacentes con navegación circular entre categorías
@@ -11,7 +11,7 @@ import { Category, MonthsOrdered } from "@/lib/utils";
 export function useArticleNavigation(
   currentArticle: Article | undefined,
   allArticles: Article[],
-  orderedCategories: MonthsOrdered[]
+  orderedCategories: EntriesOrderByCategory[]
 ) {
   // 1. Preprocesamiento ultra-optimizado
   const [categoryMap, sortedValidCategories, categoryIndices] = useMemo(() => {

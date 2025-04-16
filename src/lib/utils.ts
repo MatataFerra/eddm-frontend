@@ -10,19 +10,22 @@ export type Category = {
   type: "category";
   cover?: boolean;
   name:
-    | "context"
-    | "enero"
-    | "febrero"
-    | "marzo"
-    | "abril"
-    | "mayo"
-    | "junio"
-    | "julio"
-    | "agosto"
-    | "septiembre"
-    | "octubre"
-    | "noviembre"
-    | "diciembre";
+    | (
+        | "context"
+        | "enero"
+        | "febrero"
+        | "marzo"
+        | "abril"
+        | "mayo"
+        | "junio"
+        | "julio"
+        | "agosto"
+        | "septiembre"
+        | "octubre"
+        | "noviembre"
+        | "diciembre"
+      )
+    | "tale";
 };
 
 type Phrase = {
@@ -31,9 +34,9 @@ type Phrase = {
   className?: string;
 };
 
-export type MonthsOrdered = Category | Phrase;
+export type EntriesOrderByCategory = Category | Phrase;
 
-export const monthsOrdered: MonthsOrdered[] = [
+export const monthsOrdered: EntriesOrderByCategory[] = [
   { type: "category", name: "context", cover: true },
   { type: "category", name: "enero" },
   { type: "category", name: "febrero", cover: true },

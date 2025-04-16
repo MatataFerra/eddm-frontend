@@ -4,6 +4,7 @@ import { useArticles } from "@/lib/providers/articles-provider";
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { Navigation } from "@components/blocks/articles/Navigation";
+import { monthsOrdered } from "@/lib/utils";
 
 export function ArticleRender({ slug }: { slug: string }) {
   const { articles } = useArticles();
@@ -46,7 +47,7 @@ export function ArticleRender({ slug }: { slug: string }) {
                 {article.content && <MarkdownRenderer content={article.content} />}
               </article>
             </div>
-            <Navigation />
+            <Navigation item={article} items={articles} typeOfOrder={monthsOrdered} />
           </>
         ) : (
           <p>Entry not available... refresh your browser</p>
