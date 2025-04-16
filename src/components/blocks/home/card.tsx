@@ -19,7 +19,7 @@ export function CardHome({ bgImage, title, description, redirect }: CardHomeProp
       onClick={() => router.push(redirect)}>
       <div className="relative h-72">
         <div
-          className="absolute inset-0 bg-contain bg-center bg-no-repeat group-hover/home:sepia-50"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover/home:sepia-50"
           style={{
             backgroundImage: `url('${bgImage}')`,
           }}
