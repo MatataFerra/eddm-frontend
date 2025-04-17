@@ -3,7 +3,7 @@
 import { useArticles } from "@/lib/providers/articles-provider";
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@components/blocks/articles/Navigation";
+import { Navigation } from "@/components/blocks/articles/navigation";
 import { monthsOrdered } from "@/lib/utils";
 
 export function ArticleRender({ slug }: { slug: string }) {
@@ -38,7 +38,7 @@ export function ArticleRender({ slug }: { slug: string }) {
                     width={1280}
                     height={738}
                     alt={article.slug}
-                    className="w-full h-80 opacity-10 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-30 object-cover "
+                    className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover "
                   />
                 </header>
               )}
@@ -47,7 +47,12 @@ export function ArticleRender({ slug }: { slug: string }) {
                 {article.content && <MarkdownRenderer content={article.content} />}
               </article>
             </div>
-            <Navigation item={article} items={articles} typeOfOrder={monthsOrdered} />
+            <Navigation
+              redirect="/12-meses-viajando"
+              item={article}
+              items={articles}
+              typeOfOrder={monthsOrdered}
+            />
           </>
         ) : (
           <p>Entry not available... refresh your browser</p>

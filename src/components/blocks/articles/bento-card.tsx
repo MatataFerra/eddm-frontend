@@ -14,6 +14,7 @@ type CardArticleProps = {
 
 export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
   const router = useRouter();
+
   function addBaseUrl(url?: string) {
     if (url && url.startsWith("http")) return url;
 
@@ -42,7 +43,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
       }}>
       <section
         className={cn(
-          "grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl w-1/2 mx-auto md:w-full h-40 md:size-40"
+          "grid grid-cols-1 grid-rows-1 border border-zinc-800 rounded-2xl w-full mx-auto md:w-full h-40 md:size-40 my-4"
         )}>
         {portrait && (
           <Image
@@ -56,7 +57,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
 
         <div className="col-start-1 row-start-1 z-10 p-4 font-bold flex justify-between gap-1 w-full *:select-none">
           <p className="text-9xl font-bold text-pretty font-bebas">{article.order}</p>
-          <p className="font-bebas self-center text-sm text-pretty">{article.title}</p>
+          <p className="font-bebas self-center text-sm text-pretty line-clamp-6">{article.title}</p>
         </div>
       </section>
     </motion.div>

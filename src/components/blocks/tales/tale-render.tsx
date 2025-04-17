@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@components/blocks/articles/Navigation";
+import { Navigation } from "@/components/blocks/articles/navigation";
 import { useTales } from "@/lib/providers/tales-provider";
 
 export function TaleRender({ slug }: { slug: string }) {
@@ -25,7 +25,7 @@ export function TaleRender({ slug }: { slug: string }) {
                     width={1280}
                     height={738}
                     alt={tale.slug}
-                    className="w-full h-80 opacity-10 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-30 object-cover "
+                    className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover "
                   />
                 </header>
               )}
@@ -35,6 +35,7 @@ export function TaleRender({ slug }: { slug: string }) {
               </article>
             </div>
             <Navigation
+              redirect="/relatos"
               item={tale}
               items={tales}
               typeOfOrder={[
