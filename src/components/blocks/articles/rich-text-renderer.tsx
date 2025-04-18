@@ -21,6 +21,9 @@ interface RichTextProps {
   content?: string;
 }
 
+const isAside = (node: Node): boolean =>
+  node.type === "containerDirective" && "name" in node && node.name === "aside";
+
 const isCarouselNode = (node: Node): boolean =>
   node.type === "containerDirective" && "name" in node && node.name === "carousel";
 
@@ -54,6 +57,13 @@ const transformChildNodes = (children: Node[]): Node[] =>
     return [];
   });
 
+const handleAside = (node: Node): void => {
+  node.data = {
+    hName: "div",
+    hProperties: { className: "aside" },
+  };
+};
+
 const handleCarousel = (node: Node): void => {
   node.data = {
     hName: "div",
@@ -70,6 +80,10 @@ export const remarkCarousel: Plugin<void[], Root> = () => {
     visit(tree, (node) => {
       if (isCarouselNode(node)) {
         handleCarousel(node);
+      }
+
+      if (isAside(node)) {
+        handleAside(node);
       }
     });
   };
@@ -126,6 +140,14 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                     <CarouselPrevious className="-left-8" />
                     <CarouselNext className="-right-8" />
                   </Carousel>
+                );
+              }
+
+              if (className === "aside") {
+                return (
+                  <aside className="bg-zinc-900 px-4 py-2 text-sm font-sans rounded-md">
+                    {children}
+                  </aside>
                 );
               }
               return <p>{children}</p>;
