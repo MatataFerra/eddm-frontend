@@ -73,6 +73,33 @@ const formatParams = (
   return formatted;
 };
 
+export async function fetchDataOnClient<T>(
+  url: Url,
+  { method = "GET", isExternalUrl = false, headers }: FetchOptions = {}
+): Promise<ApiResponse<T> | NextResponse<{ message: string }>> {
+  const fullUrl = isExternalUrl ? url : `${process.env.NEXT_PUBLIC_API_URL}/api${url}`;
+
+  try {
+    const res = await fetch(fullUrl, {
+      method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
+    }
+
+    const response = await res.json();
+    return response;
+  } catch (error) {
+    return NextResponse.json({ message: "something went wrong" });
+  }
+}
+
 export async function fetchData<T>(
   url: Url,
   { params = {}, method = "GET", isExternalUrl = false, fields, headers }: FetchOptions = {}
