@@ -1,7 +1,7 @@
 "use client";
 import { useOutsideClick } from "@/lib/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
-import { isMobile } from "react-device-detect";
+import { isMobile, isTablet } from "react-device-detect";
 import { AnimatePresence, motion, MotionProps } from "motion/react";
 import React, { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 
@@ -104,8 +104,9 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
 
           <motion.div
             ref={modalRef}
+            style={{ maxWidth: isMobile && !isTablet ? "100%" : isTablet ? "70%" : "40%" }}
             className={cn(
-              "min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
+              "min-h-[50%] max-h-[90%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
               className
             )}
             initial={{
