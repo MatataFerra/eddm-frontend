@@ -6,7 +6,6 @@ import { TalesProvider } from "@/lib/providers/tales-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";
 import { Article } from "@/lib/interfaces/articles";
 import { getTales } from "@/lib/api_methods/get-tales";
-import { ReactQueryProvider } from "@/lib/providers/query-client-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

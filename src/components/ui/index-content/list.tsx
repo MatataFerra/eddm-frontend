@@ -1,14 +1,14 @@
 "use client";
 
 import { ENDPOINTS } from "@/lib/constants";
-import { type IndexContent } from "@/lib/interfaces/articles";
+import { type Article } from "@/lib/interfaces/articles";
 import { useArticles } from "@/lib/providers/articles-provider";
 import Link from "next/link";
 
 export function ListIndexContent() {
   const { articles: data } = useArticles();
 
-  const groupByMonth = (items: IndexContent[]) => {
+  const groupByMonth = (items: Article[]) => {
     return Object.groupBy(items, (item) => {
       return item.category.name;
     });

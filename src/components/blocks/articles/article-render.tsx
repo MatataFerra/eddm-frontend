@@ -6,7 +6,6 @@ import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { Navigation } from "@/components/blocks/articles/navigation";
 import { monthsOrdered } from "@/lib/utils";
-import { DesktopIndexContent } from "@/components/ui/index-content/dektop";
 import { MobileIndexContent } from "@/components/ui/index-content/mobile";
 
 export function ArticleRender({ slug }: { slug: string }) {
@@ -60,7 +59,6 @@ export function ArticleRender({ slug }: { slug: string }) {
               <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert relative prose-ul:list-none">
                 <blockquote>{article.summary}</blockquote>
                 {article.content && <MarkdownRenderer content={article.content} />}
-                <DesktopIndexContent />
               </article>
             </div>
             <Portal asChild>
