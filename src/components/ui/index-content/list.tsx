@@ -1,3 +1,5 @@
+"use client";
+
 import { ENDPOINTS } from "@/lib/constants";
 import { type IndexContent } from "@/lib/interfaces/articles";
 import { useArticles } from "@/lib/providers/articles-provider";
@@ -13,14 +15,14 @@ export function ListIndexContent() {
   };
 
   return (
-    <ol className="pl-8">
+    <ol className="pl-8 w-80">
       {data && Object.keys(groupByMonth(data)).length > 0 ? (
         Object.entries(groupByMonth(data)).map(([month, items]) => (
           <li key={month}>
             <h2 className="font-bold capitalize mb-0">{month}</h2>
             <ul>
               {items?.map((item) => (
-                <li key={item.id}>
+                <li key={item.id} className="text-balance">
                   <Link href={`${ENDPOINTS.ARTICLE(item.slug)}`}>{item.title}</Link>
                 </li>
               ))}

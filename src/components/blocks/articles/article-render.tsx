@@ -34,7 +34,7 @@ export function ArticleRender({ slug }: { slug: string }) {
         <MobileIndexContent />
       </section>
 
-      <section className="relative">
+      <section className="relative overflow-x-hidden">
         {article ? (
           <>
             <div className="max-w-full">

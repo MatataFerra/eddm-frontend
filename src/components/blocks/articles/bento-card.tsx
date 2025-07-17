@@ -5,6 +5,7 @@ import { cn } from "@lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
+import { ENDPOINTS } from "@/lib/constants";
 
 type CardArticleProps = {
   article: Article;
@@ -14,6 +15,11 @@ type CardArticleProps = {
 
 export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
   const router = useRouter();
+
+  function onClick(slug: string) {
+    router.push(`${ENDPOINTS.ARTICLE(slug)}`);
+    document.body.style.overflow = "auto";
+  }
 
   function addBaseUrl(url?: string) {
     if (url && url.startsWith("http")) return url;
@@ -27,7 +33,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         "rounded-xl p-1 size-full bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer",
         className
       )}
-      onClick={() => router.push(`/12-meses-viajando/article/${article.slug}`)}
+      onClick={() => onClick(article.slug)}
       style={{
         rotate: Math.random() * 20 - 10,
       }}
