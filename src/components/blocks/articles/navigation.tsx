@@ -22,7 +22,7 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
   );
 
   return (
-    <nav className="flex gap-2 fixed w-full mb-4 bottom-0 right-0 justify-center items-center z-50 *:bg-zinc-700 *:rounded-full *:cursor-pointer *:hover:bg-zinc-600 *:transition-all *:duration-300 *:hover:opacity-90 *:active:bg-zinc-900">
+    <nav className="flex gap-2 sticky w-full mb-4 bottom-0 right-0 justify-center items-center z-50 *:bg-zinc-700 *:rounded-full *:cursor-pointer *:hover:bg-zinc-600 *:transition-all *:duration-300 *:hover:opacity-90 *:active:bg-zinc-900">
       <ChevronLeft
         className="size-8 p-2 opacity-40"
         onClick={() => {

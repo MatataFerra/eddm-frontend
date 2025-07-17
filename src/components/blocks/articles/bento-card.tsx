@@ -5,6 +5,7 @@ import { cn } from "@lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
+import { ENDPOINTS } from "@/lib/constants";
 
 type CardArticleProps = {
   article: Article;
@@ -14,6 +15,11 @@ type CardArticleProps = {
 
 export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
   const router = useRouter();
+
+  function onClick(slug: string) {
+    router.push(`${ENDPOINTS.ARTICLE(slug)}`);
+    document.body.style.overflow = "auto";
+  }
 
   function addBaseUrl(url?: string) {
     if (url && url.startsWith("http")) return url;
@@ -27,7 +33,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         "rounded-xl p-1 size-full bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer",
         className
       )}
-      onClick={() => router.push(`/12-meses-viajando/article/${article.slug}`)}
+      onClick={() => onClick(article.slug)}
       style={{
         rotate: Math.random() * 20 - 10,
       }}
@@ -56,8 +62,10 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         )}
 
         <div className="col-start-1 row-start-1 z-10 p-4 font-bold flex justify-between gap-1 w-full *:select-none">
-          <p className="text-9xl font-bold text-pretty font-bebas">{article.order}</p>
-          <p className="font-bebas self-center text-sm text-pretty line-clamp-6">{article.title}</p>
+          {/* <p className="text-9xl font-bold text-pretty font-bebas">{article.order}</p> */}
+          <p className="font-bebas self-center text-4xl text-pretty line-clamp-6">
+            {article.title}
+          </p>
         </div>
       </section>
     </motion.div>

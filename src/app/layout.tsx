@@ -45,7 +45,7 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased p-8 overflow-auto!`}>
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased *:p-8`}>
         <TalesProvider tales={tales}>
           <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
         </TalesProvider>
