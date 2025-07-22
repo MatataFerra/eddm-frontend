@@ -1,7 +1,16 @@
 import { cn } from "@/lib/utils";
+import { z } from "zod";
 
-export type VideoFormat = "video/mp4" | "video/webm" | "video/ogg";
-type Size = "small" | "medium" | "large";
+const VideoFormatSchema = z.enum(["video/mp4", "video/webm", "video/ogg"]);
+const SizeSchema = z.enum(["small", "medium", "large"]);
+
+export type VideoFormat = z.infer<typeof VideoFormatSchema>;
+export type Size = z.infer<typeof SizeSchema>;
+
+const getValidFormat = (format: string): VideoFormat => {
+  const result = VideoFormatSchema.safeParse(format);
+  return result.success ? result.data : "video/mp4";
+};
 
 const VIDEO_SIZE = {
   small: {
@@ -43,6 +52,8 @@ export function Video({
   label = "English",
   kind = "captions",
 }: VideoProps) {
+  const validFormat = getValidFormat(type);
+
   return (
     <video
       className={cn(
@@ -55,7 +66,7 @@ export function Video({
       muted
       controls
       preload="none">
-      <source src={src} type={type} />
+      <source src={src} type={validFormat} />
       <track src={captionPath} kind={kind} srcLang={srcLang} label={label} />
       Your browser does not support the video tag.
     </video>
