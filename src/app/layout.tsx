@@ -6,6 +6,7 @@ import { TalesProvider } from "@/lib/providers/tales-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";
 import { Article } from "@/lib/interfaces/articles";
 import { getTales } from "@/lib/api_methods/get-tales";
+import { IndexContentProvider } from "@/components/ui/index-content/context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,10 +46,12 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased *:p-8`}>
-        <TalesProvider tales={tales}>
-          <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
-        </TalesProvider>
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased p-8-except-custom`}>
+        <IndexContentProvider>
+          <TalesProvider tales={tales}>
+            <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
+          </TalesProvider>
+        </IndexContentProvider>
       </body>
     </html>
   );

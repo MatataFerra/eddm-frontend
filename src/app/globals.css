@@ -156,3 +156,8 @@ body {
 .font-bebas {
   font-family: var(--font-bebas-neue);
 }
+
+/* En tu archivo CSS */
+.p-8-except-custom > *:where(:not(.custom-padding)) {
+  @apply p-8;
+}
