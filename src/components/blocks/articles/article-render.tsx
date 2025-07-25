@@ -6,7 +6,6 @@ import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { Navigation } from "@/components/blocks/articles/navigation";
 import { monthsOrdered } from "@/lib/utils";
-import { MobileIndexContent } from "@/components/ui/index-content/mobile";
 
 export function ArticleRender({ slug }: { slug: string }) {
   const { articles } = useArticles();
@@ -30,7 +29,6 @@ export function ArticleRender({ slug }: { slug: string }) {
             </blockquote>
           )}
         </article>
-        <MobileIndexContent />
       </section>
 
       <section className="relative overflow-x-hidden">

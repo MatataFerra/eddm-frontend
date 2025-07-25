@@ -1,18 +1,45 @@
 "use client";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { ListIndexContent } from "./list";
+import { useIndexContentProvider } from "./context";
+import { XIcon } from "lucide-react";
+import { useOutsideClick } from "@/lib/hooks/use-outside-click";
+import { useRef } from "react";
 
 export function MobileIndexContent() {
+  const { isOpen, toggleIsOpen } = useIndexContentProvider();
+  const refSheet = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(refSheet, () => {
+    if (isOpen) {
+      toggleIsOpen();
+    }
+  });
   return (
     <>
-      <Sheet>
-        <SheetTrigger className="cursor-pointer absolute right-4 top-4 z-10 shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-transparent border border-white dark:border-black dark:text-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+      <Sheet open={isOpen}>
+        <SheetTrigger
+          onClick={() => toggleIsOpen()}
+          className="custom-padding cursor-pointer absolute right-4 top-4 z-10 shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-transparent border border-white dark:border-black dark:text-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
           Índice
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent ref={refSheet}>
           <SheetHeader className="p-0">
             <SheetTitle>Índice de contenido</SheetTitle>
+            <SheetClose
+              className="cursor-pointer focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
+              onClick={() => toggleIsOpen()}>
+              <XIcon className="size-4" color="black" />
+              <span className="sr-only">Close</span>
+            </SheetClose>
           </SheetHeader>
           <div className="prose">
             <ListIndexContent />

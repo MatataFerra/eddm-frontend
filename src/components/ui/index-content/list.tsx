@@ -11,11 +11,7 @@ export function ListIndexContent() {
   const { articles: data } = useArticles();
   const currentEndpoint = usePathname();
 
-  const groupByMonth = (items: Article[]) => {
-    return Object.groupBy(items, (item) => {
-      return item.category.name;
-    });
-  };
+  const groupByMonth = (items: Article[]) => Object.groupBy(items, (item) => item.category.name);
 
   return (
     <ol className="pl-8 w-80">

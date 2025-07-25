@@ -1,6 +1,5 @@
 "use client";
 
-import { isDesktop, isTablet } from "react-device-detect";
 import { ListIndexContent } from "./list";
 
 export function DesktopIndexContent() {
