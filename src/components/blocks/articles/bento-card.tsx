@@ -62,10 +62,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         )}
 
         <div className="col-start-1 row-start-1 z-10 p-4 font-bold flex justify-between gap-1 w-full *:select-none">
-          {/* <p className="text-9xl font-bold text-pretty font-bebas">{article.order}</p> */}
-          <p className="font-bebas self-center text-4xl text-pretty line-clamp-6">
-            {article.title}
-          </p>
+          <p className="font-bebas self-center responsive-text text-balance">{article.title}</p>
         </div>
       </section>
     </motion.div>

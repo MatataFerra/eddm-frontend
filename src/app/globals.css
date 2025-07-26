@@ -161,3 +161,9 @@ body {
 .p-8-except-custom > *:where(:not(.custom-padding)) {
   @apply p-8;
 }
+
+.responsive-text {
+  font-size: clamp(1.3rem, 4vw, 1.5rem);
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
