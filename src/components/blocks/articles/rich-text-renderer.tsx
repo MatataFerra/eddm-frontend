@@ -90,7 +90,7 @@ export const remarkCarousel: Plugin<void[], Root> = () => {
 };
 
 function isVideo(src: string): boolean {
-  return /\.(mp4|webm|ogg)$/i.test(src);
+  return /\.(mp4|webm|ogg|mov)$/i.test(src);
 }
 
 export default function RichTextRenderer({ content }: RichTextProps) {
