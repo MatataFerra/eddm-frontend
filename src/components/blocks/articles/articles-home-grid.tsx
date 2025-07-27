@@ -60,7 +60,7 @@ export function ArticlesHomeGrid() {
                         return a.order - b.order;
                       })
                       .map((article) => (
-                        <CarouselItem key={article.id} className="basis-1/2">
+                        <CarouselItem key={article.id} className="basis-1/2 md:basis-1/3">
                           <BentoCard article={article} />
                         </CarouselItem>
                       ))}
