@@ -20,27 +20,27 @@ export function ListIndexContent() {
           <li key={month}>
             <h2 className="font-bold capitalize mb-0">{month}</h2>
             <ul>
-              {items?.map((item) => (
-                <li
-                  key={item.id}
-                  className={cn("text-balance")}
-                  style={{
-                    marginLeft:
-                      currentEndpoint === ENDPOINTS.ARTICLE(item.slug) ? "1rem" : "initial",
-                  }}>
-                  <Link
-                    className="transition-colors no-underline"
-                    style={{
-                      fontWeight:
-                        currentEndpoint === ENDPOINTS.ARTICLE(item.slug) ? "bold" : "normal",
-                      textDecoration:
-                        currentEndpoint === ENDPOINTS.ARTICLE(item.slug) ? "none" : "underline",
-                    }}
-                    href={`${ENDPOINTS.ARTICLE(item.slug)}`}>
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
+              {items
+                ?.toSorted((a, b) => a.order - b.order)
+                .map((item) => (
+                  <li
+                    key={item.id}
+                    className={cn(
+                      "text-balance",
+                      currentEndpoint === ENDPOINTS.ARTICLE(item.slug) ? "ml-4" : "m-auto"
+                    )}>
+                    <Link
+                      className={cn(
+                        "transition-colors no-underline cursor-default font-bold",
+                        currentEndpoint === ENDPOINTS.ARTICLE(item.slug)
+                          ? ""
+                          : "hover:text-cyan-600 cursor-pointer font-normal"
+                      )}
+                      href={`${ENDPOINTS.ARTICLE(item.slug)}`}>
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </li>
         ))

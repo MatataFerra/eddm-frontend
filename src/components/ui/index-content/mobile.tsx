@@ -15,10 +15,17 @@ import { useIndexContentProvider } from "./context";
 import { XIcon, TableOfContents } from "lucide-react";
 import { useOutsideClick } from "@/lib/hooks/use-outside-click";
 import { useRef } from "react";
+import { useEscapeKey } from "@/lib/hooks/use-escape-key";
 
 export function MobileIndexContent() {
   const { isOpen, toggleIsOpen } = useIndexContentProvider();
   const refSheet = useRef<HTMLDivElement>(null);
+
+  useEscapeKey(() => {
+    if (isOpen) {
+      toggleIsOpen();
+    }
+  });
 
   useOutsideClick(refSheet, () => {
     if (isOpen) {
