@@ -1,5 +1,7 @@
 "use client";
 
+import { Dock, DockIcon } from "@/components/magicui/dock";
+import { Separator } from "@/components/ui/separator";
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
 import { Article } from "@/lib/interfaces/articles";
 import { EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
@@ -22,23 +24,33 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
   );
 
   return (
-    <nav className="flex gap-2 sticky w-full mb-4 bottom-0 right-0 justify-center items-center z-40 *:bg-zinc-700 *:rounded-full *:cursor-pointer *:hover:bg-zinc-600 *:transition-all *:duration-300 *:hover:opacity-90 *:active:bg-zinc-900">
-      <ChevronLeft
-        className="size-8 p-2 opacity-40"
-        onClick={() => {
-          if (!getPreviousArticle) return;
+    <Dock
+      direction="middle"
+      className="border-white/30 bottom-0 right-0 sticky z-40 w-fit custom-padding mb-8">
+      <DockIcon>
+        <ChevronLeft
+          className="size-8"
+          onClick={() => {
+            if (!getPreviousArticle) return;
 
-          push(getPreviousArticle?.slug);
-        }}
-      />
-      <House className="size-14 p-4 opacity-60" onClick={() => replace(redirect)} />
-      <ChevronRight
-        className="size-8 p-2 opacity-40"
-        onClick={() => {
-          if (!getNextArticle) return;
-          push(getNextArticle?.slug);
-        }}
-      />
-    </nav>
+            push(getPreviousArticle?.slug);
+          }}
+        />
+      </DockIcon>
+      <Separator orientation="vertical" className="h-1/2! bg-white w-full" />
+      <DockIcon>
+        <House className="size-12" onClick={() => replace(redirect)} />
+      </DockIcon>
+      <Separator orientation="vertical" className="h-1/2! py-2 bg-white w-full" />
+      <DockIcon>
+        <ChevronRight
+          className="size-8"
+          onClick={() => {
+            if (!getNextArticle) return;
+            push(getNextArticle?.slug);
+          }}
+        />
+      </DockIcon>
+    </Dock>
   );
 }
