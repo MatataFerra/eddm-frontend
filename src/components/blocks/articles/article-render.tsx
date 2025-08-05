@@ -23,11 +23,6 @@ export function ArticleRender({ slug }: { slug: string }) {
                   : article.category.name?.charAt(0).toUpperCase() + article.category.name?.slice(1)
               }`}
           </h1>
-          {article && (
-            <blockquote className="text-center text-white mb-2">
-              relato n° {article.order}
-            </blockquote>
-          )}
         </article>
       </section>
 
