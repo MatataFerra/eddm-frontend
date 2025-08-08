@@ -13,7 +13,7 @@ export function ArticleRender({ slug }: { slug: string }) {
 
   return (
     <>
-      <section className="flex items-center justify-center overflow-x-hidden relative">
+      <section className="flex items-center justify-center overflow-x-hidden relative p-8">
         <article>
           <h1 className="text-2xl md:text-5xl m-0 font-bold text-center text-white relative z-2">
             {article &&
@@ -26,7 +26,7 @@ export function ArticleRender({ slug }: { slug: string }) {
         </article>
       </section>
 
-      <section className="relative overflow-x-hidden">
+      <section className="relative overflow-x-hidden p-8">
         {article ? (
           <>
             <div className="max-w-full">

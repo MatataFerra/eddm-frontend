@@ -45,7 +45,7 @@ export function ListIndexContent() {
           </li>
         ))
       ) : (
-        <li>No hay contenido disponible.</li>
+        <li className="p-8">No hay contenido disponible.</li>
       )}
     </ol>
   );

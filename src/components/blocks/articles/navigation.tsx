@@ -1,12 +1,15 @@
 "use client";
 
 import { Dock, DockIcon } from "@/components/magicui/dock";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
 import { Article } from "@/lib/interfaces/articles";
-import { EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, House } from "lucide-react";
+import { cn, EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, House, Bookmark } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 type NavigationProps = {
   redirect: "/" | "/12-meses-viajando" | "/relatos";
@@ -16,6 +19,12 @@ type NavigationProps = {
 };
 
 export function Navigation({ item, items, redirect }: NavigationProps) {
+  const [bookmarked, setBookmarked] = useState(false);
+  const [openTooltip, setOpenTooltip] = useState(false);
+  const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
+    "bookmarkedArticles",
+    []
+  );
   const { replace, push } = useRouter();
   const { next: getNextArticle, previous: getPreviousArticle } = useArticleNavigation(
     item,
@@ -23,10 +32,28 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
     monthsOrdered
   );
 
+  useEffect(() => {
+    setBookmarked(bookmarkedArticles.includes(item.slug));
+  }, [item.id, bookmarkedArticles]);
+
+  function handleBookmark() {
+    const isAlreadyBookmarked = bookmarkedArticles.includes(item.slug);
+
+    const updatedArticles = isAlreadyBookmarked
+      ? bookmarkedArticles.filter((id) => id !== item.slug)
+      : [...bookmarkedArticles, item.slug];
+
+    setBookmarkedArticles(updatedArticles);
+    setBookmarked(!isAlreadyBookmarked);
+    setOpenTooltip(true);
+
+    setTimeout(() => {
+      setOpenTooltip(false);
+    }, 1000);
+  }
+
   return (
-    <Dock
-      direction="middle"
-      className="border-white/30 bottom-0 right-0 sticky z-40 w-fit custom-padding mb-8">
+    <Dock direction="middle" className="border-white/30 bottom-0 right-0 sticky z-40 w-fit mb-8">
       <DockIcon>
         <ChevronLeft
           className="size-8"
@@ -37,11 +64,9 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
           }}
         />
       </DockIcon>
-      <Separator orientation="vertical" className="h-1/2! bg-white w-full" />
       <DockIcon>
         <House className="size-12" onClick={() => replace(redirect)} />
       </DockIcon>
-      <Separator orientation="vertical" className="h-1/2! py-2 bg-white w-full" />
       <DockIcon>
         <ChevronRight
           className="size-8"
@@ -50,6 +75,23 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
             push(getNextArticle?.slug);
           }}
         />
+      </DockIcon>
+
+      <Separator orientation="vertical" className="h-3/4" />
+      <DockIcon>
+        <Tooltip open={openTooltip}>
+          <TooltipTrigger className="">
+            <Bookmark
+              className={cn("size-8", bookmarked ? "text-red-400 fill-red-300" : "text-white")}
+              onClick={handleBookmark}
+            />
+          </TooltipTrigger>
+          <TooltipContent arrow={false} side="top" sideOffset={8}>
+            <p className={cn(bookmarked ? "text-cyan-300" : "text-red-300")}>
+              {bookmarked ? "Artículo guardado" : "Eliminado de tus favoritos"}
+            </p>
+          </TooltipContent>
+        </Tooltip>
       </DockIcon>
     </Dock>
   );
