@@ -55,7 +55,7 @@ export function MobileIndexContent() {
               <span className="sr-only">Close</span>
             </SheetClose>
           </SheetHeader>
-          <div className="prose px-8">
+          <div className="prose px-8" style={{overflowY: "auto"}}>
             <ListIndexContent />
           </div>
         </SheetContent>
