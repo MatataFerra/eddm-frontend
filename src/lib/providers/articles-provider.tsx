@@ -1,11 +1,12 @@
 // context/ArticlesContext.tsx
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, use, ReactNode, useState, useEffect } from "react";
 import { Article } from "@/lib/interfaces/articles";
 
 interface ArticlesContextType {
   articles: Article[];
+  isLoading: boolean;
 }
 
 const ArticlesContext = createContext<ArticlesContextType | undefined>(undefined);
@@ -17,11 +18,23 @@ export function ArticlesProvider({
   articles: Article[];
   children: ReactNode;
 }) {
-  return <ArticlesContext.Provider value={{ articles }}>{children}</ArticlesContext.Provider>;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!Array.isArray(articles) || articles.length === 0) {
+      setIsLoading(true);
+      return;
+    }
+    setIsLoading(false);
+  }, [articles]);
+
+  return (
+    <ArticlesContext.Provider value={{ articles, isLoading }}>{children}</ArticlesContext.Provider>
+  );
 }
 
 export function useArticles() {
-  const context = useContext(ArticlesContext);
+  const context = use(ArticlesContext);
   if (!context) {
     throw new Error("useArticles must be used within an ArticlesProvider");
   }

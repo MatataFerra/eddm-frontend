@@ -2,9 +2,13 @@
 
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
 import { Article } from "@/lib/interfaces/articles";
-import { EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, House } from "lucide-react";
+import { cn, EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, House, Bookmark, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
+import { useArticles } from "@/lib/providers/articles-provider";
+import { FloatingDock } from "@/components/ui/floating-dock";
 
 type NavigationProps = {
   redirect: "/" | "/12-meses-viajando" | "/relatos";
@@ -14,6 +18,12 @@ type NavigationProps = {
 };
 
 export function Navigation({ item, items, redirect }: NavigationProps) {
+  const { isLoading } = useArticles();
+  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
+    "bookmarkedArticles",
+    []
+  );
   const { replace, push } = useRouter();
   const { next: getNextArticle, previous: getPreviousArticle } = useArticleNavigation(
     item,
@@ -21,24 +31,65 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
     monthsOrdered
   );
 
-  return (
-    <nav className="flex gap-2 sticky w-full mb-4 bottom-0 right-0 justify-center items-center z-40 *:bg-zinc-700 *:rounded-full *:cursor-pointer *:hover:bg-zinc-600 *:transition-all *:duration-300 *:hover:opacity-90 *:active:bg-zinc-900">
-      <ChevronLeft
-        className="size-8 p-2 opacity-40"
-        onClick={() => {
-          if (!getPreviousArticle) return;
+  useEffect(() => {
+    setBookmarked(bookmarkedArticles.includes(item.slug));
+  }, [bookmarkedArticles, item.slug]);
 
-          push(getPreviousArticle?.slug);
-        }}
-      />
-      <House className="size-14 p-4 opacity-60" onClick={() => replace(redirect)} />
-      <ChevronRight
-        className="size-8 p-2 opacity-40"
-        onClick={() => {
-          if (!getNextArticle) return;
-          push(getNextArticle?.slug);
-        }}
-      />
-    </nav>
+  function handleBookmark() {
+    const isAlreadyBookmarked = bookmarkedArticles.includes(item.slug);
+
+    const updatedArticles = isAlreadyBookmarked
+      ? bookmarkedArticles.filter((id) => id !== item.slug)
+      : [...bookmarkedArticles, item.slug];
+
+    setBookmarkedArticles(updatedArticles);
+    setBookmarked(!isAlreadyBookmarked);
+  }
+
+  const iconItems = [
+    {
+      title: "Anterior",
+      icon: <ChevronLeft />,
+      onClick: () => {
+        if (!getPreviousArticle) return;
+
+        push(getPreviousArticle?.slug);
+      },
+    },
+    {
+      title: "Inicio",
+      icon: <House />,
+      onClick: () => replace(redirect),
+    },
+    {
+      title: "Siguiente",
+      icon: <ChevronRight />,
+      onClick: () => {
+        if (!getNextArticle) return;
+        push(getNextArticle?.slug);
+      },
+    },
+    {
+      title: "Favorito",
+      icon: isLoading ? (
+        <Loader2 className="animate-spin text-gray-500" />
+      ) : (
+        <Bookmark
+          className={cn(
+            "cursor-pointer transition-colors",
+            bookmarked ? "text-red-300 fill-red-300" : "text-white"
+          )}
+        />
+      ),
+      onClick: handleBookmark,
+    },
+  ];
+
+  return (
+    <>
+      <div className="md:bg-accent-foreground flex items-center justify-center mx-auto">
+        <FloatingDock items={iconItems} />
+      </div>
+    </>
   );
 }
