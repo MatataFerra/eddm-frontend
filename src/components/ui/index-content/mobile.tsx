@@ -49,13 +49,13 @@ export function MobileIndexContent() {
               <SheetDescription>Aquí puedes navegar por los contenidos del sitio.</SheetDescription>
             </VisuallyHidden>
             <SheetClose
-              className="cursor-pointer focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
+              className="cursor-pointer data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
               onClick={() => toggleIsOpen()}>
               <XIcon className="size-4" color="black" />
               <span className="sr-only">Close</span>
             </SheetClose>
           </SheetHeader>
-          <div className="prose px-8" style={{overflowY: "auto"}}>
+          <div className="prose px-8 h-full" style={{ overflowY: "scroll", overflowX: "hidden" }}>
             <ListIndexContent />
           </div>
         </SheetContent>
