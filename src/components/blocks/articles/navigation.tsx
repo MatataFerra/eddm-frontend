@@ -6,10 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
 import { Article } from "@/lib/interfaces/articles";
 import { cn, EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, House, Bookmark } from "lucide-react";
+import { ChevronLeft, ChevronRight, House, Bookmark, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import { useArticles } from "@/lib/providers/articles-provider";
 
 type NavigationProps = {
   redirect: "/" | "/12-meses-viajando" | "/relatos";
@@ -19,6 +20,7 @@ type NavigationProps = {
 };
 
 export function Navigation({ item, items, redirect }: NavigationProps) {
+  const { isLoading } = useArticles();
   const [bookmarked, setBookmarked] = useState(false);
   const [openTooltip, setOpenTooltip] = useState(false);
   const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
@@ -53,7 +55,7 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
   }
 
   return (
-    <Dock direction="middle" className="border-white/30 bottom-0 right-0 sticky z-40 w-fit mb-8">
+    <Dock direction="middle" className="border-white/30 bottom-4 right-0 left-0 fixed z-40 w-fit">
       <DockIcon>
         <ChevronLeft
           className="size-8"
@@ -80,11 +82,18 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
       <Separator orientation="vertical" className="h-3/4" />
       <DockIcon>
         <Tooltip open={openTooltip}>
-          <TooltipTrigger className="">
-            <Bookmark
-              className={cn("size-8", bookmarked ? "text-red-400 fill-red-300" : "text-white")}
-              onClick={handleBookmark}
-            />
+          <TooltipTrigger>
+            {isLoading ? (
+              <Loader2 className="w-6 h-6 animate-spin text-gray-500" />
+            ) : (
+              <Bookmark
+                className={cn(
+                  "size-8 cursor-pointer transition-colors",
+                  bookmarked ? "text-red-400 fill-red-300" : "text-white"
+                )}
+                onClick={handleBookmark}
+              />
+            )}
           </TooltipTrigger>
           <TooltipContent arrow={false} side="top" sideOffset={8}>
             <p className={cn(bookmarked ? "text-cyan-300" : "text-red-300")}>
