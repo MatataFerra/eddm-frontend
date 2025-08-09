@@ -35,7 +35,7 @@ export function MobileIndexContent() {
 
   return (
     <>
-      <Sheet open={isOpen}>
+      <Sheet open={isOpen} modal={false}>
         <SheetTrigger
           onClick={() => toggleIsOpen()}
           className="fixed cursor-pointer right-4 top-4 z-10 shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-transparent border border-white dark:border-black dark:text-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">

@@ -13,7 +13,7 @@ export function ArticleRender({ slug }: { slug: string }) {
 
   return (
     <>
-      <article className="relative min-h-dvh">
+      <main className="relative min-h-dvh w-11/12 mx-auto">
         <section className="flex items-center justify-center overflow-x-hidden p-8">
           <article>
             <h1 className="text-2xl md:text-5xl m-0 font-bold text-center text-white z-2">
@@ -28,7 +28,7 @@ export function ArticleRender({ slug }: { slug: string }) {
           </article>
         </section>
 
-        <section className="overflow-x-hidden p-8">
+        <section className="p-8">
           {article ? (
             <>
               <div className="max-w-full">
@@ -56,7 +56,6 @@ export function ArticleRender({ slug }: { slug: string }) {
                   {article.content && <MarkdownRenderer content={article.content} />}
                 </article>
               </div>
-
               <Navigation
                 redirect={ROOT}
                 item={article}
@@ -68,7 +67,7 @@ export function ArticleRender({ slug }: { slug: string }) {
             <p>Entry not available... refresh your browser</p>
           )}
         </section>
-      </article>
+      </main>
     </>
   );
 }
