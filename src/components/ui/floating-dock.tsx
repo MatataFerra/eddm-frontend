@@ -37,7 +37,7 @@ const FloatingDockDesktop = ({ items, className }: { items: ItemsProps[]; classN
   return (
     <nav
       style={{ width: "100vw" }}
-      className="h-16 fixed bottom-4 left-0 right-0 z-40 shadow-lg mb-8 flex justify-center">
+      className="h-16 fixed bottom-4 left-0 right-0 z-40 mb-8 flex justify-center">
       <motion.div
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
