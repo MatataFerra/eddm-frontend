@@ -1,9 +1,14 @@
 import { clsx, type ClassValue } from "clsx";
-import { Variants } from "motion/react";
+import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
+import type { Article } from "@/lib/interfaces/articles";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function isCategory(item: EntriesOrderByCategory): item is Category {
+  return item.type === "category";
 }
 
 export type Category = {
@@ -38,7 +43,6 @@ export type EntriesOrderByCategory = Category | Phrase;
 
 export const monthsOrdered: EntriesOrderByCategory[] = [
   { type: "category", name: "context", cover: true },
-  { type: "category", name: "enero" },
   { type: "category", name: "febrero", cover: true },
   { type: "category", name: "marzo" },
   { type: "category", name: "abril" },
@@ -50,6 +54,7 @@ export const monthsOrdered: EntriesOrderByCategory[] = [
   { type: "category", name: "octubre" },
   { type: "category", name: "noviembre" },
   { type: "category", name: "diciembre" },
+  { type: "category", name: "enero" },
 ];
 
 export const MOTION_COVER_IMAGE: Record<string, Variants> = {
@@ -109,3 +114,25 @@ export const MOTION_ANIMATIONS: Record<"cover_image" | "slideToCorner", Variants
     },
   },
 };
+
+export const groupByMonth = (items: Article[]) => {
+  const orderedMonths = monthsOrdered
+    .filter((month): month is Category => isCategory(month) && month.name !== "tale")
+    .map((month) => month.name);
+
+  const groupedItems = Object.groupBy(items, (item) => item.category.name);
+
+  return orderedMonths
+    .map((month) => ({
+      month,
+      articles: groupedItems[month] || [],
+    }))
+    .filter((group) => group.articles.length > 0);
+};
+
+export function capitalize(text: string) {
+  const [first, ...rest] = text.split("");
+  const capitalize = first.toUpperCase();
+
+  return [capitalize, ...rest].join("");
+}

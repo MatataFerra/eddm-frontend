@@ -136,6 +136,29 @@ body {
   --font-bebas: var(--font-bebas-neue);
 }
 
+@theme {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
 /*
   ---break---
 */
@@ -155,11 +178,6 @@ body {
 
 .font-bebas {
   font-family: var(--font-bebas-neue);
-}
-
-/* En tu archivo CSS */
-.p-8-except-custom > *:where(:not(.custom-padding)) {
-  @apply p-8;
 }
 
 .responsive-text {
