@@ -10,6 +10,7 @@ import {
   SheetClose,
   SheetDescription,
 } from "@/components/ui/sheet";
+
 import { ListIndexContent } from "./list";
 import { useIndexContentProvider } from "./context";
 import { XIcon, TableOfContents } from "lucide-react";
@@ -55,7 +56,9 @@ export function MobileIndexContent() {
               <span className="sr-only">Close</span>
             </SheetClose>
           </SheetHeader>
-          <div className="prose px-8 h-full" style={{ overflowY: "scroll", overflowX: "hidden" }}>
+          <div
+            className="prose px-8 h-full prose-h3:mb-0 prose-h3:mt-0.5 prose-ol:pl-0! prose-ul:pl-0!"
+            style={{ overflowY: "scroll", overflowX: "hidden" }}>
             <ListIndexContent />
           </div>
         </SheetContent>
