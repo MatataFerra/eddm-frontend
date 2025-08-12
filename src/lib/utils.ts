@@ -44,7 +44,7 @@ export type EntriesOrderByCategory = Category | Phrase;
 export const monthsOrdered: EntriesOrderByCategory[] = [
   { type: "category", name: "context", cover: true },
   { type: "category", name: "febrero", cover: true },
-  { type: "category", name: "marzo" },
+  { type: "category", name: "marzo", cover: true },
   { type: "category", name: "abril" },
   { type: "category", name: "mayo", cover: true },
   { type: "category", name: "junio" },
