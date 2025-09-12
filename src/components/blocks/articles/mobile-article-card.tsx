@@ -8,6 +8,7 @@ type MobileArticleProps = {
   trigger: string;
   variants: Variants;
   controls: AnimationControls;
+  url?: `https://${string}` | `http://${string}` | string;
 };
 
 export function MobileArticleText({ trigger, controls, variants }: MobileArticleProps) {
@@ -44,14 +45,14 @@ export function MobileArticleText({ trigger, controls, variants }: MobileArticle
   );
 }
 
-export function MobileArticleImage({ trigger, variants, controls }: MobileArticleProps) {
+export function MobileArticleImage({ variants, controls, url }: MobileArticleProps) {
   const MotionImage = motion.create(Image);
 
   return (
     <>
       {isMobile ? (
         <Image
-          src={`/categories/${trigger?.toLowerCase()}.png`}
+          src={url ?? "https://via.placeholder.com/300x200.png?text=No+Image"}
           className="size-full -z-10 absolute inset-0"
           alt="Cover que sirve para ilustrar la temática del mes"
           priority
@@ -60,7 +61,7 @@ export function MobileArticleImage({ trigger, variants, controls }: MobileArticl
         />
       ) : (
         <MotionImage
-          src={`/categories/${trigger?.toLowerCase()}.png`}
+          src={url}
           className="size-full -z-10 absolute inset-0"
           alt="Cover que sirve para ilustrar la temática del mes"
           initial="initial_image"
