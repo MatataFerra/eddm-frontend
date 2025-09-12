@@ -32,6 +32,7 @@ type AnimatedModalDemoProps = PropsWithChildren<{
   className?: string;
   trigger: Category["name"];
   cover: boolean;
+  url: `https://${string}` | `http://${string}` | string;
 }>;
 
 export function ModalArticle({
@@ -39,6 +40,7 @@ export function ModalArticle({
   className,
   trigger,
   cover,
+  url,
   children,
 }: AnimatedModalDemoProps) {
   const controls = useAnimationControls();
@@ -63,6 +65,7 @@ export function ModalArticle({
           )}>
           {cover ? (
             <MobileArticleImage
+              url={url}
               trigger={trigger}
               controls={controls}
               variants={MOTION_ANIMATIONS.cover_image}

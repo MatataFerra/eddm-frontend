@@ -136,3 +136,13 @@ export function capitalize(text: string) {
 
   return [capitalize, ...rest].join("");
 }
+
+export function stripColSpan(cls?: string | null) {
+  if (!cls) return "";
+  return cls.replace(/\bcol-span-\d+\b/g, "").trim();
+}
+
+export function columnsClass(n?: number) {
+  const x = Math.min(6, Math.max(1, n ?? 1));
+  return `span ${x}`;
+}

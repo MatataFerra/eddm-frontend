@@ -95,6 +95,7 @@ export async function fetchDataOnClient<T>(
 
     const response = await res.json();
     return response;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json({ message: "something went wrong" });
   }
@@ -104,6 +105,10 @@ export async function fetchData<T>(
   url: Url,
   { params = {}, method = "GET", isExternalUrl = false, fields, headers }: FetchOptions = {}
 ): Promise<ApiResponse<T> | NextResponse<{ message: string }>> {
+  if (typeof window !== "undefined") {
+    throw new Error("fetchData is server-only");
+  }
+
   const formattedFields = formatFields(fields);
   const formattedPopulate = formatPopulate(params.populate);
   const createToken = generateToken({
@@ -149,3 +154,28 @@ export async function fetchData<T>(
 
 // Versión con cache
 export const fetchDataCached = cache(fetchData);
+
+// Fetch para SWR
+export async function swrFetcher<T>(key: string | [string, Record<string, unknown>?]): Promise<T> {
+  // key puede ser string o tuple; soportemos ambos
+  let path: string,
+    qs = "";
+  if (Array.isArray(key)) {
+    path = key[0];
+    const params = key[1] ?? {};
+    qs = new URLSearchParams(params as Record<string, string>).toString();
+  } else {
+    path = key;
+  }
+
+  const url = `/api/proxy?path=${encodeURIComponent(path)}${
+    qs ? `&qs=${encodeURIComponent(qs)}` : ""
+  }`;
+  const res = await fetch(url); // navegador
+  if (!res.ok) {
+    const err = new Error(`Fetch failed ${res.status}`);
+    (err as Error & { status?: number }).status = res.status;
+    throw err; // SWR manejará error
+  }
+  return res.json() as Promise<T>;
+}
