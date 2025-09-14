@@ -4,7 +4,6 @@ import { createContext, PropsWithChildren, use, useState } from "react";
 
 const IndexContentContext = createContext({
   isOpen: false,
-  setIsOpen: (open: boolean) => {},
   toggleIsOpen: () => {},
 });
 
@@ -14,7 +13,7 @@ const IndexContentProvider = ({ children }: PropsWithChildren) => {
   const toggleIsOpen = () => setIsOpen((prev) => !prev);
 
   return (
-    <IndexContentContext.Provider value={{ isOpen, setIsOpen, toggleIsOpen }}>
+    <IndexContentContext.Provider value={{ isOpen, toggleIsOpen }}>
       {children}
     </IndexContentContext.Provider>
   );

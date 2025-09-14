@@ -2,10 +2,8 @@ import { cn } from "@/lib/utils";
 import { z } from "zod";
 
 const VideoFormatSchema = z.enum(["video/mp4", "video/webm", "video/ogg"]);
-const SizeSchema = z.enum(["small", "medium", "large"]);
-
 export type VideoFormat = z.infer<typeof VideoFormatSchema>;
-export type Size = z.infer<typeof SizeSchema>;
+export type Size = "small" | "medium" | "large";
 
 const getValidFormat = (format: string): VideoFormat => {
   const result = VideoFormatSchema.safeParse(format);
