@@ -15,7 +15,9 @@ export function ArticleHoverCard({ geolocation }: Props) {
           <HoverCardTrigger>
             <MapPinBadge name={geolocation.location} className="cursor-pointer" />
           </HoverCardTrigger>
-          <HoverCardContent className="shadow-lg border rounded-md relative overflow-hidden w-48 h-80">
+          <HoverCardContent
+            className="shadow-lg border rounded-md relative overflow-hidden h-80"
+            style={{ width: "100%" }}>
             <p className="font-bold capitalize p-4">
               {geolocation.location}{" "}
               {geolocation.metadata?.country && `- ${geolocation.metadata.country}`}
