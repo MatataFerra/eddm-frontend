@@ -26,10 +26,23 @@ export const deleteSchema = articleSchema.pick({
   id: true,
 });
 
+const geolocationMetadataSchema = z.object({
+  id: z.number().optional(),
+  country: z.string().optional(),
+  region: z.string().optional(),
+  city: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  imgUrl: z.string().optional(),
+  mapImageUrl: z.string().optional(),
+  url: z.string().optional(),
+});
+
 const geolocationSchema = {
   geolocation: z.object({
     id: z.number().nullable(),
     location: z.string(),
+    metadata: geolocationMetadataSchema.optional(),
   }),
 };
 
@@ -104,6 +117,7 @@ export const createArticleSchema = articleSchema
         z.object({
           location: z.string(),
           id: z.number().nullable(),
+          metadata: geolocationMetadataSchema.optional(),
         })
       ),
     })
@@ -124,3 +138,5 @@ export const authorSchema = z.object({
 export const categorySchema = z.object({
   name: z.string().min(1, "Name is required"),
 });
+
+export type GeolocationWithMetadata = z.infer<typeof geolocationSchema.geolocation>;

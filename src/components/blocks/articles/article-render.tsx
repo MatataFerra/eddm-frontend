@@ -6,6 +6,7 @@ import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { Navigation } from "@/components/blocks/articles/navigation";
 import { monthsOrdered } from "@/lib/utils";
 import { ROOT } from "@/lib/constants";
+import { ArticleHoverCard } from "@/components/blocks/articles/hover-card";
 
 export function ArticleRender({ slug }: { slug: string }) {
   const { articles } = useArticles();
@@ -25,6 +26,11 @@ export function ArticleRender({ slug }: { slug: string }) {
                       article.category.name?.slice(1)
                 }`}
             </h1>
+            <div className="flex justify-center my-8 gap-4">
+              {article?.geolocations?.map(({ geolocation }) => {
+                return <ArticleHoverCard key={geolocation.id} geolocation={geolocation} />;
+              })}
+            </div>
           </article>
         </section>
 
