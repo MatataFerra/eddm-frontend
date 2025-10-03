@@ -63,7 +63,7 @@ export function ArticleRender({ slug }: { slug: string }) {
                 </article>
               </div>
               <Navigation
-                redirect={ROOT}
+                redirect={ROOT.journey}
                 item={article}
                 items={articles}
                 typeOfOrder={monthsOrdered}

@@ -7,20 +7,30 @@ interface Endpoints {
   [key: string]: EndpointDefinition;
 }
 
-export const ROOT: "/" | "/12-meses-viajando" | "/relatos" = "/12-meses-viajando";
+type Root = {
+  main: "/";
+  journey: "/12-meses-viajando";
+  tales: "/relatos";
+};
+
+export const ROOT: Root = {
+  main: "/",
+  journey: "/12-meses-viajando",
+  tales: "/relatos",
+};
 
 export const ENDPOINTS = {
-  ARTICLES: `${ROOT}/article`,
-  ARTICLE: (slug: string) => `${ROOT}/article/${slug}`,
-  TALES: "/relatos",
-  TALE: (slug: string) => `/relatos/${slug}`,
+  ARTICLES: `${ROOT.journey}/article`,
+  ARTICLE: (slug: string) => `${ROOT.journey}/article/${slug}`,
+  TALES: `${ROOT.tales}`,
+  TALE: (slug: string) => `${ROOT.tales}/${slug}`,
 };
 
 export const ENDPOINTS_BASE: Endpoints = {
-  ARTICLES: `/${ROOT}/article`,
-  ARTICLE: (slug: string) => `/${ROOT}/article/${slug}`,
-  TALES: "/relatos",
-  TALE: (slug: string) => `/relatos/${slug}`,
+  ARTICLES: `/${ROOT.journey}/article`,
+  ARTICLE: (slug: string) => `/${ROOT.journey}/article/${slug}`,
+  TALES: `/${ROOT.tales}`,
+  TALE: (slug: string) => `/${ROOT.tales}/${slug}`,
 };
 
 export class Endpoint {
