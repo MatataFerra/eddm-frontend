@@ -4,6 +4,7 @@ import type { Category } from "@lib/utils";
 // Props comunes a ambos ítems
 type BaseListItem = {
   columns: number;
+  rows: number;
   show: boolean;
   position: number;
   className?: string; // porque hacés `|| undefined`
