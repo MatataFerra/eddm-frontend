@@ -33,6 +33,7 @@ type AnimatedModalDemoProps = PropsWithChildren<{
   trigger: Category["name"];
   cover: boolean;
   url: `https://${string}` | `http://${string}` | string;
+  style?: React.CSSProperties;
 }>;
 
 export function ModalArticle({
@@ -41,12 +42,13 @@ export function ModalArticle({
   trigger,
   cover,
   url,
+  style,
   children,
 }: AnimatedModalDemoProps) {
   const controls = useAnimationControls();
 
   return (
-    <div className={cn("flex items-center justify-center", className)}>
+    <div className={cn("flex items-center justify-center", className)} style={style}>
       <Modal>
         <ModalTrigger
           onHoverStart={() => {

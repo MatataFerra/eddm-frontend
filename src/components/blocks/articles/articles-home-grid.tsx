@@ -15,7 +15,7 @@ import { Category, cn } from "@/lib/utils";
 import useSWR from "swr";
 import { swrFetcher } from "@lib/fetch";
 import { useCallback } from "react";
-import { SettingsListItemResponse } from "@/lib/interfaces/cards";
+import { SettingsListItem, SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
@@ -23,6 +23,11 @@ import { isMobile } from "react-device-detect";
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
 };
+
+const CARD_BACKGROUND = {
+  sunset: "bg-gradient-to-l from-indigo-200 via-red-200 to-yellow-100",
+  gotham: "bg-gradient-to-r from-gray-700 via-gray-900 to-black",
+} as const;
 
 export function ArticlesHomeGrid() {
   const { articles } = useArticles();
@@ -39,6 +44,15 @@ export function ArticlesHomeGrid() {
     [articles]
   );
 
+  const defineBackground = useCallback((category: SettingsListItem) => {
+    const background = category.className?.toLowerCase().trim() as keyof typeof CARD_BACKGROUND;
+    if (background && CARD_BACKGROUND[background]) {
+      return CARD_BACKGROUND[background];
+    }
+
+    return "bg-gradient-to-r from-gray-700 via-gray-900 to-black dark:from-indigo-200 dark:via-red-200 dark:to-yellow-100 text-white dark:text-black";
+  }, []);
+
   return (
     <>
       {articles ? (
@@ -46,7 +60,7 @@ export function ArticlesHomeGrid() {
           {isLoading ? (
             <div
               className="flex justify-center h-auto items-center w-full"
-              style={{ gridColumn: "span 2" }}>
+              style={{ gridColumn: "span 3" }}>
               <LoaderFive text="Cargando portadas..." />
             </div>
           ) : error ? (
@@ -74,9 +88,17 @@ export function ArticlesHomeGrid() {
                       gridRow: `span ${category.rows}`,
                     }}
                     className={cn(
-                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-4 italic text-balance dark:bg-neutral-800 bg-gradient-to-tr from-sky-200 via-emerald-200 to-yellow-100 font-dancing",
-                      category.className
+                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative",
+                      defineBackground(category)
                     )}>
+                    <svg
+                      className="mb-4 size-48 text-gray-400 dark:text-gray-400 absolute top-4 left-4 opacity-30"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 18 14">
+                      <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+                    </svg>
                     {category.text}
                   </FitText>
                 );
@@ -90,7 +112,10 @@ export function ArticlesHomeGrid() {
                   triggerClassName="size-full p-4 rounded-lg shadow-lg text-4xl font-bold cursor-pointer font-dancing"
                   cover={!!category.cover}
                   trigger={category.name}
-                  className={cn(`row-span-${category.rows} col-span-${category.columns}`)}
+                  style={{
+                    gridColumn: `span ${category.columns}`,
+                    gridRow: `span ${category.rows}`,
+                  }}
                   url={category.url ?? "https://via.placeholder.com/300x200.png?text=No+Image"}>
                   <h2 className="text-2xl font-bold">
                     {categoryHeadings[category?.name] || `Artículos de ${category.name}`}
