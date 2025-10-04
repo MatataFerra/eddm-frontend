@@ -81,7 +81,7 @@ export function ArticlesHomeGrid() {
                 return (
                   <FitText
                     key={category.text + index}
-                    min={35}
+                    min={24}
                     max={120}
                     style={{
                       gridColumn: `span ${category.columns}`,
