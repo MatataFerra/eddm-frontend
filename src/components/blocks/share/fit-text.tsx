@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { ComponentProps, PropsWithChildren, useEffect, useRef } from "react";
 
 // Tipos mínimos (si tu paquete ya trae tipos, podés omitir esto)
 // O crea `types/fitty.d.ts` con esta forma.
@@ -16,15 +16,17 @@ type FittyOptions = {
   observeMutations?: MutationObserverInit;
 };
 
-type Props = React.PropsWithChildren<{
-  className?: string;
-  min?: number; // px
-  max?: number; // px
-  multiline?: boolean;
-  // Si querés desactivar, poné 'undefined' (no boolean false)
-  observeMutations?: MutationObserverInit;
-  refitKey?: React.Key; // fuerza re-fit cuando cambia
-}>;
+type Props = PropsWithChildren<
+  ComponentProps<"div"> & {
+    className?: string;
+    min?: number; // px
+    max?: number; // px
+    multiline?: boolean;
+    // Si querés desactivar, poné 'undefined' (no boolean false)
+    observeMutations?: MutationObserverInit;
+    refitKey?: React.Key; // fuerza re-fit cuando cambia
+  }
+>;
 
 export default function FitText({
   children,
@@ -34,6 +36,7 @@ export default function FitText({
   multiline = true,
   observeMutations = { childList: true, characterData: true, subtree: true },
   refitKey,
+  ...rest
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const fittyRef = useRef<FittyInstance | null>(null);
@@ -82,7 +85,8 @@ export default function FitText({
     <div
       ref={hostRef}
       className={className}
-      style={{ lineHeight: 1, whiteSpace: multiline ? "normal" : "nowrap" }}>
+      style={{ lineHeight: 1, whiteSpace: multiline ? "normal" : "nowrap", ...rest.style }}
+      {...rest}>
       {children}
     </div>
   );

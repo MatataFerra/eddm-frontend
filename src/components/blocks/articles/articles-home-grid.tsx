@@ -18,6 +18,7 @@ import { useCallback } from "react";
 import { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
+import { isMobile } from "react-device-detect";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -61,9 +62,13 @@ export function ArticlesHomeGrid() {
               if (!category.show) return null;
 
               if (category?.type === "phrase") {
+                if (isMobile) return null;
+
                 return (
-                  <div
+                  <FitText
                     key={category.text + index}
+                    min={35}
+                    max={120}
                     style={{
                       gridColumn: `span ${category.columns}`,
                       gridRow: `span ${category.rows}`,
@@ -72,10 +77,8 @@ export function ArticlesHomeGrid() {
                       "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-4 italic text-balance dark:bg-neutral-800 bg-gradient-to-tr from-sky-200 via-emerald-200 to-yellow-100 font-dancing",
                       category.className
                     )}>
-                    <FitText min={35} max={120} multiline={true}>
-                      {category.text}
-                    </FitText>
-                  </div>
+                    {category.text}
+                  </FitText>
                 );
               }
 
