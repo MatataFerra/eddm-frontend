@@ -26,6 +26,13 @@
       "@blocks/*": ["./src/components/blocks/*"]
     }
   },
-  "include": ["video.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "video.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/interfaces/fitty.d.ts"
+  ],
   "exclude": ["node_modules"]
 }
