@@ -63,9 +63,12 @@ export function ArticlesHomeGrid() {
                 return (
                   <div
                     key={category.text + index}
-                    style={{ gridColumn: `span ${category.columns}` }}
+                    style={{
+                      gridColumn: `span ${category.columns}`,
+                      gridRow: `span ${category.rows}`,
+                    }}
                     className={cn(
-                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-2 text-xl italic text-pretty",
+                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-4 text-7xl italic text-balance dark:bg-neutral-800 bg-gradient-to-tr from-sky-200 via-emerald-200 to-yellow-100 font-dancing",
                       category.className
                     )}>
                     {category.text}
@@ -81,6 +84,7 @@ export function ArticlesHomeGrid() {
                   triggerClassName="size-full p-4 rounded-lg shadow-lg text-4xl font-bold cursor-pointer font-dancing"
                   cover={!!category.cover}
                   trigger={category.name}
+                  className={cn(`row-span-${category.rows} col-span-${category.columns}`)}
                   url={category.url ?? "https://via.placeholder.com/300x200.png?text=No+Image"}>
                   <h2 className="text-2xl font-bold">
                     {categoryHeadings[category?.name] || `Artículos de ${category.name}`}
