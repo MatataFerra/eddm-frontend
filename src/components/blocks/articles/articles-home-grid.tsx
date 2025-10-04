@@ -17,6 +17,7 @@ import { swrFetcher } from "@lib/fetch";
 import { useCallback } from "react";
 import { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
+import FitText from "../share/fit-text";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -68,10 +69,12 @@ export function ArticlesHomeGrid() {
                       gridRow: `span ${category.rows}`,
                     }}
                     className={cn(
-                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-4 text-7xl italic text-balance dark:bg-neutral-800 bg-gradient-to-tr from-sky-200 via-emerald-200 to-yellow-100 font-dancing",
+                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-4 italic text-balance dark:bg-neutral-800 bg-gradient-to-tr from-sky-200 via-emerald-200 to-yellow-100 font-dancing",
                       category.className
                     )}>
-                    {category.text}
+                    <FitText min={35} max={120} multiline={true}>
+                      {category.text}
+                    </FitText>
                   </div>
                 );
               }
