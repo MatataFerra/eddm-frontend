@@ -1,5 +1,6 @@
 import { ApiResponse } from "@lib/fetch";
 import type { Category } from "@lib/utils";
+import type { GradientName } from "@/lib/gradients";
 
 // Props comunes a ambos ítems
 type BaseListItem = {
@@ -7,7 +8,8 @@ type BaseListItem = {
   rows: number;
   show: boolean;
   position: number;
-  className?: string; // porque hacés `|| undefined`
+  className?: string;
+  gradient?: GradientName;
 };
 
 // Ítem cuando la card es CATEGORY

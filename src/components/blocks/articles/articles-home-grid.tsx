@@ -19,15 +19,11 @@ import { SettingsListItem, SettingsListItemResponse } from "@/lib/interfaces/car
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
+import { GRADIENTS } from "@/lib/gradients";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
 };
-
-const CARD_BACKGROUND = {
-  sunset: "bg-gradient-to-l from-indigo-200 via-red-200 to-yellow-100",
-  gotham: "bg-gradient-to-r from-gray-700 via-gray-900 to-black",
-} as const;
 
 export function ArticlesHomeGrid() {
   const { articles } = useArticles();
@@ -45,12 +41,12 @@ export function ArticlesHomeGrid() {
   );
 
   const defineBackground = useCallback((category: SettingsListItem) => {
-    const background = category.className?.toLowerCase().trim() as keyof typeof CARD_BACKGROUND;
-    if (background && CARD_BACKGROUND[background]) {
-      return CARD_BACKGROUND[background];
+    const background = category.gradient;
+    if (background && GRADIENTS[background]) {
+      return GRADIENTS[background];
     }
 
-    return "bg-gradient-to-r from-gray-700 via-gray-900 to-black dark:from-indigo-200 dark:via-red-200 dark:to-yellow-100 text-white dark:text-black";
+    return GRADIENTS.gotham;
   }, []);
 
   return (
@@ -89,7 +85,8 @@ export function ArticlesHomeGrid() {
                     }}
                     className={cn(
                       "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative",
-                      defineBackground(category)
+                      defineBackground(category).bg,
+                      defineBackground(category).text
                     )}>
                     <svg
                       className="mb-4 size-48 text-gray-400 dark:text-gray-400 absolute top-4 left-4 opacity-30"
