@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-// @ts-expect-error (no types)
 import "./globals.css";
 import { Geist, Geist_Mono, Dancing_Script, Bebas_Neue } from "next/font/google";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
