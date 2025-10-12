@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script, Bebas_Neue } from "next/font/google";
+
+// @ts-expect-error (no types)
 import "./globals.css";
+import { Geist, Geist_Mono, Dancing_Script, Bebas_Neue } from "next/font/google";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
 import { TalesProvider } from "@/lib/providers/tales-provider";
 import { getArticles } from "@/lib/api_methods/get-articles";

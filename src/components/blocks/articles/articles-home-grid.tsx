@@ -11,15 +11,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Category, cn } from "@/lib/utils";
+import { type Category, cn } from "@/lib/utils";
 import useSWR from "swr";
 import { swrFetcher } from "@lib/fetch";
 import { useCallback } from "react";
-import { SettingsListItem, SettingsListItemResponse } from "@/lib/interfaces/cards";
+import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
-import { GRADIENTS } from "@/lib/gradients";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -39,15 +38,6 @@ export function ArticlesHomeGrid() {
     },
     [articles]
   );
-
-  const defineBackground = useCallback((category: SettingsListItem) => {
-    const background = category.gradient;
-    if (background && GRADIENTS[background]) {
-      return GRADIENTS[background];
-    }
-
-    return GRADIENTS.gotham;
-  }, []);
 
   return (
     <>
@@ -82,11 +72,17 @@ export function ArticlesHomeGrid() {
                     style={{
                       gridColumn: `span ${category.columns}`,
                       gridRow: `span ${category.rows}`,
+                      background: category.gradient
+                        ? `linear-gradient(${category.gradient?.direction
+                            .replace(/_/g, " ")
+                            .toLowerCase()}, ${category.gradient?.from}, ${
+                            category.gradient?.via ?? category.gradient?.from
+                          }, ${category.gradient?.to})`
+                        : undefined,
+                      color: category.gradient?.textColor,
                     }}
                     className={cn(
-                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative",
-                      defineBackground(category).bg,
-                      defineBackground(category).text
+                      "rounded-xl flex justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative"
                     )}>
                     <svg
                       className="mb-4 size-48 text-gray-400 dark:text-gray-400 absolute top-4 left-4 opacity-30"

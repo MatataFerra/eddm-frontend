@@ -1,6 +1,26 @@
-import { ApiResponse } from "@lib/fetch";
+import type { ApiResponse } from "@lib/fetch";
 import type { Category } from "@lib/utils";
-import type { GradientName } from "@/lib/gradients";
+
+enum GradientDirection {
+  TO_RIGHT = "TO_RIGHT",
+  TO_LEFT = "TO_LEFT",
+  TO_TOP = "TO_TOP",
+  TO_BOTTOM = "TO_BOTTOM",
+  TO_TOP_RIGHT = "TO_TOP_RIGHT",
+  TO_TOP_LEFT = "TO_TOP_LEFT",
+  TO_BOTTOM_RIGHT = "TO_BOTTOM_RIGHT",
+  TO_BOTTOM_LEFT = "TO_BOTTOM_LEFT",
+}
+
+type Gradient = {
+  id: number;
+  name: string;
+  direction: GradientDirection;
+  from: string;
+  via: string | null;
+  to: string;
+  textColor: string;
+};
 
 // Props comunes a ambos ítems
 type BaseListItem = {
@@ -9,7 +29,7 @@ type BaseListItem = {
   show: boolean;
   position: number;
   className?: string;
-  gradient?: GradientName;
+  gradient?: Gradient;
 };
 
 // Ítem cuando la card es CATEGORY
