@@ -34,7 +34,11 @@ export function ArticlesHomeGrid() {
 
   const filteredArticles = useCallback(
     (category: Category) => {
-      return articles.filter((article) => article.category.name === category.name);
+      if (!articles) return [];
+      const article = articles?.filter((article) => {
+        return article.category.name === category.name;
+      });
+      return article;
     },
     [articles]
   );
@@ -116,7 +120,7 @@ export function ArticlesHomeGrid() {
                   <Carousel>
                     <CarouselContent className="p-4">
                       {filteredArticles(category)
-                        .toSorted((a, b) => {
+                        ?.toSorted((a, b) => {
                           return a.order - b.order;
                         })
                         .map((article) => (

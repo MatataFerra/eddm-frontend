@@ -46,7 +46,6 @@ export function useArticleNavigation(
     return [map, categoriesWithArticles, indices];
   }, [allArticles, orderedCategories]);
 
-  // 2. Navegación a prueba de balas
   return useMemo(() => {
     if (!currentArticle || sortedValidCategories.length === 0) {
       return { next: null, previous: null };

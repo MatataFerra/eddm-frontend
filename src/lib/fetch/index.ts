@@ -104,7 +104,7 @@ export async function fetchDataOnClient<T>(
 export async function fetchData<T>(
   url: Url,
   { params = {}, method = "GET", isExternalUrl = false, fields, headers }: FetchOptions = {}
-): Promise<ApiResponse<T> | NextResponse<{ message: string }>> {
+): Promise<T> {
   if (typeof window !== "undefined") {
     throw new Error("fetchData is server-only");
   }
@@ -126,30 +126,25 @@ export async function fetchData<T>(
     ? url
     : `${process.env.NEXT_PUBLIC_API_URL}/api${url}${queryString ? `?${queryString}` : ""}`;
 
-  try {
-    const res = await fetch(fullUrl, {
-      method,
-      headers: {
-        Authorization: `Bearer ${createToken}`,
-        "Content-Type": "application/json",
-        ...headers,
-      },
-      next: {
-        revalidate: 600,
-      },
-      cache: "force-cache",
-    });
+  const res = await fetch(fullUrl, {
+    method,
+    headers: {
+      Authorization: `Bearer ${createToken}`,
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    next: {
+      revalidate: 600,
+    },
+    cache: "force-cache",
+  });
 
-    if (!res.ok) {
-      throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
-    }
-
-    const response = await res.json();
-    return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    return NextResponse.json({ message: "something went wrong" });
+  if (!res.ok) {
+    throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
   }
+
+  const response = await res.json();
+  return response;
 }
 
 // Versión con cache

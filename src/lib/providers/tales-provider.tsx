@@ -4,12 +4,18 @@ import { createContext, useContext, type ReactNode } from "react";
 import type { Article } from "@/lib/interfaces/articles";
 
 interface TalesContextType {
-  tales: Article[];
+  tales: Article[] | null;
 }
 
-const TalesContext = createContext<TalesContextType | undefined>(undefined);
+const TalesContext = createContext<TalesContextType | null>(null);
 
-export function TalesProvider({ tales, children }: { tales: Article[]; children: ReactNode }) {
+export function TalesProvider({
+  tales,
+  children,
+}: {
+  tales: Article[] | null;
+  children: ReactNode;
+}) {
   return <TalesContext.Provider value={{ tales }}>{children}</TalesContext.Provider>;
 }
 

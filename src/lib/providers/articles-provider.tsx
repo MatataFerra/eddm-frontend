@@ -5,7 +5,7 @@ import { createContext, use, ReactNode, useState, useEffect } from "react";
 import { Article } from "@/lib/interfaces/articles";
 
 interface ArticlesContextType {
-  articles: Article[];
+  articles: Article[] | null;
   isLoading: boolean;
 }
 
@@ -15,7 +15,7 @@ export function ArticlesProvider({
   articles,
   children,
 }: {
-  articles: Article[];
+  articles: Article[] | null;
   children: ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);
