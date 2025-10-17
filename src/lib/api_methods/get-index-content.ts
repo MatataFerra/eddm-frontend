@@ -1,4 +1,4 @@
-import { fetchDataOnClient } from "@lib/fetch";
+import { fetchDataOnClient } from "@lib/fetch/";
 import { isApiResponse } from "./api-helpers";
 
 export async function getIndexContent<T>(): Promise<T> {

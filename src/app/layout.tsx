@@ -9,6 +9,7 @@ import { Article } from "@/lib/interfaces/articles";
 import { getTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/ui/index-content/context";
 import { SWRProvider } from "@/lib/providers/swr-provider";
+import type { ApiResponse } from "@/lib/fetch";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,8 +43,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const articles = await getArticles<Article[]>();
-  const tales = await getTales<Article[]>();
+  const [articles, tales] = await Promise.all([
+    getArticles<ApiResponse<Article[]>>(),
+    getTales<ApiResponse<Article[]>>(),
+  ]);
 
   return (
     <html lang="es">
@@ -51,8 +54,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${bebasNeue.variable} antialiased`}>
         <SWRProvider>
           <IndexContentProvider>
-            <TalesProvider tales={tales}>
-              <ArticlesProvider articles={articles}>{children}</ArticlesProvider>
+            <TalesProvider tales={tales?.data || []}>
+              <ArticlesProvider articles={articles?.data || []}>{children}</ArticlesProvider>
             </TalesProvider>
           </IndexContentProvider>
         </SWRProvider>

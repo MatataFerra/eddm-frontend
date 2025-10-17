@@ -13,19 +13,21 @@ import {
 } from "@/components/ui/accordion";
 import { Heart } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
+import { useTales } from "@/lib/providers/tales-provider";
 
 export function ListIndexContent() {
   const { articles: data } = useArticles();
+  const { tales } = useTales();
   const [bookmarks] = useLocalStorage<string[]>("bookmarkedArticles", []);
   const currentEndpoint = usePathname();
 
   const groupedMonths = groupByMonth(data);
   const currentSlug = currentEndpoint.split("/").pop() || "";
 
+  const defaultTale = tales?.find((tale) => tale.slug === currentSlug) ? "tales" : "";
+
   const defaultMonth =
-    data.find((article) => article.slug === currentSlug)?.category.name ||
-    groupedMonths[0]?.month ||
-    "";
+    data?.find((article) => article.slug === currentSlug)?.category.name || defaultTale;
 
   return (
     <ol className="w-full">
@@ -65,6 +67,33 @@ export function ListIndexContent() {
             ) : (
               <li className="p-8">No hay contenido disponible.</li>
             )}
+            <AccordionItem value="tales">
+              <li>
+                <AccordionTrigger className="font-bold capitalize mb-0 p-0 items-center no-underline! text-2xl text-indigo-400!">
+                  Relatos
+                </AccordionTrigger>
+              </li>
+              <AccordionContent>
+                <ul>
+                  {tales
+                    ?.toSorted((a, b) => a.order - b.order)
+                    .map((item) => (
+                      <li key={item.id} className={cn("text-balance w-11/12")}>
+                        <Link
+                          className={cn(
+                            "transition-colors no-underline cursor-default font-bold",
+                            currentEndpoint === ENDPOINTS.TALE(item.slug)
+                              ? ""
+                              : "hover:text-cyan-600 cursor-pointer font-normal"
+                          )}
+                          href={`${ENDPOINTS.TALE(item.slug)}`}>
+                          {item.title}
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
             <AccordionItem value="bookmarks">
               <li>
                 <AccordionTrigger className="font-bold capitalize mb-0 p-0 items-center no-underline! text-2xl text-red-400!">

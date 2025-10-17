@@ -1,8 +1,8 @@
 "use client";
 
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
-import { Article } from "@/lib/interfaces/articles";
-import { cn, EntriesOrderByCategory, monthsOrdered } from "@/lib/utils";
+import type { Article } from "@/lib/interfaces/articles";
+import { cn, type EntriesOrderByCategory } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, House, Bookmark, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,11 +13,11 @@ import { FloatingDock } from "@/components/ui/floating-dock";
 type NavigationProps = {
   redirect: "/" | "/12-meses-viajando" | "/relatos";
   item: Article;
-  items: Article[];
+  items: Article[] | null;
   typeOfOrder: EntriesOrderByCategory[];
 };
 
-export function Navigation({ item, items, redirect }: NavigationProps) {
+export function Navigation({ item, items, typeOfOrder, redirect }: NavigationProps) {
   const { isLoading } = useArticles();
   const [bookmarked, setBookmarked] = useState(false);
   const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
@@ -27,8 +27,8 @@ export function Navigation({ item, items, redirect }: NavigationProps) {
   const { replace, push } = useRouter();
   const { next: getNextArticle, previous: getPreviousArticle } = useArticleNavigation(
     item,
-    items,
-    monthsOrdered
+    items ?? [],
+    typeOfOrder
   );
 
   useEffect(() => {

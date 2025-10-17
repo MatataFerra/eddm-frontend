@@ -115,12 +115,12 @@ export const MOTION_ANIMATIONS: Record<"cover_image" | "slideToCorner", Variants
   },
 };
 
-export const groupByMonth = (items: Article[]) => {
+export const groupByMonth = (items: Article[] | null) => {
   const orderedMonths = monthsOrdered
     .filter((month): month is Category => isCategory(month) && month.name !== "tale")
     .map((month) => month.name);
 
-  const groupedItems = Object.groupBy(items, (item) => item.category.name);
+  const groupedItems = Object.groupBy(items ?? [], (item) => item.category.name);
 
   return orderedMonths
     .map((month) => ({

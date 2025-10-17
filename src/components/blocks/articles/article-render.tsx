@@ -3,14 +3,14 @@
 import { useArticles } from "@/lib/providers/articles-provider";
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@/components/blocks/articles/navigation";
+import { Navigation } from "@/components/blocks/share/navigation";
 import { monthsOrdered } from "@/lib/utils";
 import { ROOT } from "@/lib/constants";
 import { ArticleHoverCard } from "@/components/blocks/articles/hover-card";
 
 export function ArticleRender({ slug }: { slug: string }) {
   const { articles } = useArticles();
-  const article = articles.find((oneArticle) => oneArticle.slug === slug);
+  const article = articles?.find((oneArticle) => oneArticle.slug === slug);
 
   return (
     <>

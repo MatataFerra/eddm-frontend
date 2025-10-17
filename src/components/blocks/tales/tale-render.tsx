@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@/components/blocks/articles/navigation";
+import { Navigation } from "@/components/blocks/share/navigation";
 import { useTales } from "@/lib/providers/tales-provider";
 
 export function TaleRender({ slug }: { slug: string }) {
   const { tales } = useTales();
-  const tale = tales.find((oneTale) => oneTale.slug === slug);
+  const tale = tales?.find((oneTale) => oneTale.slug === slug);
 
   return (
     <>
