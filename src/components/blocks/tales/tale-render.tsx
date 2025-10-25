@@ -29,7 +29,7 @@ export function TaleRender({ slug }: { slug: string }) {
                   />
                 </header>
               )}
-              <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert">
+              <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert p-4">
                 <blockquote>{tale.summary}</blockquote>
                 {tale.content && <MarkdownRenderer content={tale.content} />}
               </article>

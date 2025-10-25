@@ -57,7 +57,7 @@ export function ArticleRender({ slug }: { slug: string }) {
                     )}
                   </header>
                 )}
-                <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
+                <article className="max-w-xl p-4 mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
                   <blockquote>{article.summary}</blockquote>
                   {article.content && <MarkdownRenderer content={article.content} />}
                 </article>
