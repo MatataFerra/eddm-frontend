@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 type CardHomeProps = {
@@ -18,11 +19,12 @@ export function CardHome({ bgImage, title, description, redirect }: CardHomeProp
       className="w-full max-w-md overflow-hidden cursor-pointer group/home"
       onClick={() => router.push(redirect)}>
       <div className="relative h-72">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover/home:sepia-50"
-          style={{
-            backgroundImage: `url('${bgImage}')`,
-          }}
+        <Image
+          src={bgImage}
+          alt={title}
+          fill
+          className="bg-no-repeat group-hover/home:sepia-50"
+          priority
         />
 
         {/* Gradiente para mejorar la legibilidad del texto */}
