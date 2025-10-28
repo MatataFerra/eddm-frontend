@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
-import type { Article } from "@/lib/interfaces/articles";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -115,7 +115,7 @@ export const MOTION_ANIMATIONS: Record<"cover_image" | "slideToCorner", Variants
   },
 };
 
-export const groupByMonth = (items: Article[] | null) => {
+export const groupByMonth = (items: ContentNavigate[] | null) => {
   const orderedMonths = monthsOrdered
     .filter((month): month is Category => isCategory(month) && month.name !== "tale")
     .map((month) => month.name);

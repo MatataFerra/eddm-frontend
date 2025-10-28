@@ -1,25 +1,27 @@
 "use client";
 
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
-import type { Article } from "@/lib/interfaces/articles";
+import type { Article, ContentNavigate } from "@/lib/interfaces/articles";
 import { cn, type EntriesOrderByCategory } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, House, Bookmark, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, House } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { useArticles } from "@/lib/providers/articles-provider";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import dynamic from "next/dynamic";
 
 type NavigationProps = {
   redirect: "/" | "/12-meses-viajando" | "/relatos";
   item: Article;
-  items: Article[] | null;
+  items: ContentNavigate[] | null;
   typeOfOrder: EntriesOrderByCategory[];
 };
 
+export const BookmarkIcon = dynamic(() => import("lucide-react").then((mod) => mod.Bookmark), {
+  ssr: false,
+});
+
 export function Navigation({ item, items, typeOfOrder, redirect }: NavigationProps) {
-  const { isLoading } = useArticles();
-  const [bookmarked, setBookmarked] = useState(false);
   const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
     "bookmarkedArticles",
     []
@@ -30,21 +32,13 @@ export function Navigation({ item, items, typeOfOrder, redirect }: NavigationPro
     items ?? [],
     typeOfOrder
   );
+  const bookmarked = bookmarkedArticles.includes(item.slug);
 
-  useEffect(() => {
-    setBookmarked(bookmarkedArticles.includes(item.slug));
-  }, [bookmarkedArticles, item.slug]);
-
-  function handleBookmark() {
-    const isAlreadyBookmarked = bookmarkedArticles.includes(item.slug);
-
-    const updatedArticles = isAlreadyBookmarked
-      ? bookmarkedArticles.filter((id) => id !== item.slug)
-      : [...bookmarkedArticles, item.slug];
-
-    setBookmarkedArticles(updatedArticles);
-    setBookmarked(!isAlreadyBookmarked);
-  }
+  const handleBookmark = useCallback(() => {
+    setBookmarkedArticles((prev) => {
+      return prev.includes(item.slug) ? prev.filter((s) => s !== item.slug) : [...prev, item.slug];
+    });
+  }, [item.slug, setBookmarkedArticles]);
 
   const iconItems = [
     {
@@ -71,10 +65,8 @@ export function Navigation({ item, items, typeOfOrder, redirect }: NavigationPro
     },
     {
       title: "Favorito",
-      icon: isLoading ? (
-        <Loader2 className="animate-spin text-gray-500" />
-      ) : (
-        <Bookmark
+      icon: (
+        <BookmarkIcon
           className={cn(
             "cursor-pointer transition-colors",
             bookmarked ? "text-red-300 fill-red-300" : "text-white"

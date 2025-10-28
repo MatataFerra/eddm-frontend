@@ -7,10 +7,10 @@ import { Navigation } from "@/components/blocks/share/navigation";
 import { monthsOrdered } from "@/lib/utils";
 import { ROOT } from "@/lib/constants";
 import { ArticleHoverCard } from "@/components/blocks/articles/hover-card";
+import type { Article } from "@/lib/interfaces/articles";
 
-export function ArticleRender({ slug }: { slug: string }) {
+export function ArticleRender({ article }: { article: Article | null }) {
   const { articles } = useArticles();
-  const article = articles?.find((oneArticle) => oneArticle.slug === slug);
 
   return (
     <>
@@ -52,9 +52,7 @@ export function ArticleRender({ slug }: { slug: string }) {
                         alt={article.slug}
                         className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover "
                       />
-                    ) : (
-                      <h1>{article.title}</h1>
-                    )}
+                    ) : null}
                   </header>
                 )}
                 <article className="max-w-xl p-4 mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">

@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import type { Article } from "@/lib/interfaces/articles";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
 
 interface TalesContextType {
-  tales: Article[] | null;
+  tales: ContentNavigate[] | null;
 }
 
 const TalesContext = createContext<TalesContextType | null>(null);
@@ -13,7 +13,7 @@ export function TalesProvider({
   tales,
   children,
 }: {
-  tales: Article[] | null;
+  tales: ContentNavigate[] | null;
   children: ReactNode;
 }) {
   return <TalesContext.Provider value={{ tales }}>{children}</TalesContext.Provider>;

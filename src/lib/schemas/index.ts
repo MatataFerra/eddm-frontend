@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export const articleSchema = z.object({
   id: z.number().optional(), // Autoincremental, opcional en la entrada
-  documentId: z.string().uuid().optional(), // Generado automáticamente, opcional en la entrada
+  documentId: z.string().uuid().optional(),
+  notionPageId: z.string().uuid().optional(),
   title: z.string().min(1, "El título es obligatorio"),
   description: z.string().optional(),
   content: z.string().optional(),
@@ -10,8 +11,8 @@ export const articleSchema = z.object({
     .string()
     .min(1, "El slug es obligatorio")
     .regex(/^[a-z0-9-]+$/, "El slug debe contener solo letras minúsculas, números y guiones"),
-  createdAt: z.date().optional(), // Generado automáticamente, opcional en la entrada
-  updatedAt: z.date().optional(), // Actualizado automáticamente, opcional en la entrada
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
   publishedAt: z.date().nullable().optional(),
   published: z.boolean().default(false),
   summary: z.string().optional(),
