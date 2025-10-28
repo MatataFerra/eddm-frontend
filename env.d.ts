@@ -7,6 +7,8 @@ export const envSchema = z.object({
   API_SECRET: z.string(),
   TOKEN_PASSWORD: z.string(),
   TOKEN_USER: z.string(),
+  NEXT_PUBLIC_BENTO_IMAGE_JOURNEY: z.string(),
+  NEXT_PUBLIC_BENTO_IMAGE_TALES: z.string(),
 });
 
 declare global {

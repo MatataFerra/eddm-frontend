@@ -3,9 +3,11 @@ import { CardHome } from "./card";
 
 const URL_IMAGES = {
   journey:
-    "https://res.cloudinary.com/docq8rbdu/image/upload/c_fill,ar_4:3,g_auto/v1761650542/el-diario-de-mati/covers/db9v4ipmak7prxkneszd.webp",
+    process.env.NEXT_PUBLIC_BENTO_IMAGE_JOURNEY ||
+    "https://res.cloudinary.com/docq8rbdu/image/upload/c_fill,ar_4:3,g_auto,h_288,w_370/v1761650542/el-diario-de-mati/covers/db9v4ipmak7prxkneszd.webp",
   tales:
-    "https://res.cloudinary.com/docq8rbdu/image/upload/v1761650558/el-diario-de-mati/covers/gfcda9nkco2qkuioe5xn.webp",
+    process.env.NEXT_PUBLIC_BENTO_IMAGE_TALES ||
+    "https://res.cloudinary.com/docq8rbdu/image/upload/c_scale,h_288,w_370/v1761650558/el-diario-de-mati/covers/gfcda9nkco2qkuioe5xn.webp",
 };
 
 export function BentoHome() {
