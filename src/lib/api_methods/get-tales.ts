@@ -1,5 +1,4 @@
 import { fetchDataCached } from "@lib/fetch/caller";
-import type { Article } from "@lib/interfaces/articles";
 
 export async function getTales<T>(): Promise<T | null> {
   try {
@@ -12,9 +11,20 @@ export async function getTales<T>(): Promise<T | null> {
   }
 }
 
-export async function getOneTale(query: string) {
+export async function getContentNavigateTales<T>(): Promise<T | null> {
   try {
-    const response = await fetchDataCached<Article>(`/tales/${query}`);
+    const response = await fetchDataCached<T>("/tales/content-navigate");
+
+    return response;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getOneTale<T>(query: string): Promise<T | null> {
+  try {
+    const response = await fetchDataCached<T>(`/tales/${query}`);
     return response;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

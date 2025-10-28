@@ -1,11 +1,11 @@
 "use client";
 
-import type { Article } from "@/lib/interfaces/articles";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 type ListItemProps = {
-  tale: Article;
+  tale: ContentNavigate;
 };
 
 export function ListItem({ tale: { slug, title, header } }: ListItemProps) {

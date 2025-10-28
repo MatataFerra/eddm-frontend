@@ -9,12 +9,12 @@ type PopulateOptions = Pick<Article, "cover" | "header" | "media">;
 type AvailableFields<T> = Exclude<keyof T, "cover" | "header" | "media" | "blocks">;
 export type Fields<T> = Array<AvailableFields<T>> | AvailableFields<T>;
 type Url = string;
+type Flat = string | number | boolean;
+type ParamValue = Flat | Flat[] | Record<string, unknown>;
 
 type FetchOptions = {
   method?: Methods;
-  params?: {
-    populate?: Params | "*";
-  };
+  params?: Record<string, ParamValue>;
   fields?: Fields<Article>;
   isExternalUrl?: boolean;
   headers?: Record<string, string>;
@@ -26,25 +26,7 @@ function formatFields(fields?: Fields<Article>): string | undefined {
   return Array.isArray(fields) ? fields.join(",") : fields;
 }
 
-const formatPopulate = (populate?: Params | "*"): Record<string, string> => {
-  const formatted: Record<string, string> = {};
-
-  if (Array.isArray(populate)) {
-    populate.forEach((item) => {
-      formatted[`populate[${item}]`] = "true";
-    });
-  } else if (typeof populate === "string") {
-    if (populate === "*") return { populate: "*" };
-
-    formatted[`populate[${populate}]`] = "true";
-  }
-
-  return formatted;
-};
-
-const formatParams = (
-  params: Record<string, string | string[] | Record<string, unknown>>
-): Record<string, string> => {
+const formatParams = (params: Record<string, ParamValue>): Record<string, string> => {
   const formatted: Record<string, string> = {};
 
   Object.entries(params).forEach(([key, value]) => {
@@ -73,16 +55,14 @@ async function _fetchData<T>(url: Url, opts: FetchOptions = {}): Promise<T> {
   const { params = {}, method = "GET", isExternalUrl = false, fields, headers } = opts;
 
   const formattedFields = formatFields(fields);
-  const formattedPopulate = formatPopulate(params.populate);
-  const mergedParams = {
-    ...formattedPopulate,
-    ...(formattedFields ? { fields: formattedFields } : {}),
+  const mergedParams: Record<string, ParamValue> = {
+    ...params,
+    ...(formattedFields && params.fields === undefined ? { fields: formattedFields } : {}),
   };
 
   const qs = new URLSearchParams(formatParams(mergedParams)).toString();
-  const fullUrl = isExternalUrl
-    ? url
-    : `${process.env.NEXT_PUBLIC_API_URL}/api${url}${qs ? `?${qs}` : ""}`;
+  const base = isExternalUrl ? String(url) : `${process.env.NEXT_PUBLIC_API_URL}/api${url}`;
+  const fullUrl = qs ? `${base}${base.includes("?") ? "&" : "?"}${qs}` : base;
 
   const res = await fetch(fullUrl, {
     method,

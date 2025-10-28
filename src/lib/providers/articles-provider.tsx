@@ -2,10 +2,10 @@
 "use client";
 
 import { createContext, use, ReactNode, useState, useEffect } from "react";
-import { Article } from "@/lib/interfaces/articles";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
 
 interface ArticlesContextType {
-  articles: Article[] | null;
+  articles: ContentNavigate[] | null;
   isLoading: boolean;
 }
 
@@ -15,7 +15,7 @@ export function ArticlesProvider({
   articles,
   children,
 }: {
-  articles: Article[] | null;
+  articles: ContentNavigate[] | null;
   children: ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(true);

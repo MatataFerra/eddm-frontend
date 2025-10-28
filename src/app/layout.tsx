@@ -4,9 +4,9 @@ import "./globals.css";
 import { Dancing_Script, Bebas_Neue, Poppins } from "next/font/google";
 import { ArticlesProvider } from "@/lib/providers/articles-provider";
 import { TalesProvider } from "@/lib/providers/tales-provider";
-import { getArticles } from "@/lib/api_methods/get-articles";
-import { Article } from "@/lib/interfaces/articles";
-import { getTales } from "@/lib/api_methods/get-tales";
+import { getContentNavigateArticles } from "@/lib/api_methods/get-articles";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
+import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/ui/index-content/context";
 import { SWRProvider } from "@/lib/providers/swr-provider";
 import type { ApiResponse } from "@/lib/fetch";
@@ -43,8 +43,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const [articles, tales] = await Promise.all([
-    getArticles<ApiResponse<Article[]>>(),
-    getTales<ApiResponse<Article[]>>(),
+    getContentNavigateArticles<ApiResponse<ContentNavigate[]>>(),
+    getContentNavigateTales<ApiResponse<ContentNavigate[]>>(),
   ]);
 
   return (

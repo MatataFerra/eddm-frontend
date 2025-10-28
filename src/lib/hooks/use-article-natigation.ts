@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Article } from "@/lib/interfaces/articles";
+import type { Article, ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/utils";
 
 /**
@@ -10,16 +10,15 @@ import { Category, EntriesOrderByCategory } from "@/lib/utils";
  */
 export function useArticleNavigation(
   currentArticle: Article | undefined,
-  allArticles: Article[],
+  allArticles: ContentNavigate[],
   orderedCategories: EntriesOrderByCategory[]
 ) {
-  // 1. Preprocesamiento ultra-optimizado
   const [categoryMap, sortedValidCategories, categoryIndices] = useMemo(() => {
     const validCategories = orderedCategories
       .filter((item): item is Category => item.type === "category")
       .map((item) => item.name);
 
-    const map = new Map<string, Article[]>();
+    const map = new Map<string, ContentNavigate[]>();
     const categoriesWithArticles: string[] = [];
     const indices = new Map<string, { next: string; prev: string }>();
 
@@ -51,7 +50,7 @@ export function useArticleNavigation(
       return { next: null, previous: null };
     }
 
-    const currentCategory = currentArticle.category.name as Category["name"];
+    const currentCategory = currentArticle.category?.name as Category["name"];
     const articlesInCategory = categoryMap.get(currentCategory) || [];
     const currentIndex = articlesInCategory.findIndex((art) => art.id === currentArticle.id);
 

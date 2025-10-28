@@ -1,6 +1,6 @@
 "use client";
 
-import type { Article } from "@lib/interfaces/articles";
+import type { ContentNavigate } from "@lib/interfaces/articles";
 import { cn } from "@lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import { ENDPOINTS } from "@/lib/constants";
 
 type CardArticleProps = {
-  article: Article;
+  article: ContentNavigate;
   className?: string;
   portrait?: boolean;
 };
@@ -53,7 +53,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         )}>
         {portrait && (
           <Image
-            src={addBaseUrl(article?.cover?.url)}
+            src={addBaseUrl(article?.header?.url)}
             alt={article.slug}
             width={600}
             height={600}
