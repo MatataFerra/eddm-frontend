@@ -193,3 +193,9 @@ body {
   overflow-wrap: break-word;
   text-wrap: balance;
 }
+
+.responsive-text-sm {
+  font-size: clamp(0.5rem, 0.6477rem + 0.4545vw, 1.3rem);
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
