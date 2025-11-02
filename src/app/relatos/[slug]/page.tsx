@@ -40,5 +40,11 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
 
   if (!tale) return notFound();
 
+  if (content?.metadata?.message) {
+    const msg = content.metadata.message;
+    // eslint-disable-next-line no-console
+    console.log(`\x1b[90m[Notion]\x1b[0m \x1b[36m${msg}\x1b[0m`);
+  }
+
   return <TaleRender tale={tale.data} content={content?.data} />;
 }

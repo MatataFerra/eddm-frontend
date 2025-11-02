@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@/components/blocks/share/navigation";
-import { useTales } from "@/lib/providers/tales-provider";
 import type { Tale } from "@/lib/interfaces/articles";
-import { cn } from "@/lib/utils";
 
 export function TaleRender({ tale, content }: { tale: Tale | null; content?: string }) {
-  const { tales } = useTales();
-
   return (
     <>
       <section className="relative mb-40">
@@ -18,13 +13,9 @@ export function TaleRender({ tale, content }: { tale: Tale | null; content?: str
             <div className="max-w-full">
               {tale && (
                 <header
-                  className={cn(
-                    "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8",
-
-                    !tale.header
-                      ? "rounded-md border border-slate-300/10 shadow bg-accent-foreground/60"
-                      : ""
-                  )}>
+                  className={
+                    "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8"
+                  }>
                   {tale.header ? (
                     <>
                       <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
@@ -39,9 +30,11 @@ export function TaleRender({ tale, content }: { tale: Tale | null; content?: str
                       />
                     </>
                   ) : (
-                    <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
-                      {tale.title}
-                    </h1>
+                    <article className="grid grid-cols-1 grid-rows-1 w-full items-center justify-items-center rounded-md border border-slate-300/10 shadow bg-accent-foreground/60 min-h-80">
+                      <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
+                        {tale.title}
+                      </h1>
+                    </article>
                   )}
                 </header>
               )}
@@ -50,17 +43,6 @@ export function TaleRender({ tale, content }: { tale: Tale | null; content?: str
                 {content && <MarkdownRenderer content={content} />}
               </article>
             </div>
-            <Navigation
-              redirect="/relatos"
-              item={tale}
-              items={tales}
-              typeOfOrder={[
-                {
-                  type: "category",
-                  name: "tale",
-                },
-              ]}
-            />
           </>
         ) : (
           <p>Entry not available... refresh your browser</p>

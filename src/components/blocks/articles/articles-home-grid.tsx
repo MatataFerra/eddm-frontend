@@ -1,6 +1,5 @@
 "use client";
 
-import { useArticles } from "@/lib/providers/articles-provider";
 import { BentoCard } from "@/components/blocks/articles/bento-card";
 import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
 import { ModalArticle } from "@/components/blocks/articles/modal-article";
@@ -19,13 +18,14 @@ import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
+import { useRootData } from "@/lib/providers/root-data-provider";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
 };
 
 export function ArticlesHomeGrid() {
-  const { articles } = useArticles();
+  const { articles } = useRootData();
   const {
     data: settings,
     error,

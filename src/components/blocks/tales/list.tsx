@@ -1,9 +1,9 @@
 "use client";
 import { ListItem } from "@/components/blocks/tales/list-item";
-import { useTales } from "@/lib/providers/tales-provider";
+import { useRootData } from "@/lib/providers/root-data-provider";
 
 export function ListTales() {
-  const { tales } = useTales();
+  const { tales } = useRootData();
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-1/2 mx-auto p-4 justify-center">
       {tales && tales.length > 0 ? (

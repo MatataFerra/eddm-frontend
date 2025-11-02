@@ -1,17 +1,11 @@
 "use client";
 
-import { useArticles } from "@/lib/providers/articles-provider";
 import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import { Navigation } from "@/components/blocks/share/navigation";
-import { monthsOrdered } from "@/lib/utils";
-import { ROOT } from "@/lib/constants";
 import { ArticleHoverCard } from "@/components/blocks/articles/hover-card";
 import type { Article } from "@/lib/interfaces/articles";
 
 export function ArticleRender({ article }: { article: Article | null }) {
-  const { articles } = useArticles();
-
   return (
     <>
       <main className="relative min-h-dvh w-11/12 mx-auto">
@@ -60,12 +54,6 @@ export function ArticleRender({ article }: { article: Article | null }) {
                   {article.content && <MarkdownRenderer content={article.content} />}
                 </article>
               </div>
-              <Navigation
-                redirect={ROOT.journey}
-                item={article}
-                items={articles}
-                typeOfOrder={monthsOrdered}
-              />
             </>
           ) : (
             <p>Entry not available... refresh your browser</p>
