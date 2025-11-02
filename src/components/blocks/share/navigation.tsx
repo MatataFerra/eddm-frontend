@@ -1,9 +1,9 @@
 "use client";
 
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
-import type { Article, ContentNavigate } from "@/lib/interfaces/articles";
 import { cn, type EntriesOrderByCategory } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, House } from "lucide-react";
+import type { RoutePaths } from "@/lib/constants";
+import { Bookmark, ChevronLeft, ChevronRight, House } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useLocalStorage } from "usehooks-ts";
@@ -11,34 +11,41 @@ import { FloatingDock } from "@/components/ui/floating-dock";
 import dynamic from "next/dynamic";
 
 type NavigationProps = {
-  redirect: "/" | "/12-meses-viajando" | "/relatos";
-  item: Article;
-  items: ContentNavigate[] | null;
+  redirect: RoutePaths;
   typeOfOrder: EntriesOrderByCategory[];
+  segment: string | null;
 };
 
 export const BookmarkIcon = dynamic(() => import("lucide-react").then((mod) => mod.Bookmark), {
   ssr: false,
+  loading: () => <Bookmark className="animate-pulse fill-slate-400 text-slate-500" />,
 });
 
-export function Navigation({ item, items, typeOfOrder, redirect }: NavigationProps) {
+export function Navigation({ typeOfOrder, redirect, segment }: NavigationProps) {
   const [bookmarkedArticles, setBookmarkedArticles] = useLocalStorage<string[]>(
     "bookmarkedArticles",
-    []
+    [],
+    {
+      initializeWithValue: true,
+    }
   );
+
   const { replace, push } = useRouter();
-  const { next: getNextArticle, previous: getPreviousArticle } = useArticleNavigation(
-    item,
-    items ?? [],
-    typeOfOrder
-  );
-  const bookmarked = bookmarkedArticles.includes(item.slug);
+  const {
+    next: getNextArticle,
+    previous: getPreviousArticle,
+    current,
+  } = useArticleNavigation(typeOfOrder, segment);
+
+  const bookmarked = bookmarkedArticles.includes(current?.slug ?? "");
 
   const handleBookmark = useCallback(() => {
     setBookmarkedArticles((prev) => {
-      return prev.includes(item.slug) ? prev.filter((s) => s !== item.slug) : [...prev, item.slug];
+      return prev.includes(current?.slug ?? "")
+        ? prev.filter((s) => s !== current?.slug)
+        : [...prev, current?.slug ?? ""];
     });
-  }, [item.slug, setBookmarkedArticles]);
+  }, [current?.slug, setBookmarkedArticles]);
 
   const iconItems = [
     {
@@ -53,14 +60,14 @@ export function Navigation({ item, items, typeOfOrder, redirect }: NavigationPro
     {
       title: "Inicio",
       icon: <House />,
-      onClick: () => replace(redirect),
+      onClick: () => replace(redirect, { scroll: false }),
     },
     {
       title: "Siguiente",
       icon: <ChevronRight />,
       onClick: () => {
         if (!getNextArticle) return;
-        push(getNextArticle?.slug);
+        push(getNextArticle?.slug, { scroll: false });
       },
     },
     {

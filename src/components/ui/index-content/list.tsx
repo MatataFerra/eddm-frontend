@@ -1,7 +1,6 @@
 "use client";
 
 import { ENDPOINTS } from "@/lib/constants";
-import { useArticles } from "@/lib/providers/articles-provider";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { capitalize, cn, groupByMonth } from "@/lib/utils";
@@ -13,21 +12,20 @@ import {
 } from "@/components/ui/accordion";
 import { Heart } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
-import { useTales } from "@/lib/providers/tales-provider";
+import { useRootData } from "@/lib/providers/root-data-provider";
 
 export function ListIndexContent() {
-  const { articles: data } = useArticles();
-  const { tales } = useTales();
+  const { tales, articles } = useRootData();
   const [bookmarks] = useLocalStorage<string[]>("bookmarkedArticles", []);
   const currentEndpoint = usePathname();
 
-  const groupedMonths = groupByMonth(data);
+  const groupedMonths = groupByMonth(articles);
   const currentSlug = currentEndpoint.split("/").pop() || "";
 
   const defaultTale = tales?.find((tale) => tale.slug === currentSlug) ? "tales" : "";
 
   const defaultMonth =
-    data?.find((article) => article.slug === currentSlug)?.category.name || defaultTale;
+    articles?.find((article) => article.slug === currentSlug)?.category.name || defaultTale;
 
   return (
     <ol className="w-full">

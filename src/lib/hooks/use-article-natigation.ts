@@ -1,6 +1,9 @@
 import { useMemo } from "react";
-import type { Article, ContentNavigate } from "@/lib/interfaces/articles";
-import { Category, EntriesOrderByCategory } from "@/lib/utils";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
+import type { Category, EntriesOrderByCategory } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { useRootData } from "@/lib/providers/root-data-provider";
+import { APP_ROUTES } from "@/lib/constants";
 
 /**
  * Obtiene artículos adyacentes con navegación circular entre categorías
@@ -9,10 +12,20 @@ import { Category, EntriesOrderByCategory } from "@/lib/utils";
  * @errorhandling Safe para inputs inválidos
  */
 export function useArticleNavigation(
-  currentArticle: Article | undefined,
-  allArticles: ContentNavigate[],
-  orderedCategories: EntriesOrderByCategory[]
+  orderedCategories: EntriesOrderByCategory[],
+  segment: string | null
 ) {
+  const pathname = usePathname();
+  const { articles, tales } = useRootData();
+
+  const isArticles = pathname.startsWith(APP_ROUTES.journey);
+
+  const allArticles = isArticles ? articles : tales;
+
+  const currentArticle = allArticles?.find((art) => art.slug === `${segment}`) as
+    | ContentNavigate
+    | undefined;
+
   const [categoryMap, sortedValidCategories, categoryIndices] = useMemo(() => {
     const validCategories = orderedCategories
       .filter((item): item is Category => item.type === "category")
@@ -25,10 +38,10 @@ export function useArticleNavigation(
     // Filtrar categorías con artículos y ordenarlas
     validCategories.forEach((category) => {
       const articlesInCategory = allArticles
-        .filter((art) => art.category.name === category)
+        ?.filter((art) => art.category.name === category)
         .sort((a, b) => a.order - b.order);
 
-      if (articlesInCategory.length > 0) {
+      if (articlesInCategory && articlesInCategory?.length > 0) {
         categoriesWithArticles.push(category);
         map.set(category, articlesInCategory);
       }
@@ -45,7 +58,7 @@ export function useArticleNavigation(
     return [map, categoriesWithArticles, indices];
   }, [allArticles, orderedCategories]);
 
-  return useMemo(() => {
+  const ctx = useMemo(() => {
     if (!currentArticle || sortedValidCategories.length === 0) {
       return { next: null, previous: null };
     }
@@ -89,6 +102,9 @@ export function useArticleNavigation(
     return {
       next: nextArticle || null,
       previous: previousArticle || null,
+      current: currentArticle,
     };
   }, [currentArticle, sortedValidCategories.length, categoryMap, categoryIndices]);
+
+  return ctx;
 }

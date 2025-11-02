@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Dancing_Script, Bebas_Neue, Poppins } from "next/font/google";
-import { ArticlesProvider } from "@/lib/providers/articles-provider";
-import { TalesProvider } from "@/lib/providers/tales-provider";
 import { getContentNavigateArticles } from "@/lib/api_methods/get-articles";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/ui/index-content/context";
 import { SWRProvider } from "@/lib/providers/swr-provider";
 import type { ApiResponse } from "@/lib/fetch";
+import { RootDataProvider } from "@/lib/providers/root-data-provider";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -52,9 +51,9 @@ export default async function RootLayout({
       <body className={fonts}>
         <SWRProvider>
           <IndexContentProvider>
-            <TalesProvider tales={tales?.data || []}>
-              <ArticlesProvider articles={articles?.data || []}>{children}</ArticlesProvider>
-            </TalesProvider>
+            <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
+              {children}
+            </RootDataProvider>
           </IndexContentProvider>
         </SWRProvider>
       </body>

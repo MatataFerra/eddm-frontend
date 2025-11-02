@@ -22,7 +22,8 @@ type FetchOptions = {
 
 export type ApiResponse<T> = {
   data: T;
-  meta: {
+  metadata: {
+    message: string;
     pagination: {
       page: number;
       pageCount: number;
