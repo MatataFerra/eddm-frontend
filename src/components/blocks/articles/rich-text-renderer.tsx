@@ -89,7 +89,7 @@ export const remarkCarousel: Plugin<void[], Root> = () => {
   };
 };
 
-function isVideo(src: string): boolean {
+function isValidFormatVideo(src: string): boolean {
   return /\.(mp4|webm|ogg|mov)$/i.test(src);
 }
 
@@ -110,7 +110,9 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                           key={index}
                           className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-[100%] [&>div]:max-w-[100%] [&>p>img]:max-w-[100%] [&>div>video]:max-w-[100%] [&>div>video]:h-auto [&>p>img]:h-auto">
                           {React.isValidElement(child) ? (
-                            isVideo((child as React.ReactElement<{ href: string }>).props.href) ? (
+                            isValidFormatVideo(
+                              (child as React.ReactElement<{ href: string }>).props.href
+                            ) ? (
                               <Video
                                 src={(child as React.ReactElement<{ href: string }>).props.href}
                                 type={
@@ -154,7 +156,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
             },
             a: (props) => {
               if (props.href?.includes("cloudinary.com")) {
-                if (props.href.endsWith(".mp4") || props.href.endsWith(".mov")) {
+                if (isValidFormatVideo(props.href)) {
                   return (
                     <Video
                       src={props.href}
@@ -172,7 +174,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
               const hasVideo = React.Children.toArray(children).some((child) => {
                 return (
                   React.isValidElement(child) &&
-                  isVideo((child as React.ReactElement<{ href: string }>).props.href)
+                  isValidFormatVideo((child as React.ReactElement<{ href: string }>).props.href)
                 );
               });
 
