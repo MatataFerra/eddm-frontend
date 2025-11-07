@@ -4,6 +4,8 @@ import Image from "next/image";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import { ArticleHoverCard } from "@/components/blocks/articles/hover-card";
 import type { Article } from "@/lib/interfaces/articles";
+import { isMobile } from "react-device-detect";
+import { cn } from "@/lib/utils";
 
 export function ArticleRender({ article }: { article: Article | null }) {
   return (
@@ -28,7 +30,7 @@ export function ArticleRender({ article }: { article: Article | null }) {
           </article>
         </section>
 
-        <section className="p-8">
+        <section className="p-4">
           {article ? (
             <>
               <div className="max-w-full">
@@ -44,12 +46,17 @@ export function ArticleRender({ article }: { article: Article | null }) {
                         width={1280}
                         height={738}
                         alt={article.slug}
-                        className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover "
+                        className={cn(
+                          "w-full h-80 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover ",
+                          isMobile
+                            ? "aspect-auto object-center opacity-100"
+                            : "aspect-video object-center opacity-40"
+                        )}
                       />
                     ) : null}
                   </header>
                 )}
-                <article className="max-w-xl p-4 mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
+                <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
                   <blockquote>{article.summary}</blockquote>
                   {article.content && <MarkdownRenderer content={article.content} />}
                 </article>
