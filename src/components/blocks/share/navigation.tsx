@@ -5,7 +5,6 @@ import { cn, type EntriesOrderByCategory } from "@/lib/utils";
 import type { RoutePaths } from "@/lib/constants";
 import { Bookmark, ChevronLeft, ChevronRight, House } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import dynamic from "next/dynamic";
@@ -39,13 +38,13 @@ export function Navigation({ typeOfOrder, redirect, segment }: NavigationProps) 
 
   const bookmarked = bookmarkedArticles.includes(current?.slug ?? "");
 
-  const handleBookmark = useCallback(() => {
+  function handleBookmark() {
     setBookmarkedArticles((prev) => {
       return prev.includes(current?.slug ?? "")
         ? prev.filter((s) => s !== current?.slug)
         : [...prev, current?.slug ?? ""];
     });
-  }, [current?.slug, setBookmarkedArticles]);
+  }
 
   const iconItems = [
     {

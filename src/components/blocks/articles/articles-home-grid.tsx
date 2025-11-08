@@ -13,7 +13,6 @@ import {
 import { type Category, cn } from "@/lib/utils";
 import useSWR from "swr";
 import { swrFetcher } from "@lib/fetch/swr";
-import { useCallback } from "react";
 import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
@@ -33,16 +32,13 @@ export function ArticlesHomeGrid() {
     isLoading,
   } = useSWR<SettingsListItemResponse>([EXTERNAL_API_ENDPOINTS.SETTINGS], swrFetcher);
 
-  const filteredArticles = useCallback(
-    (category: Category) => {
-      if (!articles) return [];
-      const article = articles?.filter((article) => {
-        return article.category.name === category.name;
-      });
-      return article;
-    },
-    [articles]
-  );
+  function filteredArticles(category: Category) {
+    if (!articles) return [];
+    const article = articles?.filter((article) => {
+      return article.category.name === category.name;
+    });
+    return article;
+  }
 
   return (
     <>
