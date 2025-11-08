@@ -1,6 +1,6 @@
-import { BentoHome } from "@/components/blocks/home/bento";
+"use cache";
 
-export const revalidate = 60;
+import { BentoHome } from "@/components/blocks/home/bento";
 
 export default async function Page() {
   return (

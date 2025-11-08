@@ -1,18 +1,19 @@
+"use cache";
+
 import { TaleRender } from "@/components/blocks/tales/tale-render";
 import { notFound } from "next/navigation";
 
 import { getOneTale, getTales } from "@/lib/api_methods/get-tales";
-import { ApiResponse } from "@/lib/fetch";
+import type { ApiResponse } from "@/lib/fetch/caller";
 import type { Tale } from "@/lib/interfaces/articles";
 import { getTaleContentFromNotion } from "@/lib/api_methods/get-notion";
-
-export const revalidate = 60;
+import { FALLBACK_SLUG } from "@/lib/constants";
 
 export async function generateStaticParams() {
   const popular = await getTales<ApiResponse<Tale[]>>();
 
   if (!popular || !popular.data) {
-    return [];
+    return [{ slug: FALLBACK_SLUG }];
   }
 
   return popular.data.map((a: { slug: string }) => ({ slug: a.slug }));
@@ -38,12 +39,16 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   const tale = await getOneTale<ApiResponse<Tale>>(slug);
   const content = await getTaleContentFromNotion<ApiResponse<string>>(tale?.data.notionPageId);
 
-  if (!tale) return notFound();
+  if (!tale) notFound();
 
   if (content?.metadata?.message) {
     const msg = content.metadata.message;
     // eslint-disable-next-line no-console
     console.log(`\x1b[90m[Notion]\x1b[0m \x1b[36m${msg}\x1b[0m`);
+  }
+
+  if (slug === FALLBACK_SLUG) {
+    notFound();
   }
 
   return <TaleRender tale={tale.data} content={content?.data} />;

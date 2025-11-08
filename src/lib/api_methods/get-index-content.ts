@@ -1,16 +1,20 @@
-import { fetchDataOnClient } from "@lib/fetch/";
-import { isApiResponse } from "./api-helpers";
+import { fetchData } from "@lib/fetch/caller";
+import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
+import { cacheLife, cacheTag } from "next/cache";
 
-export async function getIndexContent<T>(): Promise<T> {
-  const response = await fetchDataOnClient<T>("/index-content", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function getIndexContent<T>(): Promise<T | null> {
+  "use cache";
 
-  if (isApiResponse(response)) {
-    return response.data;
-  } else {
-    return response.statusText as unknown as T;
+  cacheLife({ expire: 3600, stale: 300, revalidate: 60 });
+  cacheTag(CACHE_TAGS.INDEX_CONTENT);
+
+  try {
+    const response = await fetchData<T>(EXTERNAL_API_ENDPOINTS.INDEX_CONTENT, {
+      tags: CACHE_TAGS.INDEX_CONTENT,
+    });
+
+    return response;
+  } catch (error) {
+    return null;
   }
 }

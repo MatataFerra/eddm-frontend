@@ -1,4 +1,5 @@
 import "server-only";
+import { debugFetch } from "@/lib/fetch/debug";
 import { unstable_cache } from "next/cache";
 import { Article } from "@lib/interfaces/articles";
 import { generateToken } from "../services/jwt";
@@ -19,7 +20,27 @@ type FetchOptions = {
   isExternalUrl?: boolean;
   headers?: Record<string, string>;
   tags?: string;
+  revalidate?: number;
 };
+
+export type ApiResponse<T> = {
+  data: T;
+  metadata: {
+    message: string;
+    pagination: {
+      page: number;
+      pageCount: number;
+      pageSize: number;
+      total: number;
+    };
+  };
+};
+
+declare global {
+  // evitas TS error
+  // eslint-disable-next-line no-var
+  var __NET_HITS__: Map<string, number> | undefined;
+}
 
 function formatFields(fields?: Fields<Article>): string | undefined {
   if (!fields) return undefined;
@@ -52,7 +73,7 @@ const AUTH = (() => {
 })();
 
 async function _fetchData<T>(url: Url, opts: FetchOptions = {}): Promise<T> {
-  const { params = {}, method = "GET", isExternalUrl = false, fields, headers } = opts;
+  const { params = {}, method = "GET", isExternalUrl = false, fields, headers, tags } = opts;
 
   const formattedFields = formatFields(fields);
   const mergedParams: Record<string, ParamValue> = {
@@ -64,26 +85,44 @@ async function _fetchData<T>(url: Url, opts: FetchOptions = {}): Promise<T> {
   const base = isExternalUrl ? String(url) : `${process.env.NEXT_PUBLIC_API_URL}/api${url}`;
   const fullUrl = qs ? `${base}${base.includes("?") ? "&" : "?"}${qs}` : base;
 
-  const res = await fetch(fullUrl, {
+  const defaultTag = !isExternalUrl && typeof url === "string" ? url.split("/")[1] : undefined;
+  const tagList = Array.isArray(tags) ? tags : tags ? [tags] : defaultTag ? [defaultTag] : [];
+
+  const res = await debugFetch(fullUrl, {
     method,
     headers: {
       Authorization: AUTH,
       "Content-Type": "application/json",
       ...headers,
     },
-    next: { revalidate: 600 },
+    // 👇 Dejamos que el caller decida revalidate. Si NO lo pasa y arriba usás "use cache" + cacheLife,
+    // no forzamos reglas conflictivas.
+    next: {
+      ...(tagList.length ? { tags: tagList } : {}),
+    },
   });
 
   if (!res.ok) throw new Error(`Error en ${method} ${url}: ${res.status} ${res.statusText}`);
   return res.json();
 }
 
-// cache cross-request + tag para invalidar
 export const fetchData = <T>(url: Url, opts?: FetchOptions) => _fetchData<T>(url, opts);
 
 export const fetchDataCached = <T>(url: Url, opts?: FetchOptions) =>
   unstable_cache(
     () => _fetchData<T>(url, opts),
-    [`fetch:${typeof url === "string" ? url : JSON.stringify(url)}:${JSON.stringify(opts ?? {})}`],
-    { revalidate: 600, tags: [opts?.tags ?? url.split("/")[1]] }
+    [
+      `fetch:${typeof url === "string" ? url : JSON.stringify(url)}:${JSON.stringify({
+        ...opts,
+        headers: undefined,
+      })}`,
+    ],
+    {
+      ...(opts?.revalidate !== undefined ? { revalidate: opts.revalidate } : {}),
+      ...(opts?.tags
+        ? { tags: Array.isArray(opts.tags) ? opts.tags : [opts.tags] }
+        : typeof url === "string" && !opts?.isExternalUrl
+        ? { tags: [url.split("/")[1]] }
+        : {}),
+    }
   )();
