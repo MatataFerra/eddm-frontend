@@ -1,5 +1,6 @@
 "use client";
-import GridClient from "@/components/blocks/articles/grid-client";
+
+import { GridClient } from "@/components/blocks/articles/grid-client";
 import { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { use } from "react";
 

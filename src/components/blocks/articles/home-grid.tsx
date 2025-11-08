@@ -8,9 +8,7 @@ export async function ArticlesHomeGrid() {
   return (
     <Suspense
       fallback={
-        <div
-          className="flex justify-center h-auto items-center w-full"
-          style={{ gridColumn: "span 3" }}>
+        <div className="flex justify-center h-auto items-center w-full">
           <p className="text-2xl font-semibold text-white">Cargando portadas…</p>
         </div>
       }>

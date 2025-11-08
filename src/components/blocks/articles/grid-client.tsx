@@ -23,7 +23,7 @@ type Props = {
   settings: SettingsListItemResponse | null;
 };
 
-export default function GridClient({ settings }: Props) {
+export function GridClient({ settings }: Props) {
   const { articles } = useRootData();
 
   const articlesByCategory = useMemo(() => {
@@ -53,7 +53,6 @@ export default function GridClient({ settings }: Props) {
     );
   }
 
-  // Si no hay settings del server, mostramos un estado de error simple en cliente
   if (!settings) {
     return (
       <BentoWrapper>
@@ -91,7 +90,6 @@ export default function GridClient({ settings }: Props) {
                 color: category.gradient?.textColor ?? undefined,
               }}
               className={cn(
-                // visible sólo en >= md
                 "hidden md:flex rounded-xl justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative"
               )}>
               <svg
@@ -103,7 +101,7 @@ export default function GridClient({ settings }: Props) {
                 <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
               </svg>
 
-              <p className="w-full text-center [text-wrap:balance] [font-size:clamp(24px,5vw,120px)]">
+              <p className="w-full [text-wrap:balance] [font-size:clamp(12px,5vw,26px)] h-full">
                 {category.text}
               </p>
             </div>
