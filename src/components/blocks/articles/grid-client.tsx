@@ -1,8 +1,10 @@
 "use client";
 
-import { BentoCard } from "@/components/blocks/articles/bento-card";
 import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
-import { ModalArticle } from "@/components/blocks/articles/modal-article";
+
+import { type Category, cn } from "@/lib/utils";
+import type { SettingsListItemResponse } from "@/lib/interfaces/cards"; // o usa el type inline del server
+import { useRootData } from "@/lib/providers/root-data-provider";
 import {
   Carousel,
   CarouselContent,
@@ -10,10 +12,22 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { type Category, cn } from "@/lib/utils";
-import type { SettingsListItemResponse } from "@/lib/interfaces/cards"; // o usa el type inline del server
-import { useMemo } from "react";
-import { useRootData } from "@/lib/providers/root-data-provider";
+import dynamic from "next/dynamic";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
+
+const ModalArticle = dynamic(
+  () => import("@/components/blocks/articles/modal-article").then((m) => m.ModalArticle),
+  {
+    loading: () => <div className="animate-pulse size-full rounded-lg bg-zinc-200/40" />,
+  }
+);
+
+const BentoCard = dynamic(
+  () => import("@/components/blocks/articles/bento-card").then((m) => m.BentoCard),
+  {
+    loading: () => <div className="h-40 rounded-lg bg-zinc-200/40 animate-pulse" />,
+  }
+);
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -23,25 +37,30 @@ type Props = {
   settings: SettingsListItemResponse | null;
 };
 
+function groupArticles(articles: ContentNavigate[] | null) {
+  const map = new Map<string, ContentNavigate[]>();
+
+  if (!articles) return map;
+
+  for (const a of articles) {
+    const key = a.category.name;
+    const arr = map.get(key);
+    if (arr) arr.push(a);
+    else map.set(key, [a]);
+  }
+
+  for (const [key, list] of map) {
+    list.sort((a, b) => a.order - b.order);
+    map.set(key, list);
+  }
+
+  return map;
+}
+
 export function GridClient({ settings }: Props) {
   const { articles } = useRootData();
 
-  const articlesByCategory = useMemo(() => {
-    if (!articles) return new Map<string, typeof articles>();
-    const map = new Map<string, typeof articles>();
-    for (const a of articles) {
-      const key = a.category.name;
-      const arr = map.get(key);
-      if (arr) arr.push(a);
-      else map.set(key, [a]);
-    }
-    // Ordena una vez por categoría
-    for (const [key, list] of map) {
-      list.sort((a, b) => a.order - b.order);
-      map.set(key, list);
-    }
-    return map;
-  }, [articles]);
+  const articlesByCategory = groupArticles(articles);
 
   const filteredArticles = (category: Category) => articlesByCategory.get(category.name) ?? [];
 
