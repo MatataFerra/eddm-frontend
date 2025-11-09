@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@lib/fetch";
+import type { ApiResponse } from "@lib/fetch/caller";
 import type { Category } from "@lib/utils";
 
 enum GradientDirection {

@@ -7,7 +7,7 @@ import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/ui/index-content/context";
 import { SWRProvider } from "@/lib/providers/swr-provider";
-import type { ApiResponse } from "@/lib/fetch";
+import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 
 const dancingScript = Dancing_Script({

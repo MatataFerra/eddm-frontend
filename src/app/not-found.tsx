@@ -1,7 +1,9 @@
+"use cache";
+
 import Link from "next/link";
 
 // app/not-found.tsx
-export default function NotFound() {
+export default async function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center text-center bg-gradient-to-b from-zinc-50 via-white to-zinc-100 dark:from-zinc-900 dark:via-zinc-950 dark:to-black text-foreground px-6">
       <h1 className="text-6xl md:text-7xl font-bold tracking-tight">404</h1>

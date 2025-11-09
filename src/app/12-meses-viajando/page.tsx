@@ -1,4 +1,4 @@
-import { ArticlesHomeGrid } from "@/components/blocks/articles/articles-home-grid";
+import { ArticlesHomeGrid } from "@/components/blocks/articles/home-grid";
 import { Nav } from "@/components/blocks/share/nav";
 
 export default async function Page() {

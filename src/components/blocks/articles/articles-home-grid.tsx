@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/carousel";
 import { type Category, cn } from "@/lib/utils";
 import useSWR from "swr";
-import { swrFetcher } from "@lib/fetch";
-import { useCallback } from "react";
+import { swrFetcher } from "@lib/fetch/swr";
 import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { LoaderFive } from "@/components/ui/loader";
 import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
 import { useRootData } from "@/lib/providers/root-data-provider";
+import { EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",
@@ -30,18 +30,15 @@ export function ArticlesHomeGrid() {
     data: settings,
     error,
     isLoading,
-  } = useSWR<SettingsListItemResponse>(["/settings"], swrFetcher);
+  } = useSWR<SettingsListItemResponse>([EXTERNAL_API_ENDPOINTS.SETTINGS], swrFetcher);
 
-  const filteredArticles = useCallback(
-    (category: Category) => {
-      if (!articles) return [];
-      const article = articles?.filter((article) => {
-        return article.category.name === category.name;
-      });
-      return article;
-    },
-    [articles]
-  );
+  function filteredArticles(category: Category) {
+    if (!articles) return [];
+    const article = articles?.filter((article) => {
+      return article.category.name === category.name;
+    });
+    return article;
+  }
 
   return (
     <>

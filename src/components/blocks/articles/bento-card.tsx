@@ -58,6 +58,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
             width={600}
             height={600}
             className="rounded-lg aspect-square size-full object-cover shrink-0 col-start-1 row-start-1 z-0 opacity-75"
+            loading="lazy"
           />
         )}
 

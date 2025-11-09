@@ -1,5 +1,6 @@
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { CardHome } from "./card";
+import { APP_ROUTES } from "@/lib/constants";
 
 const URL_IMAGES = {
   journey:
@@ -17,13 +18,13 @@ export function BentoHome() {
         bgImage={URL_IMAGES.journey}
         description="Durante 2024 y 2025 estuve escribiendo todos los días lo que me pasaba, este es el resultado"
         title="Un año viajando"
-        redirect="/12-meses-viajando"
+        redirect={APP_ROUTES.journey}
       />
       <CardHome
         bgImage={URL_IMAGES.tales}
         description="Un compendio de cosas que fui escribiendo a lo largo de este tiempo"
         title="Relatos y notas"
-        redirect="/relatos"
+        redirect={APP_ROUTES.tales}
       />
     </BentoGrid>
   );

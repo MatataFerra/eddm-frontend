@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import type { Category, EntriesOrderByCategory } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -26,74 +25,63 @@ export function useArticleNavigation(
     | ContentNavigate
     | undefined;
 
-  const [categoryMap, sortedValidCategories, categoryIndices] = useMemo(() => {
-    const validCategories = orderedCategories
-      .filter((item): item is Category => item.type === "category")
-      .map((item) => item.name);
+  const validCategories = orderedCategories
+    .filter((item): item is Category => item.type === "category")
+    .map((item) => item.name);
 
-    const map = new Map<string, ContentNavigate[]>();
-    const categoriesWithArticles: string[] = [];
-    const indices = new Map<string, { next: string; prev: string }>();
+  const categoryMap = new Map<string, ContentNavigate[]>();
+  const categoriesWithArticles: string[] = [];
+  const categoryIndices = new Map<string, { next: string; prev: string }>();
 
-    // Filtrar categorías con artículos y ordenarlas
-    validCategories.forEach((category) => {
-      const articlesInCategory = allArticles
-        ?.filter((art) => art.category.name === category)
-        .sort((a, b) => a.order - b.order);
+  // Filtrar categorías con artículos y ordenarlas
+  validCategories.forEach((category) => {
+    const articlesInCategory = allArticles
+      ?.filter((art) => art.category.name === category)
+      .sort((a, b) => a.order - b.order);
 
-      if (articlesInCategory && articlesInCategory?.length > 0) {
-        categoriesWithArticles.push(category);
-        map.set(category, articlesInCategory);
-      }
+    if (articlesInCategory && articlesInCategory.length > 0) {
+      categoriesWithArticles.push(category);
+      categoryMap.set(category, articlesInCategory);
+    }
+  });
+
+  categoriesWithArticles.forEach((cat, i, arr) => {
+    categoryIndices.set(cat, {
+      next: arr[(i + 1) % arr.length],
+      prev: arr[(i - 1 + arr.length) % arr.length],
     });
+  });
 
-    // Precomputar los índices de navegación
-    categoriesWithArticles.forEach((cat, i, arr) => {
-      indices.set(cat, {
-        next: arr[(i + 1) % arr.length], // Circular al siguiente
-        prev: arr[(i - 1 + arr.length) % arr.length], // Circular al anterior
-      });
-    });
-
-    return [map, categoriesWithArticles, indices];
-  }, [allArticles, orderedCategories]);
-
-  const ctx = useMemo(() => {
-    if (!currentArticle || sortedValidCategories.length === 0) {
-      return { next: null, previous: null };
+  const ctx = (() => {
+    if (!currentArticle || categoriesWithArticles.length === 0) {
+      return { next: null, previous: null, current: currentArticle };
     }
 
     const currentCategory = currentArticle.category?.name as Category["name"];
     const articlesInCategory = categoryMap.get(currentCategory) || [];
     const currentIndex = articlesInCategory.findIndex((art) => art.id === currentArticle.id);
 
-    // Helpers de navegación optimizada en O(1)
+    // Helpers (idénticos a los que tenías)
     const getNextCategory = (current: Category["name"]) =>
       categoryIndices.get(current)?.next || null;
 
     const getPrevCategory = (current: Category["name"]) =>
       categoryIndices.get(current)?.prev || null;
 
-    // Lógica NEXT perfectamente calibrada
+    // NEXT
     const nextArticle = (() => {
-      // Caso 1: Hay siguiente en misma categoría
       if (currentIndex >= 0 && currentIndex < articlesInCategory.length - 1) {
         return articlesInCategory[currentIndex + 1];
       }
-
-      // Caso 2: Circular a siguiente categoría con artículos
       const nextCat = getNextCategory(currentCategory);
-      return nextCat ? categoryMap.get(nextCat)?.[0] : null;
+      return nextCat ? categoryMap.get(nextCat)?.[0] ?? null : null;
     })();
 
-    // Lógica PREVIOUS infalible
+    // PREVIOUS
     const previousArticle = (() => {
-      // Caso 1: Hay anterior en misma categoría
       if (currentIndex > 0) {
         return articlesInCategory[currentIndex - 1];
       }
-
-      // Caso 2: Circular a categoría anterior con artículos
       const prevCat = getPrevCategory(currentCategory);
       const prevArticles = prevCat ? categoryMap.get(prevCat) : [];
       return prevArticles?.length ? prevArticles[prevArticles.length - 1] : null;
@@ -104,7 +92,7 @@ export function useArticleNavigation(
       previous: previousArticle || null,
       current: currentArticle,
     };
-  }, [currentArticle, sortedValidCategories.length, categoryMap, categoryIndices]);
+  })();
 
   return ctx;
 }
