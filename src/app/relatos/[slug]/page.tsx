@@ -33,26 +33,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default function Entry({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  const talePromise = getOneTale<ApiResponse<Tale>>(slug);
+  const talePromise = getOneTale<ApiResponse<Tale>>(slug).then((tale) => {
+    if (!tale) {
+      notFound();
+    }
+    return tale;
+  });
 
   const contentPromise = (async () => {
     const tale = await talePromise;
     const pageId = tale?.data?.notionPageId;
-    if (!pageId) return null;
-    return getTaleContentFromNotion<ApiResponse<string>>(pageId);
+    const content = await getTaleContentFromNotion<ApiResponse<string>>(pageId);
+
+    return content;
   })();
 
-  const tale = use(talePromise);
-  const content = use(contentPromise);
-
-  if (content?.metadata?.message) {
-    const msg = content.metadata.message;
-    // eslint-disable-next-line no-console
-    console.log(`\x1b[90m[Notion]\x1b[0m \x1b[36m${msg}\x1b[0m`);
-  }
-  if (!tale || slug === FALLBACK_SLUG) {
+  if (slug === FALLBACK_SLUG) {
     notFound();
   }
 
-  return <TaleRender tale={tale.data} content={content?.data} />;
+  return <TaleRender tale={talePromise} content={contentPromise} />;
 }

@@ -1,52 +1,77 @@
 "use client";
 
-import Image from "next/image";
-import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
+import { Suspense } from "react";
 import type { Tale } from "@/lib/interfaces/articles";
+import { TaleSummary } from "@/components/blocks/tales/tale-summary";
+import { TaleHeader } from "@/components/blocks/tales/tale-header";
+import { TaleContent } from "@/components/blocks/tales/tale-content";
+import type { ApiResponse } from "@/lib/fetch/caller";
 
-export function TaleRender({ tale, content }: { tale: Tale | null; content?: string }) {
+type TaleRenderProps = {
+  tale: Promise<ApiResponse<Tale>>;
+  content: Promise<ApiResponse<string> | null>;
+};
+
+function Skeleton({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-md bg-slate-700/30 ${className}`} />;
+}
+
+// ---- Loaders
+export function HeaderLoader() {
+  return (
+    <header className="grid grid-cols-1 grid-rows-1 min-h-96 max-h-96 m-8 relative overflow-hidden rounded-2xl">
+      <Skeleton className="col-start-1 col-end-2 row-start-1 row-end-auto h-80" />
+      <Skeleton className="col-start-1 col-end-2 row-start-1 row-end-auto h-10 w-2/3 mx-auto self-center z-10" />
+    </header>
+  );
+}
+
+export function SummaryLoader() {
+  return (
+    <div className="max-w-xl mx-auto p-4 space-y-2">
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="h-4 w-4/6" />
+      <Skeleton className="h-4 w-3/5" />
+    </div>
+  );
+}
+
+export function ContentLoader() {
+  return (
+    <div className="max-w-xl mx-auto p-4 space-y-3">
+      <Skeleton className="h-8 w-full mb-4" />
+      <Skeleton className="h-4 w-11/12" />
+      <Skeleton className="h-4 w-10/12" />
+      <Skeleton className="h-4 w-9/12" />
+      <Skeleton className="h-4 w-8/12" />
+      <Skeleton className="h-4 w-7/12" />
+      <Skeleton className="h-4 w-6/12" />
+      <Skeleton className="h-4 w-5/12" />
+      <Skeleton className="h-4 w-11/12" />
+      <Skeleton className="h-4 w-10/12" />
+      <Skeleton className="h-4 w-9/12" />
+      <Skeleton className="h-4 w-8/12" />
+      <Skeleton className="h-4 w-7/12" />
+      <Skeleton className="h-4 w-6/12" />
+    </div>
+  );
+}
+
+export function TaleRender({ tale, content }: TaleRenderProps) {
   return (
     <>
       <section className="relative mb-40">
-        {tale ? (
-          <>
-            <div className="max-w-full">
-              {tale && (
-                <header
-                  className={
-                    "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8"
-                  }>
-                  {tale.header ? (
-                    <>
-                      <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
-                        {tale.title}
-                      </h1>
-                      <Image
-                        src={tale?.header?.url}
-                        width={1280}
-                        height={100}
-                        alt={tale.slug}
-                        className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover aspect-video object-center"
-                      />
-                    </>
-                  ) : (
-                    <article className="grid grid-cols-1 grid-rows-1 w-full items-center justify-items-center rounded-md border border-slate-300/10 shadow bg-accent-foreground/60 min-h-80">
-                      <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
-                        {tale.title}
-                      </h1>
-                    </article>
-                  )}
-                </header>
-              )}
-              <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert p-4">
-                <blockquote>{tale.summary}</blockquote>
-                {content && <MarkdownRenderer content={content} />}
-              </article>
-            </div>
-          </>
-        ) : (
-          <p>Entry not available... refresh your browser</p>
-        )}
+        <Suspense fallback={<HeaderLoader />}>
+          <TaleHeader talePromise={tale} />
+        </Suspense>
+        <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert p-4">
+          <Suspense fallback={<SummaryLoader />}>
+            <TaleSummary talePromise={tale} />
+          </Suspense>
+          <Suspense fallback={<ContentLoader />}>
+            <TaleContent contentPromise={content} />
+          </Suspense>
+        </article>
       </section>
     </>
   );
