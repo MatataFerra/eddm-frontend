@@ -1,3 +1,5 @@
+"use cache";
+
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { CardHome } from "./card";
 import { APP_ROUTES } from "@/lib/constants";
@@ -11,7 +13,7 @@ const URL_IMAGES = {
     "https://res.cloudinary.com/docq8rbdu/image/upload/c_scale,h_288,w_370/v1761650558/el-diario-de-mati/covers/gfcda9nkco2qkuioe5xn.webp",
 };
 
-export function BentoHome() {
+export async function BentoHome() {
   return (
     <BentoGrid className="w-full md:max-w-3xl mx-auto p-1 last:col-span-2 auto-rows-[18rem] md:grid-cols-2 gap-4">
       <CardHome

@@ -1,5 +1,3 @@
-"use cache";
-
 import { BentoHome } from "@/components/blocks/home/bento";
 
 export default async function Page() {

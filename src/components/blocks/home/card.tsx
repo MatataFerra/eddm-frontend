@@ -24,13 +24,11 @@ export function CardHome({ bgImage, title, description, redirect }: CardHomeProp
           alt={title}
           fill
           className="bg-no-repeat group-hover/home:sepia-50"
-          priority
+          loading="lazy"
         />
 
-        {/* Gradiente para mejorar la legibilidad del texto */}
         <div className="absolute inset-0 transition-colors duration-300 bg-gradient-to-t from-black/70 to-transparent group-hover/home:from-black" />
 
-        {/* Contenido de la tarjeta */}
         <CardContent className="relative h-full flex flex-col justify-end p-6 transform transition-transform duration-300 group-hover/home:translate-x-2">
           <CardFooter className="p-0 flex flex-col items-start">
             <h3 className="text-xl font-bold text-white">{title}</h3>
