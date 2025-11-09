@@ -101,7 +101,7 @@ export function GridClient({ settings }: Props) {
                 <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
               </svg>
 
-              <p className="w-full [text-wrap:balance] [font-size:clamp(12px,5vw,26px)] h-full">
+              <p className="w-full [text-wrap:balance] [font-size:clamp(12px,5vw,24px)] h-full">
                 {category.text}
               </p>
             </div>
