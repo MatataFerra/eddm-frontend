@@ -146,3 +146,7 @@ export function columnsClass(n?: number) {
   const x = Math.min(6, Math.max(1, n ?? 1));
   return `span ${x}`;
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
