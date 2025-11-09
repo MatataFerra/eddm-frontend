@@ -36,11 +36,7 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   const slug = (await params).slug;
   const article = await getOneArticle<ApiResponse<Article>>(slug);
 
-  if (!article) notFound();
-
-  if (slug === FALLBACK_SLUG) {
-    notFound();
-  }
+  if (!article || slug === FALLBACK_SLUG) notFound();
 
   return <ArticleRender article={article.data} />;
 }
