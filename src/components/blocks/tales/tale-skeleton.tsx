@@ -42,3 +42,13 @@ export function ContentLoader() {
     </div>
   );
 }
+
+export function ListSkeleton() {
+  return (
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-1/2 mx-auto p-4 justify-center">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <Skeleton className="w-full min-h-60" key={index} />
+      ))}
+    </ul>
+  );
+}
