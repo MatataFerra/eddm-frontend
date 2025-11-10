@@ -1,17 +1,11 @@
 import { TaleRender } from "@/components/blocks/tales/tale-render";
 import { notFound } from "next/navigation";
 
-import { getOneTale, getTales } from "@/lib/api_methods/get-tales";
+import { getOneTale } from "@/lib/api_methods/get-tales";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import type { Tale } from "@/lib/interfaces/articles";
 import { getTaleContentFromNotion } from "@/lib/api_methods/get-notion";
 import { FALLBACK_SLUG } from "@/lib/constants";
-
-export async function generateStaticParams() {
-  const popular = await getTales<ApiResponse<Tale[]>>();
-  if (!popular?.data) return [{ slug: FALLBACK_SLUG }];
-  return popular.data.map((a) => ({ slug: a.slug }));
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
