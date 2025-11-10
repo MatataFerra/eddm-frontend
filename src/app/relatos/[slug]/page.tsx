@@ -34,7 +34,10 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   const pageParams = await params;
   const { slug } = pageParams;
   const talePromise = getOneTale<ApiResponse<Tale>>(slug);
-  const contentPromise = getTaleContentFromNotion<ApiResponse<string>>(slug);
+  const contentPromise = getTaleContentFromNotion<ApiResponse<string>>({
+    query: slug,
+    strategy: "slug",
+  });
 
   if (slug === FALLBACK_SLUG) {
     notFound();
