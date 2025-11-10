@@ -12,7 +12,7 @@ export async function getTaleContentFromNotion<T>(query?: string): Promise<T | n
 
   try {
     const response = await fetchData<T>(EXTERNAL_API_ENDPOINTS.NOTION_TALE, {
-      params: { [NOTION_PARAM_KEY]: query },
+      params: { [NOTION_PARAM_KEY.slug]: query },
       tags: CACHE_TAGS.NOTION_TALE(query),
     });
 
