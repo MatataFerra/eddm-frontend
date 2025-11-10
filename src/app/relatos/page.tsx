@@ -1,13 +1,9 @@
 import { Nav } from "@/components/blocks/share/nav";
-import { ListTales } from "@/components/blocks/tales/list";
+import { ResolvedTale } from "@/components/blocks/tales/resolved";
 import { ListSkeleton } from "@/components/blocks/tales/tale-skeleton";
-import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
-import type { ApiResponse } from "@/lib/fetch/caller";
-import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Suspense } from "react";
 
 export default async function Page() {
-  const talesPromise = getContentNavigateTales<ApiResponse<ContentNavigate[]>>();
   return (
     <>
       <Nav />
@@ -15,7 +11,7 @@ export default async function Page() {
         Relatos y escritos
       </h1>
       <Suspense fallback={<ListSkeleton />}>
-        <ListTales talesPromise={talesPromise} />
+        <ResolvedTale />
       </Suspense>
     </>
   );
