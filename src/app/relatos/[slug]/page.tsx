@@ -6,7 +6,6 @@ import type { ApiResponse } from "@/lib/fetch/caller";
 import type { Tale } from "@/lib/interfaces/articles";
 import { getTaleContentFromNotion } from "@/lib/api_methods/get-notion";
 import { FALLBACK_SLUG } from "@/lib/constants";
-import { use } from "react";
 
 export async function generateStaticParams() {
   const popular = await getTales<ApiResponse<Tale[]>>();
@@ -31,14 +30,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default function Entry({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const talePromise = getOneTale<ApiResponse<Tale>>(slug).then((tale) => {
-    if (!tale) {
-      notFound();
-    }
-    return tale;
-  });
+export default async function Entry({ params }: { params: Promise<{ slug: string }> }) {
+  const pageParams = await params;
+  const { slug } = pageParams;
+  const talePromise = getOneTale<ApiResponse<Tale>>(slug);
 
   const contentPromise = (async () => {
     const tale = await talePromise;

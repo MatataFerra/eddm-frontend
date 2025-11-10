@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense } from "react";
 import type { Tale } from "@/lib/interfaces/articles";
 import { TaleSummary } from "@/components/blocks/tales/tale-summary";
@@ -8,7 +6,7 @@ import { TaleContent } from "@/components/blocks/tales/tale-content";
 import type { ApiResponse } from "@/lib/fetch/caller";
 
 type TaleRenderProps = {
-  tale: Promise<ApiResponse<Tale>>;
+  tale: Promise<ApiResponse<Tale> | null>;
   content: Promise<ApiResponse<string> | null>;
 };
 
@@ -57,7 +55,7 @@ export function ContentLoader() {
   );
 }
 
-export function TaleRender({ tale, content }: TaleRenderProps) {
+export async function TaleRender({ tale, content }: TaleRenderProps) {
   return (
     <>
       <section className="relative mb-40">

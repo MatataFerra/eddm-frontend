@@ -3,12 +3,12 @@ import { PropsWithChildren, use } from "react";
 import type { ApiResponse } from "@/lib/fetch/caller";
 
 type TaleBodyProps = PropsWithChildren<{
-  talePromise: Promise<ApiResponse<Tale>>;
+  talePromise: Promise<ApiResponse<Tale> | null>;
 }>;
 
 export function TaleSummary({ talePromise }: TaleBodyProps) {
   const taleData = use(talePromise);
-  const { data: tale } = taleData;
+  const tale = taleData?.data;
 
   if (!tale?.summary) return null;
 

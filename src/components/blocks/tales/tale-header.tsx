@@ -4,18 +4,19 @@ import type { ApiResponse } from "@/lib/fetch/caller";
 import { use } from "react";
 
 type TaleHeaderProps = {
-  talePromise: Promise<ApiResponse<Tale>>;
+  talePromise: Promise<ApiResponse<Tale> | null>;
 };
 
 export function TaleHeader({ talePromise }: TaleHeaderProps) {
   const taleData = use(talePromise);
-  const { data: tale } = taleData;
+  const tale = taleData?.data;
+
   return (
     <header
       className={
         "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8"
       }>
-      {tale.header ? (
+      {tale?.header ? (
         <>
           <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
             {tale.title}
@@ -31,7 +32,7 @@ export function TaleHeader({ talePromise }: TaleHeaderProps) {
       ) : (
         <article className="grid grid-cols-1 grid-rows-1 w-full items-center justify-items-center rounded-md border border-slate-300/10 shadow bg-accent-foreground/60 min-h-80">
           <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
-            {tale.title}
+            {tale?.title}
           </h1>
         </article>
       )}
