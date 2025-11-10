@@ -1,5 +1,3 @@
-"use cache";
-
 import { Suspense } from "react";
 import type { Tale } from "@/lib/interfaces/articles";
 import { TaleSummary } from "@/components/blocks/tales/tale-summary";
@@ -11,8 +9,6 @@ import {
   ContentLoader,
 } from "@/components/blocks/tales/tale-skeleton";
 import type { ApiResponse } from "@/lib/fetch/caller";
-import { cacheLife, cacheTag } from "next/cache";
-import { CACHE_TAGS } from "@/lib/constants";
 
 type TaleRenderProps = {
   tale: Promise<ApiResponse<Tale> | null>;
@@ -20,8 +16,6 @@ type TaleRenderProps = {
 };
 
 export async function TaleRender({ tale, content }: TaleRenderProps) {
-  cacheLife({ expire: 3600, stale: 300, revalidate: 60 });
-  cacheTag(CACHE_TAGS.TALE_RENDER);
   return (
     <>
       <section className="relative mb-40">
