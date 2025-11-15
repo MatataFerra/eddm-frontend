@@ -150,3 +150,12 @@ export function columnsClass(n?: number) {
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function objectIsEmpty(obj: unknown): boolean {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    Object.keys(obj).length === 0 &&
+    obj.constructor === Object
+  );
+}

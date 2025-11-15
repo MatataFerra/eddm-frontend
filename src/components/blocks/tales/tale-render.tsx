@@ -1,3 +1,5 @@
+"use cache";
+
 import { Suspense } from "react";
 import type { TalePromise } from "@/lib/interfaces/tales";
 import { TaleSummary } from "@/components/blocks/tales/tale-summary";
@@ -8,12 +10,18 @@ import {
   SummaryLoader,
   ContentLoader,
 } from "@/components/blocks/tales/tale-skeleton";
+import { notFound } from "next/navigation";
+import { objectIsEmpty } from "@/lib/utils";
 
 type TaleRenderProps = {
   tale: TalePromise;
 };
 
 export async function TaleRender({ tale }: TaleRenderProps) {
+  const taleData = await tale;
+
+  if (objectIsEmpty(taleData?.data)) return notFound();
+
   return (
     <>
       <section className="relative mb-40">

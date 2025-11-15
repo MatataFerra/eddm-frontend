@@ -1,3 +1,5 @@
+"use cache";
+
 import { Suspense } from "react";
 import type { ArticlePromise } from "@/lib/interfaces/articles";
 import { ArticleTitle } from "@/components/blocks/articles/article-render/article-title";
@@ -10,12 +12,18 @@ import {
   ContentLoader,
   SummaryLoader,
 } from "@/components/blocks/articles/article-render/article-skeleton";
+import { objectIsEmpty } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
 };
 
-export function ArticleRender({ articlePromise }: ArticleRenderProps) {
+export async function ArticleRender({ articlePromise }: ArticleRenderProps) {
+  const articleData = await articlePromise;
+
+  if (objectIsEmpty(articleData?.data)) return notFound();
+
   return (
     <>
       <main className="relative min-h-dvh w-11/12 mx-auto">
