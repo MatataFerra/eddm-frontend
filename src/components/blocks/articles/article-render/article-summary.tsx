@@ -11,7 +11,7 @@ export function ArticleSummary({ articlePromise }: ArticleSummaryProps) {
   if (!articlePromiseData) return null;
 
   const {
-    data: { data: article },
+    data: { ...article },
   } = articlePromiseData;
 
   if (!article?.summary) return null;

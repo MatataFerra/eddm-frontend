@@ -17,5 +17,5 @@ export function ArticleContent({ contentPromise }: ArticleContentProps) {
 
   if (!data?.data) return null;
 
-  return <MarkdownRenderer content={data.data.md_content} />;
+  return <MarkdownRenderer content={data.data.md_content ?? data.data.content} />;
 }
