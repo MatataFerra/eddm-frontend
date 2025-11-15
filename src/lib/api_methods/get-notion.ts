@@ -30,3 +30,27 @@ export async function getTaleContentFromNotion<T>({
     return null;
   }
 }
+
+export async function getArticleContentFromNotion<T>({
+  strategy,
+  query,
+}: GetNotionContentType): Promise<T | null> {
+  "use cache";
+
+  if (!query) return null;
+
+  cacheLife({ expire: 3600, stale: 300, revalidate: 60 });
+  cacheTag(CACHE_TAGS.NOTION_ARTICLE(query));
+
+  try {
+    const response = await fetchData<T>(EXTERNAL_API_ENDPOINTS.NOTION_ARTICLE, {
+      params: { [NOTION_PARAM_KEY.slug]: query, strategy },
+      tags: CACHE_TAGS.NOTION_ARTICLE(query),
+    });
+
+    return response;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return null;
+  }
+}

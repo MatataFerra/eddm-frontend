@@ -1,10 +1,10 @@
-import { PropsWithChildren, use } from "react";
+import { use } from "react";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
 import type { TalePromise } from "@/lib/interfaces/tales";
 
-type TaleContentProps = PropsWithChildren<{
+type TaleContentProps = {
   contentPromise: TalePromise;
-}>;
+};
 
 export function TaleContent({ contentPromise }: TaleContentProps) {
   const content = use(contentPromise);
@@ -17,5 +17,5 @@ export function TaleContent({ contentPromise }: TaleContentProps) {
 
   if (!content?.data) return null;
 
-  return <MarkdownRenderer content={content.data.content} />;
+  return <MarkdownRenderer content={content.data.md_content} />;
 }

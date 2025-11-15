@@ -23,6 +23,7 @@ export const EXTERNAL_API_ENDPOINTS = {
   ARTICLE: (slug: string) => `/articles/${slug}`,
   TALE: (slug: string) => `/tales/${slug}`,
   NOTION_TALE: "/notion/tale",
+  NOTION_ARTICLE: "/notion/article",
   INDEX_CONTENT: "/index-content",
 };
 
@@ -34,6 +35,7 @@ export const CACHE_TAGS = {
   ARTICLE: (slug: string) => `article-${slug}`,
   TALE: (slug: string) => `tale-${slug}`,
   NOTION_TALE: (slug: string) => `notion-tale-${slug}`,
+  NOTION_ARTICLE: (slug: string) => `notion-article-${slug}`,
   SETTINGS: "settings",
   INDEX_CONTENT: "index-content",
   TALE_RENDER: "tale-render",

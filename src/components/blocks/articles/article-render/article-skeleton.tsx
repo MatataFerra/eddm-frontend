@@ -1,5 +1,17 @@
 import { Skeleton } from "@/components/blocks/share/skeleton";
 
+export function TitleLoader() {
+  return (
+    <section className="flex items-center justify-center overflow-x-hidden p-8">
+      <Skeleton className="h-10 w-2/3" />
+      <div className="flex justify-center my-8 gap-4">
+        <Skeleton className="h-6 w-1/4" />
+        <Skeleton className="h-6 w-1/4" />
+      </div>
+    </section>
+  );
+}
+
 // ---- Loaders
 export function HeaderLoader() {
   return (
@@ -38,15 +50,5 @@ export function ContentLoader() {
       <Skeleton className="h-4 w-7/12" />
       <Skeleton className="h-4 w-6/12" />
     </div>
-  );
-}
-
-export function ListSkeleton() {
-  return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-1/2 mx-auto p-4 justify-center">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <Skeleton className="w-full min-h-60" key={index} />
-      ))}
-    </ul>
   );
 }
