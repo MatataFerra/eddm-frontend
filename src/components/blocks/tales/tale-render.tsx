@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { Tale } from "@/lib/interfaces/articles";
+import type { NotionTaleContentBySlug } from "@/lib/interfaces/tales";
 import { TaleSummary } from "@/components/blocks/tales/tale-summary";
 import { TaleHeader } from "@/components/blocks/tales/tale-header";
 import { TaleContent } from "@/components/blocks/tales/tale-content";
@@ -11,11 +11,10 @@ import {
 import type { ApiResponse } from "@/lib/fetch/caller";
 
 type TaleRenderProps = {
-  tale: Promise<ApiResponse<Tale> | null>;
-  content: Promise<ApiResponse<string> | null>;
+  tale: Promise<ApiResponse<NotionTaleContentBySlug> | null>;
 };
 
-export async function TaleRender({ tale, content }: TaleRenderProps) {
+export async function TaleRender({ tale }: TaleRenderProps) {
   return (
     <>
       <section className="relative mb-40">
@@ -27,7 +26,7 @@ export async function TaleRender({ tale, content }: TaleRenderProps) {
             <TaleSummary talePromise={tale} />
           </Suspense>
           <Suspense fallback={<ContentLoader />}>
-            <TaleContent contentPromise={content} />
+            <TaleContent contentPromise={tale} />
           </Suspense>
         </article>
       </section>

@@ -1,10 +1,12 @@
 import { PropsWithChildren, use } from "react";
 import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
-import type { ApiResponse } from "@/lib/fetch/caller";
+import type { TalePromise } from "@/lib/interfaces/tales";
 
-export function TaleContent({
-  contentPromise,
-}: PropsWithChildren<{ contentPromise: Promise<ApiResponse<string> | null> }>) {
+type TaleContentProps = PropsWithChildren<{
+  contentPromise: TalePromise;
+}>;
+
+export function TaleContent({ contentPromise }: TaleContentProps) {
   const content = use(contentPromise);
 
   if (content?.metadata?.message) {
@@ -15,5 +17,5 @@ export function TaleContent({
 
   if (!content?.data) return null;
 
-  return <MarkdownRenderer content={content.data} />;
+  return <MarkdownRenderer content={content.data.content} />;
 }

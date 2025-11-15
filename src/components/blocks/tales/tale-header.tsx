@@ -1,15 +1,14 @@
 import Image from "next/image";
-import type { Tale } from "@/lib/interfaces/articles";
-import type { ApiResponse } from "@/lib/fetch/caller";
 import { use } from "react";
+import type { TalePromise } from "@/lib/interfaces/tales";
 
 type TaleHeaderProps = {
-  talePromise: Promise<ApiResponse<Tale> | null>;
+  talePromise: TalePromise;
 };
 
 export function TaleHeader({ talePromise }: TaleHeaderProps) {
   const taleData = use(talePromise);
-  const tale = taleData?.data;
+  const tale = taleData?.data.tale;
 
   return (
     <header
