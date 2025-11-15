@@ -1,42 +1,16 @@
-"use cache";
-
-import { ArticleRender } from "@/components/blocks/articles/article-render";
-import { getArticles, getOneArticle } from "@/lib/api_methods/get-articles";
-import { FALLBACK_SLUG } from "@/lib/constants";
+import { ArticleRender } from "@/components/blocks/articles/article-render/article-render";
+import { getArticleContentFromNotion } from "@/lib/api_methods/get-notion";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { Article } from "@/lib/interfaces/articles";
-import { notFound } from "next/navigation";
-
-export async function generateStaticParams() {
-  const popular = await getArticles<ApiResponse<Article[]>>();
-
-  if (!popular || !popular.data) {
-    return [{ slug: FALLBACK_SLUG }];
-  }
-
-  return popular.data.map((a: { slug: string }) => ({ slug: a.slug }));
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const slug = (await params).slug;
-  const response = await getOneArticle<ApiResponse<Article>>(slug);
-  const tale = response?.data;
-  if (!tale) return { title: "Relato no encontrado" };
-  return {
-    title: tale.title,
-    openGraph: {
-      title: tale.title,
-      description: tale.summary ?? "",
-      images: tale.cover?.url ? [tale.cover.url] : [],
-    },
-  };
-}
+import type { ContentBySlug } from "@/lib/interfaces/share";
 
 export default async function Entry({ params }: { params: Promise<{ slug: string }> }) {
-  const slug = (await params).slug;
-  const article = await getOneArticle<ApiResponse<Article>>(slug);
+  const pageParams = await params;
+  const { slug } = pageParams;
+  const articlePromise = getArticleContentFromNotion<ApiResponse<ContentBySlug<Article>>>({
+    query: slug,
+    strategy: "slug",
+  });
 
-  if (!article || slug === FALLBACK_SLUG) notFound();
-
-  return <ArticleRender article={article.data} />;
+  return <ArticleRender articlePromise={articlePromise} />;
 }

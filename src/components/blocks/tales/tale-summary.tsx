@@ -7,7 +7,12 @@ type TaleBodyProps = PropsWithChildren<{
 
 export function TaleSummary({ talePromise }: TaleBodyProps) {
   const taleData = use(talePromise);
-  const tale = taleData?.data.tale;
+
+  if (!taleData) return null;
+
+  const {
+    data: { ...tale },
+  } = taleData;
 
   if (!tale?.summary) return null;
 

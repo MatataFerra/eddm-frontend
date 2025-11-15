@@ -9,16 +9,19 @@ type TaleHeaderProps = {
 
 export function TaleHeader({ talePromise }: TaleHeaderProps) {
   const taleData = use(talePromise);
-  const tale = taleData?.data.tale;
 
-  if (!tale) notFound();
+  if (!taleData) notFound();
+
+  const {
+    data: { ...tale },
+  } = taleData;
 
   return (
     <header
       className={
         "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8"
       }>
-      {tale?.header ? (
+      {tale?.header?.url ? (
         <>
           <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
             {tale.title}
