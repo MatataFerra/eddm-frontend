@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { use } from "react";
 import type { TalePromise } from "@/lib/interfaces/tales";
+import { notFound } from "next/navigation";
 
 type TaleHeaderProps = {
   talePromise: TalePromise;
@@ -9,6 +10,8 @@ type TaleHeaderProps = {
 export function TaleHeader({ talePromise }: TaleHeaderProps) {
   const taleData = use(talePromise);
   const tale = taleData?.data.tale;
+
+  if (!tale) notFound();
 
   return (
     <header
