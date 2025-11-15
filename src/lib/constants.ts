@@ -36,7 +36,11 @@ export const CACHE_TAGS = {
   NOTION_TALE: (slug: string) => `notion-tale-${slug}`,
   SETTINGS: "settings",
   INDEX_CONTENT: "index-content",
+  TALE_RENDER: "tale-render",
 } as const;
 
 export const FALLBACK_SLUG = "__placeholder__" as const;
-export const NOTION_PARAM_KEY = "notion-page-id";
+export const NOTION_PARAM_KEY = {
+  "notion-id": "notion-page-id",
+  slug: "slug",
+};

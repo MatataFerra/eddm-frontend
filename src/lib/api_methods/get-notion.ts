@@ -2,7 +2,15 @@ import { fetchData } from "@/lib/fetch/caller";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS, NOTION_PARAM_KEY } from "@/lib/constants";
 import { cacheLife, cacheTag } from "next/cache";
 
-export async function getTaleContentFromNotion<T>(query?: string): Promise<T | null> {
+type GetNotionContentType = {
+  strategy: "slug" | "notionPageId";
+  query?: string;
+};
+
+export async function getTaleContentFromNotion<T>({
+  strategy,
+  query,
+}: GetNotionContentType): Promise<T | null> {
   "use cache";
 
   if (!query) return null;
@@ -12,7 +20,7 @@ export async function getTaleContentFromNotion<T>(query?: string): Promise<T | n
 
   try {
     const response = await fetchData<T>(EXTERNAL_API_ENDPOINTS.NOTION_TALE, {
-      params: { [NOTION_PARAM_KEY]: query },
+      params: { [NOTION_PARAM_KEY.slug]: query, strategy },
       tags: CACHE_TAGS.NOTION_TALE(query),
     });
 

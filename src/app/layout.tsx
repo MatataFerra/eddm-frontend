@@ -6,7 +6,6 @@ import { getContentNavigateArticles } from "@/lib/api_methods/get-articles";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/ui/index-content/context";
-import { SWRProvider } from "@/lib/providers/swr-provider";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 
@@ -49,13 +48,11 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body className={fonts}>
-        <SWRProvider>
-          <IndexContentProvider>
-            <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
-              {children}
-            </RootDataProvider>
-          </IndexContentProvider>
-        </SWRProvider>
+        <IndexContentProvider>
+          <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
+            {children}
+          </RootDataProvider>
+        </IndexContentProvider>
       </body>
     </html>
   );
