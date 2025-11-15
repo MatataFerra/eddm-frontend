@@ -1,6 +1,4 @@
-"use cache";
-
-import { Suspense } from "react";
+import { Suspense, use } from "react";
 import type { TalePromise } from "@/lib/interfaces/tales";
 import { TaleSummary } from "@/components/blocks/tales/tale-summary";
 import { TaleHeader } from "@/components/blocks/tales/tale-header";
@@ -17,8 +15,8 @@ type TaleRenderProps = {
   tale: TalePromise;
 };
 
-export async function TaleRender({ tale }: TaleRenderProps) {
-  const taleData = await tale;
+export function TaleRender({ tale }: TaleRenderProps) {
+  const taleData = use(tale);
 
   if (objectIsEmpty(taleData?.data)) return notFound();
 

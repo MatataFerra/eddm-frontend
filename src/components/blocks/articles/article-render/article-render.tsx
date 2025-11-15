@@ -1,6 +1,4 @@
-"use cache";
-
-import { Suspense } from "react";
+import { Suspense, use } from "react";
 import type { ArticlePromise } from "@/lib/interfaces/articles";
 import { ArticleTitle } from "@/components/blocks/articles/article-render/article-title";
 import { ArticleHeader } from "@/components/blocks/articles/article-render/article-header";
@@ -19,8 +17,8 @@ export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
 };
 
-export async function ArticleRender({ articlePromise }: ArticleRenderProps) {
-  const articleData = await articlePromise;
+export function ArticleRender({ articlePromise }: ArticleRenderProps) {
+  const articleData = use(articlePromise);
 
   if (objectIsEmpty(articleData?.data)) return notFound();
 
