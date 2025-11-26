@@ -72,15 +72,11 @@ export function GridClient({ settings }: Props) {
     );
   }
 
-  if (!settings) {
+  if (!settings?.ok || !settings.data || settings.data.length === 0 || !settings) {
     return (
       <BentoWrapper>
-        <div
-          className="flex justify-center items-center h-auto w-full"
-          style={{ gridColumn: "span 2" }}>
-          <p className="text-2xl font-bold" style={{ color: "oklch(70.4% 0.191 22.216)" }}>
-            Error al cargar los artículos
-          </p>
+        <div className="flex justify-center items-center h-auto w-full text-center col-span-2">
+          <p className="text-2xl font-bold text-red-400">Error al cargar los artículos</p>
         </div>
       </BentoWrapper>
     );

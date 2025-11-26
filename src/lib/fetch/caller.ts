@@ -25,6 +25,7 @@ type FetchOptions = {
 
 export type ApiResponse<T> = {
   data: T;
+  ok?: boolean;
   metadata: {
     message: string;
     pagination: {
