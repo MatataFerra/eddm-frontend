@@ -178,7 +178,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                 );
               });
 
-              return hasVideo ? <>{children}</> : <p>{children}</p>;
+              return hasVideo ? <>{children}</> : <div>{children}</div>;
             },
           }}>
           {content}

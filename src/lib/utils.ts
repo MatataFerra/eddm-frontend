@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
+import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -11,42 +12,12 @@ export function isCategory(item: EntriesOrderByCategory): item is Category {
   return item.type === "category";
 }
 
-export type Category = {
-  type: "category";
-  cover?: boolean;
-  name:
-    | (
-        | "context"
-        | "enero"
-        | "febrero"
-        | "marzo"
-        | "abril"
-        | "mayo"
-        | "junio"
-        | "julio"
-        | "agosto"
-        | "septiembre"
-        | "octubre"
-        | "noviembre"
-        | "diciembre"
-      )
-    | "tale";
-};
-
-type Phrase = {
-  type: "phrase";
-  text: string;
-  className?: string;
-};
-
-export type EntriesOrderByCategory = Category | Phrase;
-
-export const monthsOrdered: EntriesOrderByCategory[] = [
-  { type: "category", name: "context", cover: true },
-  { type: "category", name: "febrero", cover: true },
-  { type: "category", name: "marzo", cover: true },
+export const MONTHS_ORDERED: EntriesOrderByCategory[] = [
+  { type: "category", name: "context" },
+  { type: "category", name: "febrero" },
+  { type: "category", name: "marzo" },
   { type: "category", name: "abril" },
-  { type: "category", name: "mayo", cover: true },
+  { type: "category", name: "mayo" },
   { type: "category", name: "junio" },
   { type: "category", name: "julio" },
   { type: "category", name: "agosto" },
@@ -55,6 +26,7 @@ export const monthsOrdered: EntriesOrderByCategory[] = [
   { type: "category", name: "noviembre" },
   { type: "category", name: "diciembre" },
   { type: "category", name: "enero" },
+  { type: "category", name: "febrero-25" },
 ];
 
 export const MOTION_COVER_IMAGE: Record<string, Variants> = {
@@ -116,9 +88,9 @@ export const MOTION_ANIMATIONS: Record<"cover_image" | "slideToCorner", Variants
 };
 
 export const groupByMonth = (items: ContentNavigate[] | null) => {
-  const orderedMonths = monthsOrdered
-    .filter((month): month is Category => isCategory(month) && month.name !== "tale")
-    .map((month) => month.name);
+  const orderedMonths = MONTHS_ORDERED.filter(
+    (month): month is Category => isCategory(month) && month.name !== "tale"
+  ).map((month) => month.name);
 
   const groupedItems = Object.groupBy(items ?? [], (item) => item.category.name);
 
@@ -158,4 +130,9 @@ export function objectIsEmpty(obj: unknown): boolean {
     Object.keys(obj).length === 0 &&
     obj.constructor === Object
   );
+}
+
+export function extractSlugFromPathname(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  return segments.length > 0 ? segments[segments.length - 1] : null;
 }

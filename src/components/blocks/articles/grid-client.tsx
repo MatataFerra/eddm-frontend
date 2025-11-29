@@ -2,7 +2,7 @@
 
 import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
 
-import { type Category, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { SettingsListItemResponse } from "@/lib/interfaces/cards"; // o usa el type inline del server
 import { useRootData } from "@/lib/providers/root-data-provider";
 import {
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/carousel";
 import dynamic from "next/dynamic";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
+import type { Category } from "@/lib/interfaces/share";
 
 const ModalArticle = dynamic(
   () => import("@/components/blocks/articles/modal-article").then((m) => m.ModalArticle),

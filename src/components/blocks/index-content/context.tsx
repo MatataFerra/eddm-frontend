@@ -7,7 +7,6 @@ const IndexContentContext = createContext({
   toggleIsOpen: () => {},
 });
 
-// Proveedor del Contexto
 const IndexContentProvider = ({ children }: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen((prev) => !prev);

@@ -8,14 +8,19 @@ interface RootDataContextType {
   tales: ContentNavigate[] | null;
 }
 
-type RootDataProviderType = PropsWithChildren<Omit<RootDataContextType, "isLoading">>;
+interface RootDataProviderType extends PropsWithChildren<Omit<RootDataContextType, "isLoading">> {
+  entries?: ContentNavigate[];
+}
 
-const RootDataContext = createContext<RootDataContextType | undefined>(undefined);
+const RootDataContext = createContext<RootDataProviderType | undefined>(undefined);
 
 export function RootDataProvider({ articles, tales, children }: RootDataProviderType) {
+  const entries = [...(articles || []), ...(tales || [])];
+
   const ctx = {
     articles,
     tales,
+    entries,
   };
 
   return <RootDataContext.Provider value={ctx}>{children}</RootDataContext.Provider>;

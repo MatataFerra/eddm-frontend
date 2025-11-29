@@ -1,7 +1,4 @@
-import { NavigationWrapper } from "@/components/blocks/share/navigation-wrapper";
-import { MobileIndexContent } from "@/components/ui/index-content/mobile";
-import { APP_ROUTES } from "@/lib/constants";
-import { Suspense } from "react";
+import { MobileIndexContent } from "@/components/blocks/index-content/mobile";
 
 export default async function Layout({
   children,
@@ -12,17 +9,6 @@ export default async function Layout({
     <>
       <MobileIndexContent />
       {children}
-      <Suspense>
-        <NavigationWrapper
-          redirect={APP_ROUTES.tales}
-          typeOfOrder={[
-            {
-              type: "category",
-              name: "tale",
-            },
-          ]}
-        />
-      </Suspense>
     </>
   );
 }

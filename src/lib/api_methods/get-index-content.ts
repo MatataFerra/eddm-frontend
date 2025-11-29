@@ -14,6 +14,8 @@ export async function getIndexContent<T>(): Promise<T | null> {
     });
 
     return response;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return null;
   }

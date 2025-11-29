@@ -46,3 +46,14 @@ export const NOTION_PARAM_KEY = {
   "notion-id": "notion-page-id",
   slug: "slug",
 };
+export const LOCALSTORAGE_KEYS = {
+  BOOKMARKED_ARTICLES: "bookmarkedArticles",
+  BOOKMARKED_TALES: "bookmarkedTales",
+  EDDM_CONFIG_OBJECT: "eddm-config-object",
+} as const;
+
+export const TRANSLATE_ARTICLE_READ_STATUS = {
+  read: "Leído",
+  reading: "Leyendo",
+  unread: "No leído",
+} as const;

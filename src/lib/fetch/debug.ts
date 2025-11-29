@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // debug-fetch.ts — util minimal para loguear y ver si una request salió del caché
 
 type ParamValue = string | number | boolean | null | undefined;
