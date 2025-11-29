@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ENDPOINTS } from "@/lib/constants";
+import { useRandom } from "@/lib/hooks/use-random";
 
 type CardArticleProps = {
   article: ContentNavigate;
@@ -15,6 +16,7 @@ type CardArticleProps = {
 
 export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
   const router = useRouter();
+  const random = useRandom({ min: -10, max: 10 });
 
   function onClick(slug: string) {
     router.push(`${ENDPOINTS.ARTICLE(slug)}`);
@@ -35,7 +37,7 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
       )}
       onClick={() => onClick(article.slug)}
       style={{
-        rotate: Math.random() * 20 - 10,
+        rotate: random,
       }}
       whileHover={{
         scale: 1.1,

@@ -1,5 +1,5 @@
 import type { ContentNavigate } from "@/lib/interfaces/articles";
-import type { Category, EntriesOrderByCategory } from "@/lib/utils";
+import type { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
 import { usePathname } from "next/navigation";
 import { useRootData } from "@/lib/providers/root-data-provider";
 import { APP_ROUTES } from "@/lib/constants";

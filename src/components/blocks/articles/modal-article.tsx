@@ -2,9 +2,9 @@
 
 import React, { type PropsWithChildren } from "react";
 import { Modal, ModalBody, ModalContent, ModalTrigger } from "@/components/ui/animated-modal";
-import { type Category, cn, MOTION_ANIMATIONS } from "@/lib/utils";
+import { cn, MOTION_ANIMATIONS } from "@/lib/utils";
 import { useAnimationControls } from "motion/react";
-
+import type { Category } from "@/lib/interfaces/share";
 import dynamic from "next/dynamic";
 
 const MobileArticleText = dynamic(

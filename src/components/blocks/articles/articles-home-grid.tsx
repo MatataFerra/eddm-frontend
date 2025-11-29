@@ -10,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { type Category, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import useSWR from "swr";
 import { swrFetcher } from "@lib/fetch/swr";
 import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
@@ -19,6 +19,7 @@ import FitText from "../share/fit-text";
 import { isMobile } from "react-device-detect";
 import { useRootData } from "@/lib/providers/root-data-provider";
 import { EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
+import type { Category } from "@/lib/interfaces/share";
 
 const categoryHeadings: Record<string, string> = {
   context: "Entradas que van a servir para dar contexto",

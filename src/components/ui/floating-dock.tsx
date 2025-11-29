@@ -8,9 +8,10 @@ import {
   useTransform,
 } from "motion/react";
 
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 
 type ItemsProps = {
+  keyId: string;
   title: string;
   icon: React.ReactNode;
   href?: string;
@@ -46,12 +47,14 @@ const FloatingDockDesktop = ({ items, className }: { items: ItemsProps[]; classN
           className
         )}>
         {items.map((item) => (
-          <IconContainer mouseX={mouseX} key={item.title} {...item} />
+          <IconContainerMemoized mouseX={mouseX} key={item.keyId} {...item} />
         ))}
       </motion.div>
     </nav>
   );
 };
+
+export const IconContainerMemoized = memo(IconContainer);
 
 function IconContainer({
   mouseX,

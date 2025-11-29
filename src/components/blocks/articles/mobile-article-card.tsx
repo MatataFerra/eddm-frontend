@@ -45,9 +45,9 @@ export function MobileArticleText({ trigger, controls, variants }: MobileArticle
   );
 }
 
-export function MobileArticleImage({ variants, controls, url }: MobileArticleProps) {
-  const MotionImage = motion.create(Image);
+const MotionImage = motion.create(Image);
 
+export function MobileArticleImage({ variants, controls, url }: MobileArticleProps) {
   return (
     <>
       {isMobile ? (

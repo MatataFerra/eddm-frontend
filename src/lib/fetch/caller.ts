@@ -39,7 +39,6 @@ export type ApiResponse<T> = {
 
 declare global {
   // evitas TS error
-  // eslint-disable-next-line no-var
   var __NET_HITS__: Map<string, number> | undefined;
 }
 

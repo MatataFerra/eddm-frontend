@@ -1,5 +1,5 @@
 import type { ApiResponse } from "@lib/fetch/caller";
-import type { Category } from "@lib/utils";
+import type { Category } from "@lib/interfaces/share";
 
 enum GradientDirection {
   TO_RIGHT = "TO_RIGHT",
