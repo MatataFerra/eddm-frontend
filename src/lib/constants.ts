@@ -57,3 +57,18 @@ export const TRANSLATE_ARTICLE_READ_STATUS = {
   reading: "Leyendo",
   unread: "No leído",
 } as const;
+
+export const VIDEO_SIZE = {
+  small: {
+    width: 320,
+    height: 240,
+  },
+  medium: {
+    width: 640,
+    height: 360,
+  },
+  large: {
+    width: 1280,
+    height: 720,
+  },
+} as const;

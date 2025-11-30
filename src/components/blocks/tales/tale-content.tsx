@@ -1,5 +1,5 @@
 import { use } from "react";
-import MarkdownRenderer from "@/components/blocks/articles/rich-text-renderer";
+import MarkdownRenderer from "@/components/blocks/share/rich-text-renderer";
 import type { TalePromise } from "@/lib/interfaces/tales";
 
 type TaleContentProps = {

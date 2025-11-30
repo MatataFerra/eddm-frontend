@@ -15,7 +15,8 @@ import { visit } from "unist-util-visit";
 import type { Root, Node, Paragraph, Text, Image } from "mdast";
 import type { Plugin } from "unified";
 import NextImage from "next/image";
-import { Video, type VideoFormat } from "@/components/ui/video";
+import { Video } from "@/components/ui/video";
+import type { VideoFormat } from "@/lib/schemas/video-schemas";
 
 interface RichTextProps {
   content?: string;
@@ -171,14 +172,25 @@ export default function RichTextRenderer({ content }: RichTextProps) {
             },
 
             p: ({ children }) => {
-              const hasVideo = React.Children.toArray(children).some((child) => {
+              const childrenArray = React.Children.toArray(children);
+
+              const hasContent = childrenArray.some((child) => {
+                if (typeof child === "string") {
+                  return child.trim().length > 0;
+                }
+                return React.isValidElement(child);
+              });
+
+              if (!hasContent) return null;
+
+              const hasVideo = childrenArray.some((child) => {
                 return (
                   React.isValidElement(child) &&
                   isValidFormatVideo((child as React.ReactElement<{ href: string }>).props.href)
                 );
               });
 
-              return hasVideo ? <>{children}</> : <div>{children}</div>;
+              return hasVideo ? <>{children}</> : <p>{children}</p>;
             },
           }}>
           {content}

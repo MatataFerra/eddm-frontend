@@ -3,6 +3,7 @@ import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
+import { type VideoFormat, VideoFormatSchema } from "@/lib/schemas/video-schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -136,3 +137,12 @@ export function extractSlugFromPathname(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   return segments.length > 0 ? segments[segments.length - 1] : null;
 }
+
+export const getValidFormat = (format: string): VideoFormat => {
+  const result = VideoFormatSchema.safeParse(format);
+  return result.success ? result.data : "video/mp4";
+};
+
+export const getCloudinaryCoverUrl = (videoUrl: string, time: number = 1) => {
+  return videoUrl.replace(".mp4", `.jpg`).replace("/upload/", `/upload/so_${time}/f_jpg/`);
+};
