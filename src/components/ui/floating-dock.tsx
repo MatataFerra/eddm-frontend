@@ -9,10 +9,11 @@ import {
 } from "motion/react";
 
 import { memo, useRef, useState } from "react";
+import { Separator } from "./separator";
 
 type ItemsProps = {
   keyId: string;
-  title: string;
+  title: string | "separator";
   icon: React.ReactNode;
   href?: string;
   onClick?: () => void;
@@ -46,9 +47,19 @@ const FloatingDockDesktop = ({ items, className }: { items: ItemsProps[]; classN
           "items-end gap-4 rounded-2xl px-4 pb-3 flex bg-accent-foreground  mx-auto opacity-50 hover:opacity-100 transition-opacity justify-center",
           className
         )}>
-        {items.map((item) => (
-          <IconContainerMemoized mouseX={mouseX} key={item.keyId} {...item} />
-        ))}
+        {items.map((item) => {
+          if (item.title === "separator") {
+            return (
+              <Separator
+                key={item.keyId}
+                orientation="vertical"
+                className="my-auto !h-1/2 bg-zinc-600"
+              />
+            );
+          }
+
+          return <IconContainerMemoized mouseX={mouseX} key={item.keyId} {...item} />;
+        })}
       </motion.div>
     </nav>
   );

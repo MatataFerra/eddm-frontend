@@ -114,6 +114,11 @@ export function Navigation({ typeOfOrder, redirect }: NavigationProps) {
       },
     },
     {
+      title: "separator",
+      keyId: "separator-1",
+      icon: null,
+    },
+    {
       title: "Favorito",
       keyId: "bookmark",
       icon: <BookmarkIcon current={current?.slug ?? null} />,
