@@ -192,6 +192,10 @@ export default function RichTextRenderer({ content }: RichTextProps) {
 
               return hasVideo ? <>{children}</> : <p>{children}</p>;
             },
+
+            h3: ({ children }) => (
+              <h3 id={children?.toString().split(" ").join("-")}>{children}</h3>
+            ),
           }}>
           {content}
         </ReactMarkdown>

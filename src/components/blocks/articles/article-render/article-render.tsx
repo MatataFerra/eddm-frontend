@@ -10,8 +10,9 @@ import {
   ContentLoader,
   SummaryLoader,
 } from "@/components/blocks/articles/article-render/article-skeleton";
-import { objectIsEmpty } from "@/lib/utils";
+import { generateSlug, objectIsEmpty } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import { AsideNav } from "./aside-nav";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
@@ -20,7 +21,18 @@ export type ArticleRenderProps = {
 export function ArticleRender({ articlePromise }: ArticleRenderProps) {
   const articleData = use(articlePromise);
 
-  if (objectIsEmpty(articleData?.data)) return notFound();
+  if (!articleData || objectIsEmpty(articleData.data)) return notFound();
+
+  const content = articleData.data.md_content;
+  const grabTitles = content?.match(/^#{1,6}\s.+/gm);
+  const toc =
+    grabTitles?.map((rawTitle) => {
+      const title = rawTitle.replace(/^#{1,6}\s/, "").trim();
+      return {
+        title: title,
+        slug: generateSlug(title),
+      };
+    }) || [];
 
   return (
     <>
@@ -41,6 +53,7 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
                 <ArticleContent contentPromise={articlePromise} />
               </Suspense>
             </article>
+            <AsideNav toc={toc} />
           </div>
         </section>
       </main>

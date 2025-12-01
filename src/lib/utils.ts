@@ -146,3 +146,13 @@ export const getValidFormat = (format: string): VideoFormat => {
 export const getCloudinaryCoverUrl = (videoUrl: string, time: number = 1) => {
   return videoUrl.replace(".mp4", `.jpg`).replace("/upload/", `/upload/so_${time}/f_jpg/`);
 };
+
+export const generateSlug = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+};
