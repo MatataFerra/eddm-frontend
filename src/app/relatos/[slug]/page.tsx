@@ -1,10 +1,10 @@
 import { TaleRender } from "@/components/blocks/tales/tale-render";
-import { NavigationWrapper } from "@/components/blocks/navigation/navigation-wrapper";
 import { APP_ROUTES } from "@/lib/constants";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { getTaleContentFromNotion } from "@/lib/api_methods/get-notion";
 import type { Tale } from "@/lib/interfaces/tales";
 import type { ContentBySlug } from "@/lib/interfaces/share";
+import { Navigation } from "@/components/blocks/navigation/navigation";
 
 export default async function Entry({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
@@ -17,7 +17,7 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   return (
     <>
       <TaleRender tale={talePromise} />
-      <NavigationWrapper
+      <Navigation
         redirect={APP_ROUTES.tales}
         typeOfOrder={[
           {
