@@ -1,9 +1,10 @@
 "use client";
+
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useTOC } from "@/lib/providers/toc-entry-provider";
 
-export function EntryNavContentDesktop() {
+export function DesktopTableOfContents() {
   const { items, activeId } = useTOC();
   const [isHovered, setIsHovered] = useState(false);
 

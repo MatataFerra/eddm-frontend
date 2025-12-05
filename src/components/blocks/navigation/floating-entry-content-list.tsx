@@ -1,21 +1,22 @@
 "use client";
 
 import { useTOC } from "@/lib/providers/toc-entry-provider";
+import { cn, generateSlug } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 
 const menuVariants = {
   closed: { opacity: 0, scale: 0.9, y: 20, pointerEvents: "none" as const },
   open: { opacity: 1, scale: 1, y: 0, pointerEvents: "auto" as const },
 };
 
-export function EntryContentList() {
+export function FloatingEntryContentList() {
   const { items, activeId, setIsTocOpen, isTocOpen } = useTOC();
 
   return (
     <AnimatePresence>
       {isTocOpen && items.length > 0 && (
         <>
-          {/* Backdrop para cerrar al hacer click fuera */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -43,23 +44,26 @@ export function EntryContentList() {
                 const isActive = activeId === item.id;
                 return (
                   <li key={`dock-toc-${item.id}`}>
-                    <a
-                      href={`#${item.id}`}
+                    <Link
+                      href={`#${generateSlug(item.id)}`}
                       onClick={() => setIsTocOpen(false)}
-                      className={`flex items-center py-2 px-2 rounded-lg text-sm transition-all
+                      className={cn(
+                        `flex items-center py-2 px-2 rounded-lg text-sm transition-all
                           ${
                             isActive
                               ? "bg-blue-500/10 text-blue-400 font-medium translate-x-1"
                               : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50"
-                          }`}>
-                      {/* Punto indicador sutil */}
+                          }`
+                      )}>
                       <div
-                        className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 transition-colors ${
-                          isActive ? "bg-blue-400" : "bg-zinc-700"
-                        }`}
+                        className={cn(
+                          `w-1.5 h-1.5 rounded-full mr-3 shrink-0 transition-colors ${
+                            isActive ? "bg-blue-400" : "bg-zinc-700"
+                          }`
+                        )}
                       />
                       <span className="truncate">{item.title}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}

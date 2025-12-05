@@ -12,7 +12,7 @@ import {
 } from "@/components/blocks/articles/article-render/article-skeleton";
 import { objectIsEmpty } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { EntryNavContentDesktop } from "@/components/blocks/navigation/entry-nav-content-desktop";
+import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-table-of-contents";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
@@ -42,7 +42,7 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
                 <ArticleContent contentPromise={articlePromise} />
               </Suspense>
             </article>
-            <EntryNavContentDesktop />
+            <DesktopTableOfContents />
           </div>
         </section>
       </main>

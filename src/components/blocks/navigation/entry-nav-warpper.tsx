@@ -18,7 +18,7 @@ import type {
 
 import { BookmarkIcon } from "@/components/blocks/navigation/bookmark-icon";
 import { extractSlugFromPathname } from "@/lib/utils";
-import { EntryContentList } from "@/components/blocks/navigation/entry-content-list";
+import { FloatingEntryContentList } from "@/components/blocks/navigation/floating-entry-content-list";
 
 type EntryNavWrapperProps = {
   redirect: RoutePaths;
@@ -161,7 +161,7 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
 
   return (
     <>
-      <EntryContentList />
+      <FloatingEntryContentList />
       <FloatingDock items={dockItems} />
     </>
   );

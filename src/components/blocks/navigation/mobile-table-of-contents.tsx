@@ -9,7 +9,7 @@ const mobileMenuVariants = {
   open: { opacity: 1, scale: 1, y: 0, pointerEvents: "auto" as const },
 };
 
-export function EntryNavMobile() {
+export function MobileTableOfContents() {
   const { items, activeId } = useTOC();
   const [mobileOpen, setMobileOpen] = useState(false);
 
