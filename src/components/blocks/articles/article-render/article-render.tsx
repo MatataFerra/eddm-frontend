@@ -12,6 +12,7 @@ import {
 } from "@/components/blocks/articles/article-render/article-skeleton";
 import { objectIsEmpty } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-table-of-contents";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
@@ -20,7 +21,7 @@ export type ArticleRenderProps = {
 export function ArticleRender({ articlePromise }: ArticleRenderProps) {
   const articleData = use(articlePromise);
 
-  if (objectIsEmpty(articleData?.data)) return notFound();
+  if (!articleData || objectIsEmpty(articleData.data)) return notFound();
 
   return (
     <>
@@ -41,6 +42,7 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
                 <ArticleContent contentPromise={articlePromise} />
               </Suspense>
             </article>
+            <DesktopTableOfContents />
           </div>
         </section>
       </main>

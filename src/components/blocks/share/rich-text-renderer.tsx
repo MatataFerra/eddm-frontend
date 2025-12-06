@@ -17,6 +17,7 @@ import type { Plugin } from "unified";
 import NextImage from "next/image";
 import { Video } from "@/components/ui/video";
 import type { VideoFormat } from "@/lib/schemas/video-schemas";
+import { generateSlug } from "@/lib/utils";
 
 interface RichTextProps {
   content?: string;
@@ -192,6 +193,8 @@ export default function RichTextRenderer({ content }: RichTextProps) {
 
               return hasVideo ? <>{children}</> : <p>{children}</p>;
             },
+
+            h3: ({ children }) => <h3 id={generateSlug(children?.toString() ?? "")}>{children}</h3>,
           }}>
           {content}
         </ReactMarkdown>

@@ -2,6 +2,7 @@ import { LOCALSTORAGE_KEYS } from "@/lib/constants";
 import { useLocalStorageObject } from "@/lib/hooks/use-localstorage-object";
 import type { LocalStorageConfig } from "@/lib/interfaces/share";
 import { cn } from "@/lib/utils";
+import { CircleDot } from "lucide-react";
 import dynamic from "next/dynamic";
 
 const BookmarkIconDynamic = dynamic(
@@ -11,6 +12,7 @@ const BookmarkIconDynamic = dynamic(
     ),
   {
     ssr: false,
+    loading: () => <CircleDot className="w-6 h-6 text-gray-400 animate-pulse" />,
   }
 );
 

@@ -1,69 +1,6 @@
-import { cn } from "@/lib/utils";
-import {
-  AnimatePresence,
-  MotionValue,
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "motion/react";
-
+import { DockItemProps } from "@/lib/interfaces/dock";
+import { AnimatePresence, MotionValue, motion, useSpring, useTransform } from "motion/react";
 import { memo, useRef, useState } from "react";
-import { Separator } from "./separator";
-
-type ItemsProps = {
-  keyId: string;
-  title: string | "separator";
-  icon: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
-};
-
-export const FloatingDock = ({
-  items,
-  desktopClassName,
-}: {
-  items: ItemsProps[];
-  desktopClassName?: string;
-}) => {
-  return (
-    <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-    </>
-  );
-};
-
-const FloatingDockDesktop = ({ items, className }: { items: ItemsProps[]; className?: string }) => {
-  const mouseX = useMotionValue(Infinity);
-
-  return (
-    <nav
-      style={{ width: "100vw" }}
-      className="h-16 fixed bottom-4 left-0 right-0 z-40 mb-8 flex justify-center">
-      <motion.div
-        onMouseMove={(e) => mouseX.set(e.pageX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        className={cn(
-          "items-end gap-4 rounded-2xl px-4 pb-3 flex bg-accent-foreground  mx-auto opacity-50 hover:opacity-100 transition-opacity justify-center",
-          className
-        )}>
-        {items.map((item) => {
-          if (item.title === "separator") {
-            return (
-              <Separator
-                key={item.keyId}
-                orientation="vertical"
-                className="my-auto !h-1/2 bg-zinc-600"
-              />
-            );
-          }
-
-          return <IconContainerMemoized mouseX={mouseX} key={item.keyId} {...item} />;
-        })}
-      </motion.div>
-    </nav>
-  );
-};
 
 export const IconContainerMemoized = memo(IconContainer);
 
@@ -73,7 +10,7 @@ function IconContainer({
   icon,
   href,
   onClick,
-}: ItemsProps & {
+}: DockItemProps & {
   mouseX: MotionValue;
 }) {
   const ref = useRef<HTMLDivElement>(null);

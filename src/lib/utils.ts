@@ -146,3 +146,30 @@ export const getValidFormat = (format: string): VideoFormat => {
 export const getCloudinaryCoverUrl = (videoUrl: string, time: number = 1) => {
   return videoUrl.replace(".mp4", `.jpg`).replace("/upload/", `/upload/so_${time}/f_jpg/`);
 };
+
+export const generateSlug = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+};
+
+export function parseHeadings(markdown: string) {
+  // Regex para encontrar títulos (H1-H6) al inicio de la línea
+  const headingRegex = /^#{1,6}\s+(.+)$/gm;
+  const matches = [];
+  let match;
+
+  while ((match = headingRegex.exec(markdown)) !== null) {
+    const title = match[1].trim();
+    // Generación simple de ID/Slug
+    const id = generateSlug(title);
+
+    matches.push({ title, id });
+  }
+
+  return matches;
+}
