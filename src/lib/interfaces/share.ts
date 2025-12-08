@@ -9,6 +9,11 @@ export type LocalStorageConfig = {
   "articles-read-status": ArticleStatusMap;
 };
 
+export type LocalStorageConfigUpdateFunction = <K extends keyof LocalStorageConfig>(
+  field: K,
+  newValue: LocalStorageConfig[K]
+) => void;
+
 export type Category = {
   type: "category";
   name:

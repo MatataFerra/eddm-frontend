@@ -5,7 +5,11 @@ export function useLocalStorageObject<T extends object>(key: string, initialValu
     initializeWithValue: true,
   });
 
-  const update = <K extends keyof T>(field: K, newValue: T[K]) => {
+  const updateConfig = (newValueOrUpdater: T | ((prev: T) => T)) => {
+    setValue(newValueOrUpdater);
+  };
+
+  const updateField = <K extends keyof T>(field: K, newValue: T[K]) => {
     setValue({ ...value, [field]: newValue });
   };
 
@@ -31,5 +35,5 @@ export function useLocalStorageObject<T extends object>(key: string, initialValu
     }
   };
 
-  return { value, update, remove, reset, deleteFromArray } as const;
+  return { value, update: updateField, updateConfig, remove, reset, deleteFromArray } as const;
 }

@@ -53,9 +53,11 @@ export const LOCALSTORAGE_KEYS = {
 } as const;
 
 export const TRANSLATE_ARTICLE_READ_STATUS = {
-  read: "Leído",
-  reading: "Leyendo",
-  unread: "No leído",
+  es: {
+    read: "Leído",
+    reading: "Leyendo",
+    unread: "No leído",
+  },
 } as const;
 
 export const VIDEO_SIZE = {

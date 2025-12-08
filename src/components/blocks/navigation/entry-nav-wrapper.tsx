@@ -5,20 +5,16 @@ import { ListIcon, X, ChevronLeft, ChevronRight, House } from "lucide-react";
 import { useTOC } from "@/lib/providers/toc-entry-provider";
 import { FloatingDock } from "@/components/blocks/dock/floating-dock";
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
-import { LOCALSTORAGE_KEYS, type RoutePaths, TRANSLATE_ARTICLE_READ_STATUS } from "@/lib/constants";
+import { type RoutePaths, TRANSLATE_ARTICLE_READ_STATUS } from "@/lib/constants";
 import { usePathname, useRouter } from "next/navigation";
-import { useLocalStorageObject } from "@/lib/hooks/use-localstorage-object";
-import { ReadingStatusIcon } from "@/components/blocks/navigation/reading-status-icon";
+import { ReadingStatusIcon } from "@/components/blocks/navigation/icons-logic/reading-status/reading-status-icon";
 
-import type {
-  ArticleReadStatus,
-  EntriesOrderByCategory,
-  LocalStorageConfig,
-} from "@/lib/interfaces/share";
+import type { ArticleReadStatus, EntriesOrderByCategory } from "@/lib/interfaces/share";
 
-import { BookmarkIcon } from "@/components/blocks/navigation/bookmark-icon";
+import { BookmarkIcon } from "@/components/blocks/navigation/icons-logic/bookmark/bookmark-icon";
 import { extractSlugFromPathname } from "@/lib/utils";
 import { FloatingEntryContentList } from "@/components/blocks/navigation/floating-entry-content-list";
+import { useLocalStorageConfig } from "@/lib/providers/local-storage-provider";
 
 type EntryNavWrapperProps = {
   redirect: RoutePaths;
@@ -30,16 +26,7 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
   const { replace, push } = useRouter();
   const pathname = usePathname();
   const segment = extractSlugFromPathname(pathname);
-  const { value, update } = useLocalStorageObject<LocalStorageConfig>(
-    LOCALSTORAGE_KEYS.EDDM_CONFIG_OBJECT,
-    {
-      version: 1,
-      bookmarked: [],
-      "articles-read-status": {},
-    }
-  );
-
-  const { "articles-read-status": articlesReadStatus } = value;
+  const { bookmarked, articlesReadStatus, update } = useLocalStorageConfig();
 
   const updaterEvent = useEffectEvent((slug: string, status: ArticleReadStatus) => {
     update("articles-read-status", {
@@ -64,9 +51,9 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
   function handleBookmark() {
     update(
       "bookmarked",
-      value.bookmarked.includes(current?.slug ?? "")
-        ? value.bookmarked.filter((s) => s !== current?.slug)
-        : [...value.bookmarked, current?.slug ?? ""]
+      bookmarked.includes(current?.slug ?? "")
+        ? bookmarked.filter((s) => s !== current?.slug)
+        : [...bookmarked, current?.slug ?? ""]
     );
   }
 
@@ -133,10 +120,10 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
     },
     {
       title: `Estado de lectura - ${
-        TRANSLATE_ARTICLE_READ_STATUS[articlesReadStatus?.[current?.slug ?? ""] ?? "unread"]
+        TRANSLATE_ARTICLE_READ_STATUS.es[articlesReadStatus?.[current?.slug ?? ""] ?? "unread"]
       }`,
       keyId: "reading-status",
-      icon: <ReadingStatusIcon articleStatus={articlesReadStatus} slug={current?.slug ?? ""} />,
+      icon: <ReadingStatusIcon slug={current?.slug ?? ""} />,
       onClick: handleReadingStatusChange,
     },
   ];
