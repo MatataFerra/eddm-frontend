@@ -1,8 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "motion/react";
-import { useTOC } from "@/lib/providers/toc-entry-provider";
+import { motion, AnimatePresence } from "motion/react";
+import { type TOCItem, useTOC } from "@/lib/providers/toc-entry-provider";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+const containerVariants = {
+  collapsed: {
+    width: 32,
+    padding: "8px 0",
+    backgroundColor: "transparent",
+  },
+  expanded: {
+    width: 260,
+    padding: "12px",
+    backgroundColor: "rgba(24, 24, 27, 0.95)",
+  },
+};
 
 export function DesktopTableOfContents() {
   const { items, activeId } = useTOC();
@@ -10,63 +25,89 @@ export function DesktopTableOfContents() {
 
   if (items.length === 0) return null;
 
-  const navVariants = {
-    idle: { width: 30, backgroundColor: "transparent", padding: "12px 0px" },
-    hover: { width: 240, backgroundColor: "rgba(24, 24, 27, 0.95)", padding: "16px" },
-  };
-
   return (
     <motion.nav
-      className="hidden md:flex fixed top-1/4 right-4 z-50 rounded-xl overflow-hidden backdrop-blur-sm border border-transparent hover:border-zinc-800/50 flex-col"
+      className="hidden md:flex flex-col fixed top-1/4 right-4 z-50 rounded-lg backdrop-blur-md border border-transparent hover:border-zinc-800/50 overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      initial="idle"
-      animate={isHovered ? "hover" : "idle"}
-      variants={navVariants}
-      transition={{ type: "spring", stiffness: 350, damping: 25 }}>
-      <ul className="flex flex-col relative w-full">
-        {items.map((item) => {
-          const isActive = activeId === item.id;
-          return (
-            <motion.li
-              key={item.id}
-              className="relative flex items-center w-full"
-              animate={{ height: isHovered ? 32 : 8, marginBottom: isHovered ? 4 : 3 }}>
-              {/* Lógica visual idéntica a la anterior... */}
-              <motion.div
-                animate={{ opacity: isHovered ? 0 : 1, x: isHovered ? -10 : 0 }}
-                className="absolute right-0 left-0 flex justify-center pointer-events-none">
-                <motion.div
-                  animate={{
-                    width: isActive ? 16 : 10,
-                    height: isActive ? 3 : 2,
-                    backgroundColor: isActive ? "#60a5fa" : "#52525b",
-                  }}
-                  className="rounded-full mr-2"
-                />
-              </motion.div>
-
-              <motion.a
-                href={`#${item.id}`}
-                animate={{
-                  opacity: isHovered ? 1 : 0,
-                  x: isHovered ? 0 : 15,
-                  display: isHovered ? "flex" : "none",
-                }}
-                className={`items-center w-full h-full px-2 rounded-md truncate transition-colors ${
-                  isActive ? "text-blue-400 bg-blue-500/10" : "text-zinc-400 hover:text-zinc-200"
-                }`}>
-                <div
-                  className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 ${
-                    isActive ? "bg-blue-400" : "bg-zinc-600"
-                  }`}
-                />
-                <span className="text-xs font-medium truncate">{item.title}</span>
-              </motion.a>
-            </motion.li>
-          );
-        })}
-      </ul>
+      initial="collapsed"
+      animate={isHovered ? "expanded" : "collapsed"}
+      variants={containerVariants}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+      <div className="relative w-full">
+        <AnimatePresence mode="wait" initial={false}>
+          {!isHovered ? (
+            <CompactLines key="lines" items={items} activeId={activeId} />
+          ) : (
+            <ExpandedList key="list" items={items} activeId={activeId} />
+          )}
+        </AnimatePresence>
+      </div>
     </motion.nav>
+  );
+}
+
+function CompactLines({ items, activeId }: { items: TOCItem[]; activeId: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.1 }}
+      className="flex flex-col items-center w-full gap-0.5">
+      {items.map((item) => {
+        const isActive = activeId === item.id;
+        return (
+          <div key={item.id} className="h-2 w-full flex items-center justify-center">
+            <div
+              className={cn(
+                "rounded-full transition-all duration-300 h-0.5",
+                isActive
+                  ? "bg-blue-500 w-4 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+                  : "bg-zinc-600 w-2"
+              )}
+            />
+          </div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
+function ExpandedList({ items, activeId }: { items: TOCItem[]; activeId: string }) {
+  return (
+    <motion.ul
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      variants={{
+        visible: { transition: { staggerChildren: 0.02 } },
+        hidden: {},
+      }}
+      className="flex flex-col gap-1 list-none p-0 m-0 w-full">
+      {items.map((item) => {
+        const isActive = activeId === item.id;
+        return (
+          <motion.li
+            key={item.id}
+            variants={{
+              hidden: { opacity: 0, x: 20 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}>
+            <Link
+              href={`#${item.id}`}
+              className={cn(
+                "block w-full px-3 py-1.5 rounded-md text-xs font-medium truncate transition-colors",
+                isActive
+                  ? "bg-blue-500/10 text-blue-400"
+                  : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50"
+              )}>
+              {item.title}
+            </Link>
+          </motion.li>
+        );
+      })}
+    </motion.ul>
   );
 }

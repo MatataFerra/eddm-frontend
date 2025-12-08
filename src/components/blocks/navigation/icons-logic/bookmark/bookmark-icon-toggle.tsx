@@ -6,7 +6,7 @@ type BookmarkIconDynamicProps = {
   isBookmarked?: boolean;
 };
 
-export function BookmarkIconDynamic({ className, isBookmarked }: BookmarkIconDynamicProps) {
+export function BookmarkIconToggle({ className, isBookmarked }: BookmarkIconDynamicProps) {
   if (isBookmarked) {
     return <BookmarkCheck className={cn("w-6 h-6 text-red-700 fill-red-300", className)} />;
   }
