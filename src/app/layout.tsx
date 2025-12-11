@@ -52,7 +52,7 @@ export default async function RootLayout({
         <IndexContentProvider>
           <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
             {children}
-            <Toaster />
+            <Toaster richColors />
           </RootDataProvider>
         </IndexContentProvider>
       </body>

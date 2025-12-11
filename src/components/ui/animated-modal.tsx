@@ -49,6 +49,7 @@ export const ModalTrigger = ({
 
   return (
     <motion.button
+      whileTap={{ scale: 0.95 }}
       whileHover="hover"
       initial="rest"
       animate="rest"

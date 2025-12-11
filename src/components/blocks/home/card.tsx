@@ -1,8 +1,11 @@
 "use client";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { LoaderTwo } from "@/components/ui/loader";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 type CardHomeProps = {
   bgImage: string;
@@ -13,17 +16,33 @@ type CardHomeProps = {
 
 export function CardHome({ bgImage, title, description, redirect }: CardHomeProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleClick = () => {
+    startTransition(() => {
+      router.push(redirect);
+    });
+  };
 
   return (
     <Card
-      className="w-full max-w-md overflow-hidden cursor-pointer group/home"
-      onClick={() => router.push(redirect)}>
+      className={cn(
+        "w-full max-w-md overflow-hidden cursor-pointer group/home relative",
+        isPending && "cursor-wait pointer-events-none"
+      )}
+      onClick={handleClick}>
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px] transition-all duration-300">
+          <LoaderTwo />
+        </div>
+      )}
+
       <div className="relative h-72">
         <Image
           src={bgImage}
           alt={title}
           fill
-          className="bg-no-repeat group-hover/home:sepia-50"
+          className="object-cover bg-no-repeat group-hover/home:sepia-50 transition-all"
           loading="lazy"
         />
 
