@@ -8,8 +8,13 @@ export async function ArticlesHomeGrid() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center h-auto items-center w-full">
-          <p className="text-2xl font-semibold text-white">Cargando portadas…</p>
+        <div className="grid grid-cols-3 h-auto  w-full">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={"loading-article-" + index}
+              className="animate-pulse bg-muted h-64 md:h-72 lg:h-80 mx-2 rounded-lg"
+            />
+          ))}
         </div>
       }>
       <Resolved settingsPromise={settings} />

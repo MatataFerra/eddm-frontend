@@ -1,9 +1,10 @@
 "use client";
+
 import { useOutsideClick } from "@/lib/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
 import { isMobile, isTablet } from "react-device-detect";
-import { AnimatePresence, motion, MotionProps } from "motion/react";
-import React, { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, type MotionProps } from "motion/react";
+import { type ReactNode, createContext, use, useEffect, useRef, useState } from "react";
 
 interface ModalContextType {
   open: boolean;
@@ -19,7 +20,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useModal = () => {
-  const context = useContext(ModalContext);
+  const context = use(ModalContext);
   if (!context) {
     throw new Error("useModal must be used within a ModalProvider");
   }

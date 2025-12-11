@@ -8,6 +8,7 @@ import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
 import { IndexContentProvider } from "@/components/blocks/index-content/context";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default async function RootLayout({
         <IndexContentProvider>
           <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
             {children}
+            <Toaster />
           </RootDataProvider>
         </IndexContentProvider>
       </body>

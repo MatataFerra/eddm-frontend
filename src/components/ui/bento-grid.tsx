@@ -1,14 +1,15 @@
 import { cn } from "@lib/utils";
+import { PropsWithChildren } from "react";
 
-export const BentoGrid = ({
-  className,
-  children,
-}: {
+type BentoGridProps = PropsWithChildren<{
   className?: string;
-  children?: React.ReactNode;
-}) => {
+  onClick?: () => void;
+}>;
+
+export const BentoGrid = ({ className, children, onClick }: BentoGridProps) => {
   return (
     <div
+      onClick={onClick}
       className={cn(
         "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto ",
         className
