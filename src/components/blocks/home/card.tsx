@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { LoaderTwo } from "@/components/ui/loader";
+import { LoaderOne } from "@/components/ui/loader";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ export function CardHome({ bgImage, title, description, redirect }: CardHomeProp
       onClick={handleClick}>
       {isPending && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px] transition-all duration-300">
-          <LoaderTwo />
+          <LoaderOne />
         </div>
       )}
 
