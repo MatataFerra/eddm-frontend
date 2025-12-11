@@ -12,13 +12,14 @@ type CardArticleProps = {
   article: ContentNavigate;
   className?: string;
   portrait?: boolean;
+  onClick?: () => void;
 };
 
-export function BentoCard({ article, portrait = false, className }: CardArticleProps) {
+export function BentoCard({ article, portrait = false, className, onClick }: CardArticleProps) {
   const router = useRouter();
   const random = useRandom({ min: -10, max: 10 });
 
-  function onClick(slug: string) {
+  function onNavigateToArticle(slug: string) {
     router.push(`${ENDPOINTS.ARTICLE(slug)}`);
     document.body.style.overflow = "auto";
   }
@@ -35,7 +36,10 @@ export function BentoCard({ article, portrait = false, className }: CardArticleP
         "rounded-xl p-1 size-full bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer",
         className
       )}
-      onClick={() => onClick(article.slug)}
+      onClick={() => {
+        if (onClick) onClick();
+        onNavigateToArticle(article.slug);
+      }}
       style={{
         rotate: random,
       }}

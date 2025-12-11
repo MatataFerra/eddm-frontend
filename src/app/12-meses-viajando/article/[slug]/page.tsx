@@ -17,11 +17,9 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   });
 
   return (
-    <>
-      <TOCProvider articlePromise={articlePromise}>
-        <ArticleRender articlePromise={articlePromise} />
-        <Navigation redirect={APP_ROUTES.journey} typeOfOrder={MONTHS_ORDERED} />
-      </TOCProvider>
-    </>
+    <TOCProvider articlePromise={articlePromise}>
+      <ArticleRender articlePromise={articlePromise} />
+      <Navigation redirect={APP_ROUTES.journey} typeOfOrder={MONTHS_ORDERED} />
+    </TOCProvider>
   );
 }

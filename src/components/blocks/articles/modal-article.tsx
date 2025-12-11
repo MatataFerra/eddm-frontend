@@ -2,10 +2,11 @@
 
 import React, { type PropsWithChildren } from "react";
 import { Modal, ModalBody, ModalContent, ModalTrigger } from "@/components/ui/animated-modal";
-import { cn, MOTION_ANIMATIONS } from "@/lib/utils";
+import { capitalize, cn, MOTION_ANIMATIONS } from "@/lib/utils";
 import { useAnimationControls } from "motion/react";
 import type { Category } from "@/lib/interfaces/share";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 const MobileArticleText = dynamic(
   () => import("./mobile-article-card").then((mod) => mod.MobileArticleText),
@@ -46,10 +47,11 @@ export function ModalArticle({
   children,
 }: AnimatedModalDemoProps) {
   const controls = useAnimationControls();
+  const pathname = usePathname();
 
   return (
     <div className={cn("flex items-center justify-center", className)} style={style}>
-      <Modal>
+      <Modal key={pathname}>
         <ModalTrigger
           onHoverStart={() => {
             controls.start("hover", { duration: 0.2 });
@@ -83,7 +85,7 @@ export function ModalArticle({
             <p className="text-black transition-colors">
               {trigger === "context"
                 ? "Acá empieza la aventura"
-                : trigger?.charAt(0).toUpperCase() + trigger?.slice(1)}
+                : capitalize(trigger) || "Artículos"}
             </p>
           )}
         </ModalTrigger>

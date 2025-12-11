@@ -3,7 +3,7 @@
 import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
 
 import { cn } from "@/lib/utils";
-import type { SettingsListItemResponse } from "@/lib/interfaces/cards"; // o usa el type inline del server
+import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 import { useRootData } from "@/lib/providers/root-data-provider";
 import {
   Carousel,
@@ -15,6 +15,8 @@ import {
 import dynamic from "next/dynamic";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import type { Category } from "@/lib/interfaces/share";
+import { QuoteIcon } from "@/components/ui/quote-icon";
+import { toast } from "sonner";
 
 const ModalArticle = dynamic(
   () => import("@/components/blocks/articles/modal-article").then((m) => m.ModalArticle),
@@ -76,11 +78,27 @@ export function GridClient({ settings }: Props) {
   if (!settings?.ok || !settings.data || settings.data.length === 0 || !settings) {
     return (
       <BentoWrapper>
-        <div className="flex justify-center items-center h-auto w-full text-center col-span-2">
-          <p className="text-2xl font-bold text-red-400">Error al cargar los artículos</p>
+        <div className="flex justify-center items-center h-auto text-center w-full col-span-3">
+          <p className="text-2xl font-bold text-red-400">
+            No se pueden visulizar las categorías correctamente
+          </p>
         </div>
       </BentoWrapper>
     );
+  }
+
+  function handleUserFeedback() {
+    const task = new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+
+    toast.promise(task, {
+      loading: "Has solicitado un artículo. Procesando...",
+      success: "Redirigiendo...",
+      error: "Hubo un error. Por favor, intenta de nuevo.",
+    });
   }
 
   return (
@@ -88,7 +106,6 @@ export function GridClient({ settings }: Props) {
       {settings.data.map((category, index) => {
         if (!category.show) return null;
 
-        // Bloque "phrase": oculto en mobile por CSS, sin device-detect
         if (category.type === "phrase") {
           return (
             <div
@@ -108,14 +125,7 @@ export function GridClient({ settings }: Props) {
               className={cn(
                 "hidden md:flex rounded-xl justify-center items-center size-full border border-black overflow-hidden text-black dark:text-white p-8 italic text-balance relative"
               )}>
-              <svg
-                className="mb-4 size-48 text-gray-400 dark:text-gray-400 absolute top-4 left-4 opacity-30"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 18 14">
-                <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
-              </svg>
+              <QuoteIcon />
 
               <p className="w-full [text-wrap:balance] [font-size:clamp(12px,5vw,24px)] h-full">
                 {category.text}
@@ -142,7 +152,7 @@ export function GridClient({ settings }: Props) {
               <CarouselContent className="p-4">
                 {list.map((article) => (
                   <CarouselItem key={article.id} className="basis-1/2 md:basis-1/3">
-                    <BentoCard article={article} />
+                    <BentoCard article={article} onClick={handleUserFeedback} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
