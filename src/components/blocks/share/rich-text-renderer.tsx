@@ -16,7 +16,6 @@ import type { Root, Node, Paragraph, Text, Image } from "mdast";
 import type { Plugin } from "unified";
 import NextImage from "next/image";
 import { Video } from "@/components/ui/video";
-import type { VideoFormat } from "@/lib/schemas/video-schemas";
 import { generateSlug } from "@/lib/utils";
 
 interface RichTextProps {
@@ -91,8 +90,16 @@ export const remarkCarousel: Plugin<void[], Root> = () => {
   };
 };
 
-function isValidFormatVideo(src: string): boolean {
-  return /\.(mp4|webm|ogg|mov)$/i.test(src);
+function isVideo(src: string): boolean {
+  try {
+    const urlObj = new URL(src, "https://dummy.com");
+    const pathname = urlObj.pathname;
+
+    const regex = /\.(mp4|webm|ogg|mov)$/i.test(pathname);
+    return regex;
+  } catch {
+    return false;
+  }
 }
 
 export default function RichTextRenderer({ content }: RichTextProps) {
@@ -112,18 +119,9 @@ export default function RichTextRenderer({ content }: RichTextProps) {
                           key={index}
                           className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-[100%] [&>div]:max-w-[100%] [&>p>img]:max-w-[100%] [&>div>video]:max-w-[100%] [&>div>video]:h-auto [&>p>img]:h-auto">
                           {React.isValidElement(child) ? (
-                            isValidFormatVideo(
-                              (child as React.ReactElement<{ href: string }>).props.href
-                            ) ? (
+                            isVideo((child as React.ReactElement<{ href: string }>).props.href) ? (
                               <Video
                                 src={(child as React.ReactElement<{ href: string }>).props.href}
-                                type={
-                                  `video/${(
-                                    child as React.ReactElement<{ href: string }>
-                                  ).props.href
-                                    .split(".")
-                                    .pop()}` as VideoFormat
-                                }
                                 size="medium"
                               />
                             ) : (
@@ -156,20 +154,12 @@ export default function RichTextRenderer({ content }: RichTextProps) {
               }
               return <p>{children}</p>;
             },
-            a: (props) => {
-              if (props.href?.includes("cloudinary.com")) {
-                if (isValidFormatVideo(props.href)) {
-                  return (
-                    <Video
-                      src={props.href}
-                      type={`video/${props.href.split(".").pop()}` as VideoFormat}
-                      size="medium"
-                    />
-                  );
-                }
+            a: ({ href, children }) => {
+              if (href && isVideo(href)) {
+                return <Video src={href} size="medium" />;
               }
 
-              return <a href={props.href}>{props.children}</a>;
+              return <a href={href}>{children} </a>;
             },
 
             p: ({ children }) => {
@@ -187,7 +177,7 @@ export default function RichTextRenderer({ content }: RichTextProps) {
               const hasVideo = childrenArray.some((child) => {
                 return (
                   React.isValidElement(child) &&
-                  isValidFormatVideo((child as React.ReactElement<{ href: string }>).props.href)
+                  isVideo((child as React.ReactElement<{ href: string }>).props.href)
                 );
               });
 

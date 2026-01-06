@@ -3,7 +3,6 @@ import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
-import { type VideoFormat, VideoFormatSchema } from "@/lib/schemas/video-schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -138,13 +137,27 @@ export function extractSlugFromPathname(pathname: string) {
   return segments.length > 0 ? segments[segments.length - 1] : null;
 }
 
-export const getValidFormat = (format: string): VideoFormat => {
-  const result = VideoFormatSchema.safeParse(format);
-  return result.success ? result.data : "video/mp4";
+/* Detect MIME type from video URL */
+
+export const isCloudinarySource = (url: string) => {
+  return url.includes("cloudinary.com") || url.includes("/upload/");
 };
 
 export const getCloudinaryCoverUrl = (videoUrl: string, time: number = 1) => {
-  return videoUrl.replace(".mp4", `.jpg`).replace("/upload/", `/upload/so_${time}/f_jpg/`);
+  if (!isCloudinarySource(videoUrl)) return undefined;
+
+  const urlWithJpg = videoUrl.replace(/\.(mp4|webm|ogg|mov|mkv)(\?|$)/i, ".jpg$2");
+
+  return urlWithJpg.replace("/upload/", `/upload/so_${time},f_jpg/`);
+};
+
+export const detectMimeType = (src: string): string => {
+  const cleanSrc = src.split(/[?#]/)[0].toLowerCase();
+
+  if (cleanSrc.endsWith(".webm")) return "video/webm";
+  if (cleanSrc.endsWith(".ogg")) return "video/ogg";
+  if (cleanSrc.endsWith(".mov")) return "video/quicktime";
+  return "video/mp4";
 };
 
 export const generateSlug = (text: string) => {

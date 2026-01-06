@@ -2,13 +2,11 @@
 
 import { VIDEO_SIZE } from "@/lib/constants";
 import type { Size, Lang, CaptionsKind } from "@/lib/interfaces/video";
-import { type VideoFormat } from "@/lib/schemas/video-schemas";
-import { cn, getCloudinaryCoverUrl, getValidFormat } from "@/lib/utils";
-import { useState } from "react";
+import { cn, getCloudinaryCoverUrl, detectMimeType, isCloudinarySource } from "@/lib/utils";
+import { type SyntheticEvent, useRef, useState } from "react";
 
 type VideoProps = {
   src: string;
-  type: VideoFormat;
   size: Size;
   className?: string;
   captionPath?: string;
@@ -20,7 +18,6 @@ type VideoProps = {
 export function Video({
   src,
   className,
-  type = "video/mp4",
   captionPath,
   size = "small",
   srcLang = "en",
@@ -28,22 +25,35 @@ export function Video({
   kind = "captions",
 }: VideoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const validFormat = getValidFormat(type);
+  const validFormat = detectMimeType(src);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const computedPoster = getCloudinaryCoverUrl(src, 7);
+  const isNotionOrAWS = !isCloudinarySource(src);
+
+  const handleLoadedMetadata = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
+    const video = e.currentTarget;
+    if (isNotionOrAWS && video.duration > 1) {
+      video.currentTime = 1;
+    }
+  };
 
   return (
     <video
+      ref={videoRef}
       className={cn(
-        "aspect-video max-w-[100%] h-full rounded-2xl border-accent-foreground shadow-accent-foreground",
+        "aspect-video w-full h-auto",
         "transition-all duration-300",
         isPlaying ? "object-contain" : "object-cover",
         className
       )}
       width={VIDEO_SIZE[size].width}
       height={VIDEO_SIZE[size].height}
-      poster={getCloudinaryCoverUrl(src, 7)}
-      muted
+      poster={computedPoster}
       controls
-      preload="none"
+      muted
+      preload="metadata"
+      onLoadedMetadata={handleLoadedMetadata}
       onPlay={() => setIsPlaying(true)}
       onEnded={() => setIsPlaying(false)}>
       <source src={src} type={validFormat} />
