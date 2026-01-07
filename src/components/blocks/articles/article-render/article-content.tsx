@@ -1,6 +1,6 @@
 import { use } from "react";
-import MarkdownRenderer from "@/components/blocks/share/rich-text-renderer";
 import { ArticlePromise } from "@/lib/interfaces/articles";
+import { RichTextRenderer } from "@/components/blocks/markdown/rich-text-renderer";
 
 type ArticleContentProps = {
   contentPromise: ArticlePromise;
@@ -17,5 +17,5 @@ export function ArticleContent({ contentPromise }: ArticleContentProps) {
 
   if (!data?.data) return null;
 
-  return <MarkdownRenderer content={data.data.md_content ?? data.data.content} />;
+  return <RichTextRenderer content={data.data.md_content ?? data.data.content} />;
 }
