@@ -199,3 +199,40 @@ body {
   overflow-wrap: break-word;
   text-wrap: balance;
 }
+
+.lightbox-window {
+  --yarl__container_background_color: rgba(0, 0, 0, 0.572);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lightbox-window .yarl__slide_image,
+.lightbox-window .yarl__slide_video {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(102, 102, 102, 0.277);
+  backdrop-filter: blur(4px);
+  max-width: 90% !important;
+  max-height: 85% !important;
+  /* background-color: #18181b; */
+}
+
+.lightbox-window .yarl__button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  margin: 10px;
+  padding: 0.5rem;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.lightbox-window .yarl__button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-window .yarl__icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+}

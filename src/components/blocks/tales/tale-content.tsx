@@ -1,5 +1,5 @@
 import { use } from "react";
-import MarkdownRenderer from "@/components/blocks/share/rich-text-renderer";
+import { RichTextRenderer } from "@/components/blocks/markdown/rich-text-renderer";
 import type { TalePromise } from "@/lib/interfaces/tales";
 
 type TaleContentProps = {
@@ -17,5 +17,5 @@ export function TaleContent({ contentPromise }: TaleContentProps) {
 
   if (!content?.data) return null;
 
-  return <MarkdownRenderer content={content.data.md_content} />;
+  return <RichTextRenderer content={content.data.md_content} />;
 }

@@ -80,7 +80,7 @@ export function GridClient({ settings }: Props) {
       <BentoWrapper>
         <div className="flex justify-center items-center h-auto text-center w-full col-span-3">
           <p className="text-2xl font-bold text-red-400">
-            No se pueden visulizar las categorías correctamente
+            No se pueden visualizar las categorías correctamente
           </p>
         </div>
       </BentoWrapper>
