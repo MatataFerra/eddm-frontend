@@ -1,7 +1,7 @@
 import { FloatingDockMobile } from "@/components/blocks/dock/mobile-dock";
 import { FloatingDockDesktop } from "@/components/blocks/dock/desktop-dock";
 import type { DockItemProps } from "@/lib/interfaces/dock";
-import { cn } from "../../../lib/utils";
+import { cn } from "@/lib/utils";
 
 export const FloatingDock = ({
   items,
