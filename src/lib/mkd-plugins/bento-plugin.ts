@@ -35,6 +35,9 @@ export function remarkAutoBento() {
   return (tree: Root) => {
     visit(tree, (node) => {
       if (!("children" in node)) return;
+      if (node.type === "containerDirective" && (node as any).name === "carousel") {
+        return;
+      }
       if (node.type === "containerDirective" && (node as any).name === "bento") {
         return;
       }

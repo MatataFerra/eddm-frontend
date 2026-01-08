@@ -34,6 +34,8 @@ export function CarouselWrapper({ children }: { children: React.ReactNode }) {
             );
           }
 
+          // console.log({ child: child.props });
+
           const src = getSource(child.props as { href?: string; src?: string });
           const isVid = isVideo(src);
 
