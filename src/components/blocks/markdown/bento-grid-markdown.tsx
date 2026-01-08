@@ -1,7 +1,7 @@
 "use client";
 
 import "yet-another-react-lightbox/styles.css";
-import { detectMimeType } from "@/lib/utils";
+import { cn, detectMimeType } from "@/lib/utils";
 import React, { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Video from "yet-another-react-lightbox/plugins/video";
@@ -22,19 +22,21 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
         {React.Children.map(children, (child, i) => {
           const isHero = i === 0;
           const isLast = i === itemCount - 1;
-          let spanClasses = "";
+          const desktopRemainder = itemCount % 3;
+          const isMobileOrphan = itemCount % 2 === 0;
 
-          // Mobile: primer item es 2x2, resto 1x1
-          // Desktop: mantiene lógica original
-          if (isHero) {
-            spanClasses = "col-span-2 row-span-2 md:col-span-2 md:row-span-2";
-          } else if (isLast) {
-            if (itemCount % 3 === 1) spanClasses = "col-span-2 md:col-span-3 md:row-span-1";
-            else if (itemCount % 3 === 2) spanClasses = "col-span-1 md:col-span-2 md:row-span-1";
-            else spanClasses = "col-span-1 md:col-span-1 md:row-span-1";
-          } else {
-            spanClasses = "col-span-1 row-span-1 md:col-span-1 md:row-span-1";
-          }
+          const spanClasses = cn(
+            "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+
+            isHero && "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+
+            !isHero &&
+              isLast && [
+                isMobileOrphan && "col-span-2",
+                desktopRemainder === 1 && "md:col-span-3",
+                desktopRemainder === 2 && "md:col-span-2",
+              ]
+          );
 
           return (
             <div
