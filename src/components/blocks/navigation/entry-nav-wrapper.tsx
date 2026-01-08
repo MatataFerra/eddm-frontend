@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useEffectEvent } from "react";
-import { ListIcon, X, ChevronLeft, ChevronRight, House } from "lucide-react";
+import { ListIcon, X, ChevronLeft, ChevronRight, House, ArrowUp } from "lucide-react";
 import { useTOC } from "@/lib/providers/toc-entry-provider";
 import { FloatingDock } from "@/components/blocks/dock/floating-dock";
 import { useArticleNavigation } from "@/lib/hooks/use-article-natigation";
@@ -15,6 +15,7 @@ import { BookmarkIcon } from "@/components/blocks/navigation/icons-logic/bookmar
 import { extractSlugFromPathname } from "@/lib/utils";
 import { FloatingEntryContentList } from "@/components/blocks/navigation/floating-entry-content-list";
 import { useLocalStorageConfig } from "@/lib/providers/local-storage-provider";
+import type { DockItemProps } from "@/lib/interfaces/dock";
 
 type EntryNavWrapperProps = {
   redirect: RoutePaths;
@@ -81,7 +82,7 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
     update("articles-read-status", newArticlesReadStatus);
   }
 
-  const baseDockItems = [
+  const baseDockItems: DockItemProps[] = [
     {
       title: "Anterior",
       keyId: "previous-article",
@@ -126,9 +127,22 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
       icon: <ReadingStatusIcon slug={current?.slug ?? ""} />,
       onClick: handleReadingStatusChange,
     },
+    {
+      title: "separator",
+      keyId: "separator-2",
+      icon: null,
+    },
+    {
+      title: "Ir arriba",
+      keyId: "scroll-to-top",
+      icon: <ArrowUp />,
+      onClick: () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      },
+    },
   ];
 
-  function resolveTocDockItem() {
+  function resolveTocDockItem(): DockItemProps {
     return {
       keyId: "toc-trigger",
       title: isTocOpen ? "Cerrar Índice" : "Índice",
@@ -142,9 +156,9 @@ export function EntryNavWrapper({ redirect, typeOfOrder }: EntryNavWrapperProps)
     };
   }
 
-  const tocDockItem = resolveTocDockItem();
+  const tocDockItem: DockItemProps = resolveTocDockItem();
 
-  const dockItems = tocDockItem ? [...baseDockItems, tocDockItem] : baseDockItems;
+  const dockItems: DockItemProps[] = tocDockItem ? [...baseDockItems, tocDockItem] : baseDockItems;
 
   return (
     <>
