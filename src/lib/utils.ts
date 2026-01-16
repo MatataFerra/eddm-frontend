@@ -3,6 +3,7 @@ import type { Variants } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
+import type { CategoryListItem, PhraseListItem } from "@/lib/interfaces/cards";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -171,14 +172,12 @@ export const generateSlug = (text: string) => {
 };
 
 export function parseHeadings(markdown: string) {
-  // Regex para encontrar títulos (H1-H6) al inicio de la línea
   const headingRegex = /^#{1,6}\s+(.+)$/gm;
   const matches = [];
   let match;
 
   while ((match = headingRegex.exec(markdown)) !== null) {
     const title = match[1].trim();
-    // Generación simple de ID/Slug
     const id = generateSlug(title);
 
     matches.push({ title, id });
@@ -186,3 +185,42 @@ export function parseHeadings(markdown: string) {
 
   return matches;
 }
+
+export function groupArticles(articles: ContentNavigate[] | null) {
+  if (!articles) return new Map<string, ContentNavigate[]>();
+
+  const map = new Map<string, ContentNavigate[]>();
+
+  for (const a of articles) {
+    const key = a.category.name;
+    const current = map.get(key) || [];
+    current.push(a);
+    map.set(key, current);
+  }
+
+  for (const [, list] of map) {
+    list.sort((a, b) => a.order - b.order);
+  }
+
+  return map;
+}
+
+export const getCategoryStyle = (category: PhraseListItem | CategoryListItem) => {
+  const baseStyle = {
+    gridColumn: `span ${category.columns}`,
+    gridRow: `span ${category.rows}`,
+  };
+
+  if (category.type === "phrase" && category.gradient) {
+    const direction = category.gradient.direction.replace(/_/g, " ").toLowerCase();
+    return {
+      ...baseStyle,
+      background: `linear-gradient(${direction}, ${category.gradient.from}, ${
+        category.gradient.via ?? category.gradient.from
+      }, ${category.gradient.to})`,
+      color: category.gradient.textColor,
+    };
+  }
+
+  return baseStyle;
+};
