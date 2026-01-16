@@ -1,8 +1,8 @@
 "use client";
 
+import { capitalize } from "@/lib/utils";
 import { type AnimationControls, motion, type Variants } from "motion/react";
 import Image from "next/image";
-import { isMobile } from "react-device-detect";
 
 type MobileArticleProps = {
   trigger: string;
@@ -11,36 +11,30 @@ type MobileArticleProps = {
   url?: `https://${string}` | `http://${string}` | string;
 };
 
+const getText = (trigger: string) =>
+  trigger === "context" ? "Acá empieza la aventura" : capitalize(trigger) || "Artículos";
+
 export function MobileArticleText({ trigger, controls, variants }: MobileArticleProps) {
+  const textContent = getText(trigger);
+
   return (
     <>
-      {isMobile ? (
-        <p className="absolute top-0 left-0 m-4 text-2xl font-bold bg-accent-foreground/30 backdrop-blur-xs text-white dark:text-black p-4 rounded-2xl transition-all duration-300">
-          {" "}
-          {trigger === "context"
-            ? "Acá empieza la aventura"
-            : trigger?.charAt(0).toUpperCase() + trigger?.slice(1)}
-        </p>
-      ) : (
-        <motion.p
-          className="absolute whitespace-nowrap"
-          initial="rest"
-          animate={controls}
-          variants={variants}
-          transition={{
-            duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1],
-            color: {
-              duration: 0.3,
-              delay: 0.3,
-              ease: "easeInOut",
-            },
-          }}>
-          {trigger === "context"
-            ? "Acá empieza la aventura"
-            : trigger?.charAt(0).toUpperCase() + trigger?.slice(1)}
-        </motion.p>
-      )}
+      <p className="lg:hidden absolute top-0 left-0 m-4 text-2xl font-bold bg-accent-foreground/30 backdrop-blur-xs text-white dark:text-black p-4 rounded-2xl transition-all duration-300">
+        {textContent}
+      </p>
+
+      <motion.p
+        className="hidden lg:block absolute whitespace-nowrap"
+        initial="rest"
+        animate={controls}
+        variants={variants}
+        transition={{
+          duration: 0.6,
+          ease: [0.25, 0.1, 0.25, 1],
+          color: { duration: 0.3, delay: 0.3, ease: "easeInOut" },
+        }}>
+        {textContent}
+      </motion.p>
     </>
   );
 }
@@ -48,31 +42,37 @@ export function MobileArticleText({ trigger, controls, variants }: MobileArticle
 const MotionImage = motion.create(Image);
 
 export function MobileArticleImage({ variants, controls, url }: MobileArticleProps) {
+  const src = url ?? "https://via.placeholder.com/300x200.png?text=No+Image";
+
   return (
     <>
-      {isMobile ? (
+      {/* VERSIÓN MÓVIL: Estática y optimizada */}
+      <div className="lg:hidden size-full -z-10 absolute inset-0">
         <Image
-          src={url ?? "https://via.placeholder.com/300x200.png?text=No+Image"}
-          className="size-full -z-10 absolute inset-0"
-          alt="Cover que sirve para ilustrar la temática del mes"
+          src={src}
+          className="size-full object-cover"
+          alt="Cover mobile"
           priority
-          width={300}
-          height={300}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
         />
-      ) : (
+      </div>
+
+      {/* VERSIÓN DESKTOP: Animada con Motion */}
+      <div className="hidden lg:block size-full -z-10 absolute inset-0">
         <MotionImage
-          src={url}
-          className="size-full -z-10 absolute inset-0"
-          alt="Cover que sirve para ilustrar la temática del mes"
-          initial="initial_image"
+          src={src}
+          className="size-full object-cover"
+          alt="Cover desktop"
+          initial="rest"
           variants={variants}
           animate={controls}
           priority
-          width={300}
-          height={300}
+          fill
+          sizes="33vw"
           style={{ willChange: "transform, opacity" }}
         />
-      )}
+      </div>
     </>
   );
 }
