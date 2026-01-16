@@ -12,6 +12,41 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --font-playfair: var(--font-playfair);
+  --font-poppins: var(--font-poppins);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-border-flow: border-flow 2s linear infinite;
+
+  /* 2. Definimos los Keyframes */
+  @keyframes border-flow {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 /*
@@ -136,42 +171,6 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-bebas: var(--font-bebas-neue);
-  --font-poppins: "Poppins", system-ui, sans-serif;
-}
-
-@theme {
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-  --animate-border-flow: border-flow 2s linear infinite;
-
-  /* 2. Definimos los Keyframes */
-  @keyframes border-flow {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
-  }
 }
 
 /*
@@ -182,21 +181,6 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-.font-dancing {
-  font-family: var(--font-dancing);
-}
-
-.font-bebas {
-  font-family: var(--font-bebas-neue);
-}
-
-.font-poppins {
-  font-family: var(--font-poppins);
 }
 
 .responsive-text {

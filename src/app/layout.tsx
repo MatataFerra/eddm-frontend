@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Dancing_Script, Bebas_Neue, Poppins } from "next/font/google";
+import { Playfair_Display, Poppins } from "next/font/google";
 import { getContentNavigateArticles } from "@/lib/api_methods/get-articles";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
@@ -10,26 +10,19 @@ import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 import { Toaster } from "@/components/ui/sonner";
 
-const dancingScript = Dancing_Script({
+const playfair = Playfair_Display({
+  weight: ["400", "600", "700", "900"],
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-dancing",
-});
-
-const bebasNeue = Bebas_Neue({
-  variable: "--font-bebas-neue",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-poppins",
+  variable: "--font-playfair",
   display: "swap",
 });
 
-const fonts = `${dancingScript.variable} ${bebasNeue.variable} ${poppins.variable} antialiased`;
+const poppins = Poppins({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "El diario de Mati",
@@ -48,7 +41,8 @@ export default async function RootLayout({
 
   return (
     <html lang="es">
-      <body className={fonts}>
+      <body
+        className={`${playfair.variable} ${poppins.variable} antialiased bg-background text-foreground font-playfair`}>
         <IndexContentProvider>
           <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
             {children}

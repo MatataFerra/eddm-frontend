@@ -1,13 +1,12 @@
 import { ArticlesHomeGrid } from "@/components/blocks/articles/home-grid";
 import { Nav } from "@/components/blocks/share/nav";
+import { ShareTitle } from "@/components/blocks/share/title";
 
 export default async function Page() {
   return (
     <>
       <Nav />
-      <h1 className="text-5xl my-8 lg:text-7xl font-bold text-center text-white z-2 font-sans ">
-        Un año viajando
-      </h1>
+      <ShareTitle title="Un año viajando" />
 
       <ArticlesHomeGrid />
     </>

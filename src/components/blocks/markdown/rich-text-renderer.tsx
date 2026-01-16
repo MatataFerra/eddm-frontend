@@ -53,7 +53,7 @@ export function RichTextRenderer({ content }: { content?: string }) {
   if (!content) return null;
 
   return (
-    <div className="max-w-none prose prose-invert">
+    <div className="max-w-none text-lg leading-16 tracking-wide">
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkDirective, remarkCarousel, remarkAutoBento]}
         components={{

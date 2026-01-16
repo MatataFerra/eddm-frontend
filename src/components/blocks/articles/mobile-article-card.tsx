@@ -1,6 +1,6 @@
 "use client";
 
-import { capitalize } from "@/lib/utils";
+import { getNormalizedTitleText } from "@/lib/utils";
 import { type AnimationControls, motion, type Variants } from "motion/react";
 import Image from "next/image";
 
@@ -11,11 +11,8 @@ type MobileArticleProps = {
   url?: `https://${string}` | `http://${string}` | string;
 };
 
-const getText = (trigger: string) =>
-  trigger === "context" ? "Acá empieza la aventura" : capitalize(trigger) || "Artículos";
-
 export function MobileArticleText({ trigger, controls, variants }: MobileArticleProps) {
-  const textContent = getText(trigger);
+  const textContent = getNormalizedTitleText(trigger);
 
   return (
     <>

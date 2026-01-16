@@ -7,7 +7,7 @@ import { useAnimationControls } from "motion/react";
 import type { Category } from "@/lib/interfaces/share";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { capitalize, cn } from "@/lib/utils";
+import { cn, getNormalizedTitleText } from "@/lib/utils";
 
 const LoadingTextSkeleton = () => (
   <div className="absolute top-0 left-0 m-4 text-2xl font-bold bg-accent-foreground/30 backdrop-blur-xs p-4 rounded-2xl animate-pulse" />
@@ -64,10 +64,7 @@ export function ModalArticle({
     controls.start("rest");
   };
 
-  const triggerLabel = useMemo(() => {
-    if (trigger === "context") return "Acá empieza la aventura";
-    return capitalize(trigger) || "Artículos";
-  }, [trigger]);
+  const triggerLabel = useMemo(() => getNormalizedTitleText(trigger), [trigger]);
 
   return (
     <div className={cn("flex items-center justify-center", className)} style={style}>

@@ -74,3 +74,7 @@ export const VIDEO_SIZE = {
     height: 720,
   },
 } as const;
+
+export const CONTEXT_TITLE = {
+  es: "Prólogo",
+};

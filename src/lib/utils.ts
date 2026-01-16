@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
 import type { CategoryListItem, PhraseListItem } from "@/lib/interfaces/cards";
+import { CONTEXT_TITLE } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -165,3 +166,6 @@ export const getCategoryStyle = (category: PhraseListItem | CategoryListItem) =>
 
   return baseStyle;
 };
+
+export const getNormalizedTitleText = (text: string) =>
+  text === "context" ? CONTEXT_TITLE.es : capitalize(text) || "Artículos";

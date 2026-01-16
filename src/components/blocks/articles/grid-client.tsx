@@ -18,17 +18,22 @@ import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
 import { ResponsiveQuoteText } from "@/components/blocks/articles/text-render/responsive-quote-text";
 import { useRootData } from "@/lib/providers/root-data-provider";
 
+const ModalArticleSkeleton = () => (
+  <div className="animate-pulse size-full rounded-lg bg-zinc-200/40" />
+);
+const BentoCardSkeleton = () => <div className="h-40 rounded-lg bg-zinc-200/40 animate-pulse" />;
+
 const ModalArticle = dynamic(
   () => import("@/components/blocks/articles/modal-article").then((m) => m.ModalArticle),
   {
-    loading: () => <div className="animate-pulse size-full rounded-lg bg-zinc-200/40" />,
+    loading: () => <ModalArticleSkeleton />,
   }
 );
 
 const BentoCard = dynamic(
   () => import("@/components/blocks/articles/bento-card").then((m) => m.BentoCard),
   {
-    loading: () => <div className="h-40 rounded-lg bg-zinc-200/40 animate-pulse" />,
+    loading: () => <BentoCardSkeleton />,
   }
 );
 
@@ -113,7 +118,7 @@ export function GridClient({ settings }: Props) {
             key={category.name}
             triggerClassName={cn(
               "size-full p-4 rounded-lg shadow-lg",
-              "text-4xl font-bold cursor-pointer font-dancing",
+              "text-4xl font-bold cursor-pointer",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             )}
             cover={!!category.cover}

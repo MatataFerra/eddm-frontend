@@ -14,6 +14,11 @@ import { Heart, BookOpenText, BookCheck } from "lucide-react";
 import { useRootData } from "@/lib/providers/root-data-provider";
 import { useLocalStorageObject } from "@/lib/hooks/use-localstorage-object";
 import type { LocalStorageConfig } from "@/lib/interfaces/share";
+import { getNormalizedTitleText } from "@/lib/utils";
+
+function ListItem({ children }: { children: React.ReactNode }) {
+  return <li className={cn("text-balance w-11/12 text-lg")}>{children}</li>;
+}
 
 export function ListIndexContent() {
   const { tales, articles, entries } = useRootData();
@@ -51,18 +56,18 @@ export function ListIndexContent() {
         <>
           <ul className="list-none p-0 m-0">
             {groupedMonths.length > 0 ? (
-              groupedMonths.map((group) => (
-                <AccordionItem value={group.month} key={group.month}>
+              groupedMonths.map(({ month, articles }) => (
+                <AccordionItem value={month} key={month}>
                   <li>
-                    <AccordionTrigger className="font-bold capitalize mb-0 p-0 items-center no-underline text-lg">
-                      {group.month}
+                    <AccordionTrigger className="font-bold mb-0 p-0 items-center no-underline text-xl">
+                      {getNormalizedTitleText(month)}
                     </AccordionTrigger>
                     <AccordionContent>
                       <ul>
-                        {group.articles
+                        {articles
                           .toSorted((a, b) => a.order - b.order)
                           .map((item) => (
-                            <li key={item.id} className={cn("text-balance w-11/12")}>
+                            <ListItem key={item.id}>
                               <Link
                                 className={cn(
                                   "transition-colors no-underline cursor-default font-bold",
@@ -73,7 +78,7 @@ export function ListIndexContent() {
                                 href={`${ENDPOINTS.ARTICLE(item.slug)}`}>
                                 {item.title}
                               </Link>
-                            </li>
+                            </ListItem>
                           ))}
                       </ul>
                     </AccordionContent>
@@ -98,13 +103,13 @@ export function ListIndexContent() {
                         const article = entries?.find((art) => art.slug === slug);
                         if (!article) return null;
                         return (
-                          <li key={article.id} className="text-balance w-11/12">
+                          <ListItem key={article.id}>
                             <Link
                               className="no-underline hover:underline"
                               href={`${ENDPOINTS.ARTICLE(article.slug)}`}>
                               {article.title}
                             </Link>
-                          </li>
+                          </ListItem>
                         );
                       })}
                     </ul>
@@ -129,13 +134,13 @@ export function ListIndexContent() {
                         const article = entries?.find((art) => art.slug === slug);
                         if (!article) return null;
                         return (
-                          <li key={article.id} className="text-balance w-11/12">
+                          <ListItem key={article.id}>
                             <Link
                               className="no-underline hover:underline"
                               href={`${ENDPOINTS.ARTICLE(article.slug)}`}>
                               {article.title}
                             </Link>
-                          </li>
+                          </ListItem>
                         );
                       })}
                     </ul>
@@ -156,7 +161,7 @@ export function ListIndexContent() {
                   {tales
                     ?.toSorted((a, b) => a.order - b.order)
                     .map((item) => (
-                      <li key={item.id} className={cn("text-balance w-11/12")}>
+                      <ListItem key={item.id}>
                         <Link
                           className={cn(
                             "transition-colors no-underline cursor-default font-bold",
@@ -167,7 +172,7 @@ export function ListIndexContent() {
                           href={`${ENDPOINTS.TALE(item.slug)}`}>
                           {item.title}
                         </Link>
-                      </li>
+                      </ListItem>
                     ))}
                 </ul>
               </AccordionContent>
@@ -184,13 +189,13 @@ export function ListIndexContent() {
                   {bookmarked.length > 0 ? (
                     <ul>
                       {bookmarked.map((item) => (
-                        <li key={item} className="text-balance w-11/12">
+                        <ListItem key={item}>
                           <Link
                             className="no-underline hover:underline"
                             href={`${ENDPOINTS.ARTICLE(item)}`}>
                             {capitalize(item.split("-").join(" "))}
                           </Link>
-                        </li>
+                        </ListItem>
                       ))}
                     </ul>
                   ) : (

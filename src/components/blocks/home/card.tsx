@@ -27,7 +27,7 @@ export function CardHome({ bgImage, title, description, redirect }: CardHomeProp
   return (
     <Card
       className={cn(
-        "w-full max-w-md overflow-hidden cursor-pointer group/home relative",
+        "w-full max-w-md overflow-hidden cursor-pointer group/home relative font-poppins",
         "border-zinc-900/80 transition-all duration-300",
         isPending && "cursor-wait scale-[0.98]"
       )}

@@ -14,7 +14,7 @@ export function ListItem({ tale: { slug, title, header } }: ListItemProps) {
     <li
       onClick={() => router.push(`/relatos/${slug}`)}
       className={cn(
-        "relative w-full min-h-60 font-poppins font-semibold text-2xl rounded-lg p-4 cursor-pointer transform transition-all duration-300 hover:shadow-md hover:shadow-slate-900 hover:-translate-y-1 hover:translate-x-0.5 overflow-hidden group"
+        "relative w-full min-h-60 font-semibold text-2xl rounded-lg p-4 cursor-pointer transform transition-all duration-300 hover:shadow-md hover:shadow-slate-900 hover:-translate-y-1 hover:translate-x-0.5 overflow-hidden group"
       )}>
       <div
         style={{

@@ -69,7 +69,9 @@ export function BentoCard({ article, portrait = false, className, onClick }: Car
         )}
 
         <div className="col-start-1 row-start-1 z-10 p-4 font-bold flex justify-between gap-1 w-full *:select-none">
-          <p className="font-bebas self-center responsive-text text-balance">{article.title}</p>
+          <p className="font-black text-2xl self-center text-balance line-clamp-3">
+            {article.title}
+          </p>
         </div>
       </section>
     </motion.div>

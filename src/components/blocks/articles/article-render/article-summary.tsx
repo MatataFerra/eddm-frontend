@@ -16,5 +16,5 @@ export function ArticleSummary({ articlePromise }: ArticleSummaryProps) {
 
   if (!article?.summary) return null;
 
-  return <blockquote>{article.summary}</blockquote>;
+  return <blockquote className="text-xl font-sans">{article.summary}</blockquote>;
 }
