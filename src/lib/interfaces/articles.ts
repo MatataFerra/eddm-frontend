@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { fullArticleSchema } from "../schemas";
+import { fullArticleSchema } from "@/lib/schemas";
 import type { ApiResponse } from "@/lib/fetch/caller";
 import type { ContentBySlug } from "@/lib/interfaces/share";
 
