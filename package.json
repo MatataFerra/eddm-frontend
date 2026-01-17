@@ -65,11 +65,5 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.53.0",
     "unified": "11.0.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.2.2",
-      "@types/react-dom": "19.2.2"
-    }
   }
 }
