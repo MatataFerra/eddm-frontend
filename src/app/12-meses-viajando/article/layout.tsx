@@ -1,4 +1,4 @@
-import { MobileIndexContent } from "@/components/blocks/index-content/mobile";
+import { ResponsiveIndexContent } from "@/components/blocks/index-content/responsive-index-content";
 
 export default async function Layout({
   children,
@@ -7,7 +7,7 @@ export default async function Layout({
 }>) {
   return (
     <>
-      <MobileIndexContent />
+      <ResponsiveIndexContent />
       {children}
     </>
   );
