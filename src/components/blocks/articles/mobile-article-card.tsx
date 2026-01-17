@@ -1,8 +1,10 @@
 "use client";
 
 import { getNormalizedTitleText } from "@/lib/utils";
-import { type AnimationControls, motion, type Variants } from "motion/react";
+import { useAnimationControls, motion, type Variants } from "motion/react";
 import Image from "next/image";
+
+type AnimationControls = ReturnType<typeof useAnimationControls>;
 
 type MobileArticleProps = {
   trigger: string;
