@@ -30,7 +30,7 @@ function TriggerButton({ onClick, isOpen }: { onClick: () => void; isOpen: boole
         isOpen && "opacity-0 pointer-events-none"
       )}>
       <TableOfContents className="size-4 opacity-70" />
-      <span className="text-sm font-medium">Contenido</span>
+      <span className="text-sm font-medium hidden md:inline">Contenido</span>
     </button>
   );
 }
@@ -63,7 +63,6 @@ export function ResponsiveIndexContent() {
             <SheetClose
               onClick={handleClose}
               className={cn(
-                // 1. Posicionamiento
                 "absolute right-4 top-4",
 
                 "flex items-center justify-center rounded-md p-2",
