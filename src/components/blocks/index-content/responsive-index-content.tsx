@@ -77,8 +77,11 @@ export function ResponsiveIndexContent() {
             </SheetClose>
           </SheetHeader>
           <div
-            className="prose prose-invert px-8 h-full prose-h3:mb-0 prose-h3:mt-0.5 prose-ol:pl-0! prose-ul:pl-0!"
-            style={{ overflowY: "scroll", overflowX: "hidden" }}>
+            style={{ overflowY: "scroll", overflowX: "hidden" }}
+            className={cn(
+              "prose prose-invert px-8 h-full prose-h3:mb-0 prose-h3:mt-0.5 prose-ol:pl-0! prose-ul:pl-0!",
+              "scrollbar-mac-style"
+            )}>
             <ListIndexContent />
           </div>
         </SheetContent>
