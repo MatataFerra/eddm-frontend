@@ -11,6 +11,7 @@ import { generateSlug } from "@/lib/utils";
 import { remarkCarousel } from "@/lib/mkd-plugins/carousel-plugn";
 import { remarkAutoBento } from "@/lib/mkd-plugins/bento-plugin";
 import { BentoGridMarkdown } from "@/components/blocks/markdown/bento-grid-markdown";
+import { DualGridMarkdown } from "@/components/blocks/markdown/dual-grid-markdown";
 
 function isVideoUrl(url: string | undefined): boolean {
   if (!url) return false;
@@ -66,10 +67,24 @@ export function RichTextRenderer({ content }: { content?: string }) {
                   }
                   return null;
                 })?.filter(
-                  (slide): slide is { type: "image" | "video"; src: string } => slide !== null
+                  (slide): slide is { type: "image" | "video"; src: string } => slide !== null,
                 ) || [];
 
               return <BentoGridMarkdown slides={slides}>{children}</BentoGridMarkdown>;
+            }
+
+            if (className === "dual-grid") {
+              const slides =
+                React.Children.map(children, (child) => {
+                  if (React.isValidElement(child)) {
+                    return getMediaData(child);
+                  }
+                  return null;
+                })?.filter(
+                  (slide): slide is { type: "image" | "video"; src: string } => slide !== null,
+                ) || [];
+
+              return <DualGridMarkdown slides={slides}>{children}</DualGridMarkdown>;
             }
 
             if (className === "carousel") {
@@ -111,7 +126,7 @@ export function RichTextRenderer({ content }: { content?: string }) {
             const hasBlock = childrenArray.some(
               (child) =>
                 React.isValidElement(child) &&
-                (child.type === Video || child.type === NextImage || child.type === "div")
+                (child.type === Video || child.type === NextImage || child.type === "div"),
             );
 
             if (hasBlock) return <>{children}</>;

@@ -35,7 +35,7 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
                 isMobileOrphan && "col-span-2",
                 desktopRemainder === 1 && "md:col-span-3",
                 desktopRemainder === 2 && "md:col-span-2",
-              ]
+              ],
           );
 
           return (
@@ -44,9 +44,9 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
               className={`
                 relative overflow-hidden rounded-lg md:rounded-xl border border-zinc-800 bg-zinc-900 cursor-zoom-in group
                 ${spanClasses}
-                [&_img]:!w-full [&_img]:!h-full [&_img]:!object-cover [&_img]:!m-0 
-                [&_video]:!w-full [&_video]:!h-full [&_video]:!object-cover [&_video]:!m-0
-                [&>div]:!w-full [&>div]:!h-full [&>div]:!m-0
+                [&_img]:w-full! [&_img]:h-full! [&_img]:object-cover! [&_img]:m-0! 
+                [&_video]:w-full! [&_video]:h-full! [&_video]:object-cover! [&_video]:m-0!
+                [&>div]:w-full! [&>div]:h-full! [&>div]:m-0!
               `}
               onClick={() => setIndex(i)}>
               <div className="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105">
@@ -77,7 +77,7 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
                 ],
                 poster: s.poster,
               }
-            : { src: s.src }
+            : { src: s.src },
         )}
         plugins={[Video, Zoom]}
       />

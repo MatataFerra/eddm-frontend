@@ -35,20 +35,30 @@ export function remarkAutoBento() {
   return (tree: Root) => {
     visit(tree, (node) => {
       if (!("children" in node)) return;
-      if (node.type === "containerDirective" && (node as any).name === "carousel") {
-        return;
-      }
-      if (node.type === "containerDirective" && (node as any).name === "bento") {
+      if (
+        node.type === "containerDirective" &&
+        ["bento", "dual-grid"].includes((node as any).name)
+      ) {
         return;
       }
 
       const parent = node as Parent;
-
       const newChildren: any[] = [];
       let mediaBuffer: any[] = [];
 
       const flushBuffer = () => {
-        if (mediaBuffer.length >= 3) {
+        if (mediaBuffer.length === 2) {
+          const dualNode: DirectiveNode = {
+            type: "containerDirective",
+            name: "dual-grid",
+            data: {
+              hName: "div",
+              hProperties: { className: "dual-grid" },
+            },
+            children: [...mediaBuffer],
+          };
+          newChildren.push(dualNode);
+        } else if (mediaBuffer.length >= 3) {
           const bentoNode: DirectiveNode = {
             type: "containerDirective",
             name: "bento",
@@ -58,11 +68,11 @@ export function remarkAutoBento() {
             },
             children: [...mediaBuffer],
           };
-
           newChildren.push(bentoNode);
         } else {
           newChildren.push(...mediaBuffer);
         }
+
         mediaBuffer = [];
       };
 
