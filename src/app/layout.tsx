@@ -9,7 +9,7 @@ import { IndexContentProvider } from "@/components/blocks/index-content/context"
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { BackgroundMap } from "@/components/blocks/home/background-map";
+import { BackgroundMap } from "@/components/blocks/share/background-map";
 
 const inter = Inter({
   subsets: ["latin"],
