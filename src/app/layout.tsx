@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Playfair_Display, Poppins } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import { getContentNavigateArticles } from "@/lib/api_methods/get-articles";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { getContentNavigateTales } from "@/lib/api_methods/get-tales";
@@ -9,18 +9,18 @@ import { IndexContentProvider } from "@/components/blocks/index-content/context"
 import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { BackgroundMap } from "@/components/blocks/home/background-map";
 
-const playfair = Playfair_Display({
-  weight: ["400", "600", "700", "900"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const poppins = Poppins({
-  weight: ["400", "500", "700"],
+const playfair = Playfair_Display({
+  weight: ["400", "500", "600", "700", "900"],
   subsets: ["latin"],
-  variable: "--font-poppins",
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -42,9 +42,10 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${playfair.variable} ${poppins.variable} antialiased bg-background text-foreground font-playfair`}>
+        className={`${playfair.variable} ${inter.variable} relative antialiased bg-background text-foreground font-playfair`}>
         <IndexContentProvider>
           <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
+            <BackgroundMap />
             {children}
             <Toaster richColors />
           </RootDataProvider>
