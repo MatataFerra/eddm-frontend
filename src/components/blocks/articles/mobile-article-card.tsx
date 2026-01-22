@@ -46,7 +46,7 @@ export function MobileArticleImage({ variants, controls, url }: MobileArticlePro
   return (
     <>
       {/* VERSIÓN MÓVIL: Estática y optimizada */}
-      <div className="lg:hidden size-full -z-10 absolute inset-0">
+      <div className="lg:hidden size-full absolute inset-0">
         <Image
           src={src}
           className="size-full object-cover"
@@ -58,7 +58,7 @@ export function MobileArticleImage({ variants, controls, url }: MobileArticlePro
       </div>
 
       {/* VERSIÓN DESKTOP: Animada con Motion */}
-      <div className="hidden lg:block size-full -z-10 absolute inset-0">
+      <div className="hidden lg:block size-full absolute inset-0">
         <MotionImage
           src={src}
           className="size-full object-cover"

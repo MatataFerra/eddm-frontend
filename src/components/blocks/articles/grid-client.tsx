@@ -14,6 +14,7 @@ import {
 
 import type { SettingsListItemResponse } from "@/lib/interfaces/cards";
 
+import { NoEntryFound } from "@/components/blocks/share/no-entry-found";
 import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
 import { ResponsiveQuoteText } from "@/components/blocks/articles/text-render/responsive-quote-text";
 import { useRootData } from "@/lib/providers/root-data-provider";
@@ -27,14 +28,14 @@ const ModalArticle = dynamic(
   () => import("@/components/blocks/articles/modal-article").then((m) => m.ModalArticle),
   {
     loading: () => <ModalArticleSkeleton />,
-  }
+  },
 );
 
 const BentoCard = dynamic(
   () => import("@/components/blocks/articles/bento-card").then((m) => m.BentoCard),
   {
     loading: () => <BentoCardSkeleton />,
-  }
+  },
 );
 
 const categoryHeadings: Record<string, string> = {
@@ -77,15 +78,7 @@ export function GridClient({ settings }: Props) {
   const hasSettings = settings?.ok && settings.data && settings.data.length > 0;
 
   if (!hasSettings) {
-    return (
-      <BentoWrapper>
-        <div className="flex justify-center items-center h-auto text-center w-full col-span-3">
-          <p className="text-2xl font-bold text-red-400">
-            No se pueden visualizar las categorías correctamente
-          </p>
-        </div>
-      </BentoWrapper>
-    );
+    return <NoEntryFound message="No se pueden visualizar las categorías correctamente" />;
   }
 
   return (
@@ -103,7 +96,7 @@ export function GridClient({ settings }: Props) {
               className={cn(
                 "hidden md:flex rounded-xl size-full",
                 "border border-black overflow-hidden",
-                "relative transition-all hover:shadow-xl"
+                "relative transition-all hover:shadow-xl",
               )}>
               <ResponsiveQuoteText text={category.text} color={category.gradient?.textColor} />
             </div>
@@ -119,7 +112,7 @@ export function GridClient({ settings }: Props) {
             triggerClassName={cn(
               "size-full p-4 rounded-lg shadow-lg",
               "text-4xl font-bold cursor-pointer",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
             )}
             cover={!!category.cover}
             trigger={category.name}
