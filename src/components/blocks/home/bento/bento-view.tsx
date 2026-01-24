@@ -1,5 +1,4 @@
 import { GlassTitle } from "@/components/ui/glass-title";
-// import { BackgroundMap } from "@/components/blocks/home/background-map";
 import { BentoGrid, BentoItem } from "@/components/blocks/home/bento/bento-grid";
 import { cn } from "@/lib/utils";
 import { BentoCard1 } from "@/components/blocks/home/bento/bento-card-1";
@@ -7,6 +6,11 @@ import { BentoCard2 } from "@/components/blocks/home/bento/bento-card-2";
 import { BentoCard3 } from "@/components/blocks/home/bento/bento-card-3";
 import { BentoCard4 } from "@/components/blocks/home/bento/bento-card-4";
 import { BentoCard5 } from "@/components/blocks/home/bento/bento-card-5";
+
+const BIO = `
+  Escribo desde que tengo memoria, no recuerdo un momento en el que no escriba al menos una vez al año. Sea por deshago o porque necesito ordenar mis pensamientos, la escritura ha estado allí; no me ha abandonado.
+  Decidí empezar este blog para compartir lo que siento sin pensar en que alguien podría cernsurar lo que digo. Solo busco lo que está dentro mío; 
+`;
 
 export function BentoView() {
   return (
@@ -27,11 +31,9 @@ export function BentoView() {
               "[text-shadow:0_1px_1px_rgba(0,0,0,0.35),0_8px_24px_rgba(0,0,0,0.35)]",
               "before:content-[attr(data-text)] before:absolute before:inset-0",
               "before:text-zinc-700 before:opacity-70 before:translate-y-px before:pointer-events-none",
+              "leading-relaxed",
             )}>
-            Un espacio donde comparto mis experiencias, reflexiones y aprendizajes mientras viajo
-            por el mundo. Historias auténticas, consejos prácticos y momentos inolvidables
-            capturados en palabras e imágenes. Yo nostalgio, tu nostalgias y como me revienta que él
-            nostalgie.
+            {BIO} <span className="font-bold">el camino más difícil.</span>
           </p>
         </section>
 

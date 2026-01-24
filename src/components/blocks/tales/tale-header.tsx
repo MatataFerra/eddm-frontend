@@ -18,24 +18,24 @@ export function TaleHeader({ talePromise }: TaleHeaderProps) {
   return (
     <header
       className={
-        "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 m-8"
+        "group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center mb-8"
       }>
       {tale?.header?.url ? (
         <>
-          <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
+          <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-6 z-10 self-center text-7xl text-white font-bold [text-shadow:0_1px_2px_rgb(0_0_0/40%)] drop-shadow-2xl text-balance text-center">
             {tale.title}
           </h1>
           <Image
             src={tale?.header?.url}
-            width={1280}
+            width={1024}
             height={100}
             alt={tale.slug}
-            className="w-full h-80 opacity-40 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover aspect-video object-center"
+            className="h-auto opacity-40 z-0 col-start-1 col-end-2 row-start-1 rounded-t-none rounded-4xl row-end-autotransition-all duration-300 object-cover aspect-video object-center"
           />
         </>
       ) : (
         <article className="grid grid-cols-1 grid-rows-1 w-full items-center justify-items-center rounded-md border border-slate-300/10 shadow bg-accent-foreground/60 min-h-80">
-          <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
+          <h1 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-7xl text-white font-bold">
             {tale?.title}
           </h1>
         </article>
