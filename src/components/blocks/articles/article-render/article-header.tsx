@@ -20,7 +20,7 @@ export function ArticleHeader({ articlePromise }: ArticleHeaderProps) {
   return (
     <>
       <header className="group/header grid grid-cols-1 grid-rows-1 items-center justify-items-center min-h-96 max-h-96 mb-8">
-        <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto p-4 z-10 self-center text-4xl text-white font-bold">
+        <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto p-6 z-10 self-center text-7xl text-white font-bold group-hover/header:opacity-40 transition-opacity duration-300">
           {article?.title}
         </h2>
 
@@ -31,10 +31,10 @@ export function ArticleHeader({ articlePromise }: ArticleHeaderProps) {
             height={738}
             alt={article.slug}
             className={cn(
-              "w-full h-80 -z-10 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover ",
+              "w-full h-80 z-0 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover ",
               isMobile
                 ? "aspect-auto object-center opacity-100"
-                : "aspect-video object-center opacity-40"
+                : "aspect-video object-center opacity-40",
             )}
           />
         ) : null}

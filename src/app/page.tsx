@@ -1,11 +1,5 @@
-import { BentoHome } from "@/components/blocks/home/bento";
-import { ShareTitle } from "@/components/blocks/share/title";
+import { BentoView } from "@/components/blocks/home/bento/bento-view";
 
 export default async function Page() {
-  return (
-    <>
-      <ShareTitle title="El diario de" glowWord="Mati" />
-      <BentoHome />
-    </>
-  );
+  return <BentoView />;
 }

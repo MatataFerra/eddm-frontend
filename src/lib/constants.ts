@@ -25,6 +25,7 @@ export const EXTERNAL_API_ENDPOINTS = {
   NOTION_TALE: "/notion/tale",
   NOTION_ARTICLE: "/notion/article",
   INDEX_CONTENT: "/index-content",
+  STATS: "/stats",
 };
 
 export const CACHE_TAGS = {
@@ -39,6 +40,7 @@ export const CACHE_TAGS = {
   SETTINGS: "settings",
   INDEX_CONTENT: "index-content",
   TALE_RENDER: "tale-render",
+  STATS: "stats",
 } as const;
 
 export const FALLBACK_SLUG = "__placeholder__" as const;

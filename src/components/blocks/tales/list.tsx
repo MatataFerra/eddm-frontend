@@ -2,6 +2,7 @@ import { ListItem } from "@/components/blocks/tales/list-item";
 import { ApiResponse } from "@/lib/fetch/caller";
 import { ContentNavigate } from "@/lib/interfaces/articles";
 import { use } from "react";
+import { NoEntryFound } from "@/components/blocks/share/no-entry-found";
 
 export function ListTales({
   talesPromise,
@@ -17,7 +18,7 @@ export function ListTales({
           ?.toSorted((a, b) => a.order - b.order)
           .map((tale) => <ListItem key={tale.id} tale={tale} />)
       ) : (
-        <div className="text-center text-gray-500">No hay relatos disponibles</div>
+        <NoEntryFound message="No se encontraron relatos, prueba refrescando la página" />
       )}
     </ul>
   );
