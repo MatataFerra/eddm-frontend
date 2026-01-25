@@ -9,6 +9,8 @@ type Props = {
   index: number;
   distanceToNext?: number;
   nextStop?: TripStop;
+  isLast: boolean;
+  href: string;
 };
 
 const gradients = [
@@ -38,17 +40,21 @@ const glowColors = [
   "shadow-indigo-500/20",
 ];
 
-export function StopCard({ stop, index, distanceToNext, nextStop }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+export function StopCard({ stop, index, distanceToNext, nextStop, isLast, href }: Props) {
+  const ref = useRef<HTMLAnchorElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 95%", "start 20%"],
+    offset: isLast ? ["start 98%", "start 60%"] : ["start 95%", "start 20%"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [40, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], isLast ? [20, 0] : [40, 0]);
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
-  const blur = useTransform(scrollYProgress, [0, 1], ["blur(8px)", "blur(0px)"]);
+  const scale = useTransform(scrollYProgress, [0, 1], isLast ? [0.98, 1] : [0.95, 1]);
+  const blur = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isLast ? ["blur(4px)", "blur(0px)"] : ["blur(8px)", "blur(0px)"],
+  );
 
   const colorIndex = index % gradients.length;
   const gradient = gradients[colorIndex];
@@ -56,20 +62,24 @@ export function StopCard({ stop, index, distanceToNext, nextStop }: Props) {
   const glow = glowColors[colorIndex];
 
   return (
-    <motion.article
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       ref={ref}
       style={{ y, opacity, scale, filter: blur }}
       className="relative group">
       <div
         className={cn(
-          "absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl",
+          "absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl sm:blur-2xl",
+          "group-hover:shadow-2xl",
           glow,
         )}
       />
 
       <div
         className={cn(
-          "relative overflow-hidden rounded-3xl",
+          "relative overflow-hidden rounded-2xl sm:rounded-3xl",
           "bg-linear-to-br from-white/10 via-white/5 to-white/2",
           "backdrop-blur-xl border border-white/10",
           "shadow-2xl shadow-black/40",
@@ -78,36 +88,36 @@ export function StopCard({ stop, index, distanceToNext, nextStop }: Props) {
         )}>
         <div className={cn("absolute inset-0 bg-linear-to-br opacity-40", gradient)} />
 
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute -top-12 sm:-top-20 -right-12 sm:-right-20 w-24 h-24 sm:w-40 sm:h-40 bg-white/5 rounded-full blur-2xl sm:blur-3xl" />
 
-        <div className="relative px-8 py-8">
-          <div className="flex items-start justify-between mb-6">
+        <div className="relative px-5 py-5 sm:px-6 sm:py-6 md:px-8 md:py-8">
+          <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
             <div
               className={cn(
-                "flex items-center justify-center w-14 h-14 rounded-2xl",
+                "flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl sm:rounded-2xl",
                 "bg-linear-to-br from-white/15 to-white/5",
                 "border border-white/10",
                 "shadow-lg shadow-black/20",
               )}>
-              <span className={cn("text-2xl font-light", accent)}>
+              <span className={cn("text-lg sm:text-xl md:text-2xl font-light", accent)}>
                 {String(index + 1).padStart(2, "0")}
               </span>
             </div>
 
             <div
               className={cn(
-                "p-3 rounded-xl bg-white/5 border border-white/10",
+                "p-2 sm:p-2.5 md:p-3 rounded-lg sm:rounded-xl bg-white/5 border border-white/10",
                 "backdrop-blur-sm",
               )}>
-              <MapPin className={cn("w-5 h-5", accent)} />
+              <MapPin className={cn("w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5", accent)} />
             </div>
           </div>
 
-          <div className="mb-6">
-            <h3 className="text-3xl font-light tracking-tight text-white mb-2 leading-tight">
+          <div className="mb-4 sm:mb-5 md:mb-6">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-light tracking-tight text-white mb-1 sm:mb-1.5 md:mb-2 leading-tight">
               {stop.city}
             </h3>
-            <p className="text-base text-white/50 font-light">{stop.country}</p>
+            <p className="text-sm sm:text-base text-white/50 font-light">{stop.country}</p>
           </div>
 
           {distanceToNext && nextStop && (
@@ -116,29 +126,33 @@ export function StopCard({ stop, index, distanceToNext, nextStop }: Props) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className={cn(
-                "flex items-center gap-3 p-4 rounded-xl",
+                "flex items-center gap-2 sm:gap-2.5 md:gap-3 p-3 sm:p-3.5 md:p-4 rounded-lg sm:rounded-xl",
                 "bg-linear-to-r from-white/5 to-transparent",
                 "border-l-2 border-white/20",
               )}>
-              <div className={cn("p-2 rounded-lg bg-white/10", "backdrop-blur-sm")}>
-                <Navigation className={cn("w-4 h-4", accent)} />
+              <div
+                className={cn(
+                  "p-1.5 sm:p-2 rounded-md sm:rounded-lg bg-white/10",
+                  "backdrop-blur-sm",
+                )}>
+                <Navigation className={cn("w-3.5 h-3.5 sm:w-4 sm:h-4", accent)} />
               </div>
-              <div className="flex-1">
-                <p className="text-xs text-white/40 mb-0.5">Próximo destino</p>
-                <p className="text-sm text-white/90">
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] sm:text-xs text-white/40 mb-0.5">Próximo destino</p>
+                <p className="text-xs sm:text-sm text-white/90 truncate">
                   <span className={cn("font-medium", accent)}>
                     {Math.round(distanceToNext).toLocaleString("es-AR")} km
                   </span>{" "}
-                  hasta {nextStop.city}
+                  <span className="hidden xs:inline">hasta </span>
+                  <span className="xs:inline">{nextStop.city}</span>
                 </p>
               </div>
             </motion.div>
           )}
         </div>
 
-        {/* Bottom accent line */}
-        <div className={cn("h-1 bg-linear-to-r", gradient, "opacity-60")} />
+        <div className={cn("h-0.5 sm:h-1 bg-linear-to-r", gradient, "opacity-60")} />
       </div>
-    </motion.article>
+    </motion.a>
   );
 }
