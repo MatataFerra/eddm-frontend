@@ -1,7 +1,7 @@
-import { TripStop } from "@/lib/interfaces/trip";
+import type { TripStop } from "@/lib/interfaces/trip";
 import { cn } from "@/lib/utils";
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { type HTMLMotionProps, motion, useScroll, useTransform } from "motion/react";
+import { forwardRef, useRef } from "react";
 import { MapPin, Navigation } from "lucide-react";
 
 type Props = {
@@ -9,8 +9,8 @@ type Props = {
   index: number;
   distanceToNext?: number;
   nextStop?: TripStop;
-  isLast: boolean;
-  href: string;
+  isLast?: boolean;
+  link?: string;
 };
 
 const gradients = [
@@ -40,8 +40,44 @@ const glowColors = [
   "shadow-indigo-500/20",
 ];
 
-export function StopCard({ stop, index, distanceToNext, nextStop, isLast, href }: Props) {
-  const ref = useRef<HTMLAnchorElement>(null);
+type CardWrapperProps = HTMLMotionProps<"a"> & {
+  link?: string;
+};
+
+const CardWrapper = forwardRef<HTMLAnchorElement | HTMLElement, CardWrapperProps>(
+  ({ children, link, ...props }, ref) => {
+    function handleClick() {
+      if (link) {
+        window.open(link, "_blank", "noopener,noreferrer");
+      }
+    }
+
+    return (
+      <motion.article
+        ref={ref}
+        onClick={link ? handleClick : undefined}
+        role={link ? "link" : undefined}
+        tabIndex={link ? 0 : undefined}
+        className={cn("relative group block", link && "cursor-pointer")}
+        {...props}
+        onTap={
+          link
+            ? (e) => {
+                e.preventDefault();
+                handleClick();
+              }
+            : undefined
+        }>
+        {children}
+      </motion.article>
+    );
+  },
+);
+
+CardWrapper.displayName = "CardWrapper";
+
+export function StopCard({ stop, index, distanceToNext, nextStop, isLast, link }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: isLast ? ["start 98%", "start 60%"] : ["start 95%", "start 20%"],
@@ -62,17 +98,10 @@ export function StopCard({ stop, index, distanceToNext, nextStop, isLast, href }
   const glow = glowColors[colorIndex];
 
   return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      ref={ref}
-      style={{ y, opacity, scale, filter: blur }}
-      className="relative group">
+    <CardWrapper ref={ref} style={{ y, opacity, scale, filter: blur }} link={link}>
       <div
         className={cn(
           "absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl sm:blur-2xl",
-          "group-hover:shadow-2xl",
           glow,
         )}
       />
@@ -153,6 +182,6 @@ export function StopCard({ stop, index, distanceToNext, nextStop, isLast, href }
 
         <div className={cn("h-0.5 sm:h-1 bg-linear-to-r", gradient, "opacity-60")} />
       </div>
-    </motion.a>
+    </CardWrapper>
   );
 }

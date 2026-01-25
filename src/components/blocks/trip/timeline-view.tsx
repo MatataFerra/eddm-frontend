@@ -1,8 +1,8 @@
 "use client";
 import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { getDistanceFromLatLonInKm } from "@/lib/distance-in-km";
-import { Trip } from "@/lib/interfaces/trip";
-import { StopCard } from "./stop-card";
+import type { Trip } from "@/lib/interfaces/trip";
+import { StopCard } from "@/components/blocks/trip/stop-card";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
@@ -133,7 +133,7 @@ export function TimeLineTripView({ trip }: { trip: Trip }) {
                 distanceToNext={distanceToNext}
                 nextStop={nextStop}
                 isLast={isLast(index)}
-                href={`https://www.google.com/maps/search/?api=1&query=${stop.latitude},${stop.longitude}`}
+                link={stop.googleMapsUrl}
               />
             </motion.div>
           );

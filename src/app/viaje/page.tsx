@@ -4,12 +4,12 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Trip } from "@/lib/interfaces/trip";
 import { getTrip } from "@/lib/api_methods/get-trip";
-import { TimeLineTripView } from "@/components/trip/timeline-view";
+import { TimeLineTripView } from "@/components/blocks/trip/timeline-view";
 import { APP_ROUTES } from "@/lib/constants";
-import { CreatedAtCard } from "@/components/trip/created-at-card";
-import { StopLenCard } from "@/components/trip/stop-len-card";
-import { TotalDistanceCard } from "@/components/trip/total-distance-card";
-import { TripHeader } from "@/components/trip/trip-header";
+import { CreatedAtCard } from "@/components/blocks/trip/created-at-card";
+import { StopLenCard } from "@/components/blocks/trip/stop-len-card";
+import { TotalDistanceCard } from "@/components/blocks/trip/total-distance-card";
+import { TripHeader } from "@/components/blocks/trip/trip-header";
 
 export default async function TripDetailsPage() {
   const trip = await getTrip<Trip>();
