@@ -2,6 +2,7 @@ export const APP_ROUTES = {
   main: "/",
   journey: "/12-meses-viajando",
   tales: "/relatos",
+  trip: "/viaje",
 } as const;
 
 export type AppRoutes = typeof APP_ROUTES;
@@ -26,6 +27,7 @@ export const EXTERNAL_API_ENDPOINTS = {
   NOTION_ARTICLE: "/notion/article",
   INDEX_CONTENT: "/index-content",
   STATS: "/stats",
+  TRIP: "/trip",
 };
 
 export const CACHE_TAGS = {
@@ -41,6 +43,7 @@ export const CACHE_TAGS = {
   INDEX_CONTENT: "index-content",
   TALE_RENDER: "tale-render",
   STATS: "stats",
+  TRIP: "trip",
 } as const;
 
 export const FALLBACK_SLUG = "__placeholder__" as const;

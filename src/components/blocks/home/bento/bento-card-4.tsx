@@ -18,7 +18,7 @@ type Stats = {
 
 export const STATS: Stats[] = [
   { label: "Países", value: "3", StatIcon: Earth, type: "countries" },
-  { label: "Kilómetros", value: "12", StatIcon: MapPin, type: "km" },
+  { label: "Recorridos", value: "12", StatIcon: MapPin, type: "km" },
   { label: "Notas", value: "50", StatIcon: NotebookPen, type: "notes" },
 ];
 
@@ -27,7 +27,11 @@ export async function BentoCard4() {
   const formatter = new Intl.NumberFormat();
 
   return (
-    <UniversalCard mode="soft" variant="red">
+    <UniversalCard
+      mode="soft"
+      variant="red"
+      link="/viaje"
+      className="hover:-translate-y-1 duration-300 transition-transform">
       <div className="flex justify-between w-full md:w-8/12 lg:w-10/12 mx-auto p-4">
         {STATS.map(({ label, value, StatIcon, type }) => (
           <div
