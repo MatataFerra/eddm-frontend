@@ -3,6 +3,7 @@ export const APP_ROUTES = {
   journey: "/12-meses-viajando",
   tales: "/relatos",
   trip: "/viaje",
+  furtherTime: "/mas-aca-en-el-tiempo",
 } as const;
 
 export type AppRoutes = typeof APP_ROUTES;
@@ -13,6 +14,9 @@ export const ENDPOINTS = {
   ARTICLE: (slug: string) => `${APP_ROUTES.journey}/article/${slug}`,
   TALES: `${APP_ROUTES.tales}`,
   TALE: (slug: string) => `${APP_ROUTES.tales}/${slug}`,
+  TRIP: `${APP_ROUTES.trip}`,
+  FURTHER_TIME: `${APP_ROUTES.furtherTime}`,
+  FURTHER_TIME_ARTICLE: (slug: string) => `${APP_ROUTES.furtherTime}/${slug}`,
 };
 
 export const EXTERNAL_API_ENDPOINTS = {
@@ -21,13 +25,17 @@ export const EXTERNAL_API_ENDPOINTS = {
   ARTICLES: "/articles",
   TALES_CONTENT_NAVIGATE: "/tales/content-navigate",
   ARTICLES_CONTENT_NAVIGATE: "/articles/content-navigate",
-  ARTICLE: (slug: string) => `/articles/${slug}`,
-  TALE: (slug: string) => `/tales/${slug}`,
+  FURTHER_TIME_CONTENT_NAVIGATE: "/further-time/content-navigate",
   NOTION_TALE: "/notion/tale",
   NOTION_ARTICLE: "/notion/article",
+  NOTION_FURTHER_TIME_ARTICLE: "/notion/further-time",
   INDEX_CONTENT: "/index-content",
   STATS: "/stats",
   TRIP: "/trip",
+  FURTHER_TIME: "/further-time",
+  ARTICLE: (slug: string) => `/articles/${slug}`,
+  TALE: (slug: string) => `/tales/${slug}`,
+  FURTHER_TIME_ARTICLE: (slug: string) => `/further-time/${slug}`,
 };
 
 export const CACHE_TAGS = {
@@ -35,15 +43,19 @@ export const CACHE_TAGS = {
   TALES: "tales",
   CONTENT_ARTICLES_NAVIGATE: "content-articles",
   CONTENT_TALES_NAVIGATE: "content-tales",
-  ARTICLE: (slug: string) => `article-${slug}`,
-  TALE: (slug: string) => `tale-${slug}`,
-  NOTION_TALE: (slug: string) => `notion-tale-${slug}`,
-  NOTION_ARTICLE: (slug: string) => `notion-article-${slug}`,
+  CONTENT_FURTHER_TIME_NAVIGATE: "content-further-time",
   SETTINGS: "settings",
   INDEX_CONTENT: "index-content",
   TALE_RENDER: "tale-render",
   STATS: "stats",
   TRIP: "trip",
+  FURTHER_TIME: "further-time",
+  ARTICLE: (slug: string) => `article-${slug}`,
+  TALE: (slug: string) => `tale-${slug}`,
+  FURTHER_TIME_ARTICLE: (slug: string) => `further-time-${slug}`,
+  NOTION_TALE: (slug: string) => `notion-tale-${slug}`,
+  NOTION_ARTICLE: (slug: string) => `notion-article-${slug}`,
+  NOTION_FURTHER_TIME_ARTICLE: (slug: string) => `notion-further-time-${slug}`,
 } as const;
 
 export const FALLBACK_SLUG = "__placeholder__" as const;

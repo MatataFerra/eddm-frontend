@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const articleSchema = z.object({
-  id: z.number().optional(), // Autoincremental, opcional en la entrada
-  documentId: z.string().uuid().optional(),
-  notionPageId: z.string().uuid().optional(),
+  id: z.number().optional(),
+  documentId: z.uuid().optional(),
+  notionPageId: z.uuid().optional(),
   title: z.string().min(1, "El título es obligatorio"),
   description: z.string().optional(),
   content: z.string().optional(),
@@ -17,10 +17,10 @@ export const articleSchema = z.object({
   published: z.boolean().default(false),
   summary: z.string().optional(),
   order: z.number().optional().default(0),
-  authorId: z.number(), // ID del autor (requerido)
-  categoryId: z.number(), // ID de la categoría (requerido)
-  headerId: z.number().nullable().optional(), // ID del header (opcional)
-  coverId: z.number().nullable().optional(), // ID del cover (opcional)
+  authorId: z.number(),
+  categoryId: z.number(),
+  headerId: z.number().nullable().optional(),
+  coverId: z.number().nullable().optional(),
 });
 
 export const deleteSchema = articleSchema.pick({
@@ -53,7 +53,7 @@ export const relationSchema = z.object({
       id: z.number(),
       type: z.string(),
       url: z.string(),
-    })
+    }),
   ),
   header: z
     .object({
@@ -105,7 +105,7 @@ export const createArticleSchema = articleSchema
           type: z.string(),
           url: z.string(),
         })
-        .optional(), // Permite que no esté presente en la creación
+        .optional(),
 
       cover: z
         .object({
@@ -119,12 +119,11 @@ export const createArticleSchema = articleSchema
           location: z.string(),
           id: z.number().nullable(),
           metadata: geolocationMetadataSchema.optional(),
-        })
+        }),
       ),
-    })
+    }),
   );
 
-// Esquema para actualizar un artículo (todos los campos son opcionales)
 export const updateArticleSchema = articleSchema.partial();
 
 export const fullArticleSchema = articleSchema.merge(relationSchema);
@@ -133,7 +132,7 @@ export const fullArticleSchema = articleSchema.merge(relationSchema);
 export const authorSchema = z.object({
   name: z.string().min(1, "Name is required"),
   bio: z.string().optional(),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid email"),
 });
 
 export const categorySchema = z.object({
