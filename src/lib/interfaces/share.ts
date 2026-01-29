@@ -11,7 +11,7 @@ export type LocalStorageConfig = {
 
 export type LocalStorageConfigUpdateFunction = <K extends keyof LocalStorageConfig>(
   field: K,
-  newValue: LocalStorageConfig[K]
+  newValue: LocalStorageConfig[K],
 ) => void;
 
 export type Category = {
@@ -33,7 +33,8 @@ export type Category = {
         | "noviembre"
         | "diciembre"
       )
-    | "tale";
+    | "tale"
+    | "further";
 };
 
 export type Phrase = {
@@ -42,3 +43,4 @@ export type Phrase = {
 };
 
 export type EntriesOrderByCategory = Category | Phrase;
+export type IconProps = React.SVGProps<SVGSVGElement>;

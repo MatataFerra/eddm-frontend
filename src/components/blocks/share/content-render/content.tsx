@@ -2,11 +2,11 @@ import { use } from "react";
 import { ArticlePromise } from "@/lib/interfaces/articles";
 import { RichTextRenderer } from "@/components/blocks/markdown/rich-text-renderer";
 
-type ArticleContentProps = {
+type ContentProps = {
   contentPromise: ArticlePromise;
 };
 
-export function ArticleContent({ contentPromise }: ArticleContentProps) {
+export function Content({ contentPromise }: ContentProps) {
   const data = use(contentPromise);
 
   if (data?.metadata?.message) {

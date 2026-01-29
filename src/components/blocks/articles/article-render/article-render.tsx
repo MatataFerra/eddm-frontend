@@ -2,17 +2,17 @@ import { Suspense, use } from "react";
 import type { ArticlePromise } from "@/lib/interfaces/articles";
 import { ArticleTitle } from "@/components/blocks/articles/article-render/article-title";
 import { ArticleHeader } from "@/components/blocks/articles/article-render/article-header";
-import { ArticleSummary } from "@/components/blocks/articles/article-render/article-summary";
-import { ArticleContent } from "@/components/blocks/articles/article-render/article-content";
 import {
   TitleLoader,
   HeaderLoader,
   ContentLoader,
   SummaryLoader,
-} from "@/components/blocks/articles/article-render/article-skeleton";
+} from "@/components/blocks/share/content-render/content-skeleton";
 import { objectIsEmpty } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-table-of-contents";
+import { ContentSummary } from "@/components/blocks/share/content-render/content-summary";
+import { Content } from "@/components/blocks/share/content-render/content";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
@@ -35,10 +35,10 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
           </Suspense>
           <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
             <Suspense fallback={<SummaryLoader />}>
-              <ArticleSummary articlePromise={articlePromise} />
+              <ContentSummary contentPromise={articlePromise} />
             </Suspense>
             <Suspense fallback={<ContentLoader />}>
-              <ArticleContent contentPromise={articlePromise} />
+              <Content contentPromise={articlePromise} />
             </Suspense>
           </article>
           <DesktopTableOfContents />
