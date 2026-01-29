@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function BentoCard2() {
   return (
-    <UniversalCard className="flex flex-col gap-4 p-4" variant="cream" link="/relatos">
+    <UniversalCard className="flex flex-col gap-4 p-4" variant="yellow" link="/relatos">
       <div className="grid grid-rows-[auto_1fr] gap-4 items-center">
         <h3 className="text-xl font-serif font-semibold">Relatos y Notas</h3>
         <Image

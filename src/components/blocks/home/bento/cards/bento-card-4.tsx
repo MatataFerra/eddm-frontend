@@ -1,7 +1,9 @@
+import { MapIcon } from "@/components/ui/icons/map";
+import { TravelIcon } from "@/components/ui/icons/travel";
 import { UniversalCard } from "@/components/ui/styled-cards/universal-card";
 import { getStats } from "@/lib/api_methods/get-stats";
 import { cn } from "@/lib/utils";
-import { Earth, MapPin, NotebookPen, type LucideIcon } from "lucide-react";
+import { NotebookPen, type LucideIcon } from "lucide-react";
 
 type TStatsFromDB = {
   countries: number;
@@ -12,13 +14,13 @@ type TStatsFromDB = {
 type Stats = {
   label: string;
   value: string;
-  StatIcon: LucideIcon;
+  StatIcon: LucideIcon | typeof MapIcon;
   type: keyof TStatsFromDB;
 };
 
 export const STATS: Stats[] = [
-  { label: "Países", value: "3", StatIcon: Earth, type: "countries" },
-  { label: "Recorridos", value: "12", StatIcon: MapPin, type: "km" },
+  { label: "Países", value: "3", StatIcon: MapIcon, type: "countries" },
+  { label: "Recorridos", value: "12", StatIcon: TravelIcon, type: "km" },
   { label: "Notas", value: "50", StatIcon: NotebookPen, type: "notes" },
 ];
 
@@ -29,10 +31,10 @@ export async function BentoCard4() {
   return (
     <UniversalCard
       mode="soft"
-      variant="red"
+      variant="cream"
       link="/viaje"
       className="hover:-translate-y-1 duration-300 transition-transform">
-      <div className="flex justify-between w-full md:w-8/12 lg:w-10/12 mx-auto p-4">
+      <div className="flex justify-between w-full md:w-8/12 lg:w-10/12 mx-auto p-2 md:p-4">
         {STATS.map(({ label, value, StatIcon, type }) => (
           <div
             key={label}
