@@ -1,6 +1,5 @@
 import { APP_ROUTES } from "@/lib/constants";
 import { getFurtherTimeArticlesContentFromNotion } from "@/lib/api_methods/get-notion";
-import type { ApiResponse } from "@/lib/fetch/caller";
 import type { Article } from "@/lib/interfaces/articles";
 import type { ContentBySlug } from "@/lib/interfaces/share";
 import { TOCProvider } from "@/lib/providers/toc-entry-provider";
@@ -10,9 +9,7 @@ import { FurtherTimeArticleRender } from "@/components/blocks/further-in-time/fu
 export default async function Entry({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const { slug } = pageParams;
-  const articlePromise = getFurtherTimeArticlesContentFromNotion<
-    ApiResponse<ContentBySlug<Article>>
-  >({
+  const articlePromise = getFurtherTimeArticlesContentFromNotion<ContentBySlug<Article>>({
     query: slug,
     strategy: "slug",
   });
