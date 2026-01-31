@@ -1,111 +1,163 @@
 "use client";
 
+import {
+  GlowCard,
+  GlowCardContent,
+  GlowCardFooter,
+  GlowCardImage,
+  GlowCardSurface,
+} from "@/components/ui/styled-cards/glow-card";
+import { HoverBoxShadowGlow } from "@/components/ui/styled-cards/hover-glow";
 import { ENDPOINTS } from "@/lib/constants";
+import { usePaletteColors } from "@/lib/hooks/use-pallette-color";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
+import { cn } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
-import { motion } from "motion/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
 
-// Tu paleta
-const ACCENTS = [
-  { name: "teal", color: "#00B8A9" },
-  { name: "cream", color: "#E6E0B0" },
-  { name: "red", color: "#F6416C" },
-  { name: "yellow", color: "#FFC107" },
-];
+type BentoConfig = ReturnType<typeof getBentoConfig>;
 
-function hasImage(index: number) {
-  return index % 3 !== 0;
+export function getBentoConfig(index: number) {
+  const i = index % 10;
+
+  switch (i) {
+    case 0:
+      return {
+        span: "md:col-span-2 md:row-span-2",
+        hasImage: true,
+        isFeatured: true,
+        placementImage: "center",
+        aspect: "aspect-square",
+      };
+    case 1:
+      return {
+        span: "md:col-span-1 md:row-span-2",
+        hasImage: true,
+        isFeatured: false,
+        placementImage: "side",
+        aspect: "aspect-[9/16]",
+      };
+    case 5:
+      return {
+        span: "md:col-span-2 md:row-span-2",
+        hasImage: true,
+        isFeatured: false,
+        placementImage: "side",
+        aspect: "aspect-[2/1]",
+      };
+    case 4:
+      return {
+        span: "md:col-span-1 md:row-span-4",
+        hasImage: true,
+        isFeatured: false,
+        placementImage: "center",
+        aspect: "aspect-square",
+      };
+    case 3:
+    case 7:
+      return {
+        span: "md:col-span-1 md:row-span-1",
+        hasImage: true,
+        isFeatured: false,
+        placementImage: "side",
+        aspect: "aspect-square",
+      };
+    default:
+      return {
+        span: "md:col-span-1 md:row-span-2",
+        hasImage: true,
+        isFeatured: false,
+        placementImage: "side",
+        aspect: "aspect-[4/3]",
+      };
+  }
 }
 
-function getPadding(index: number) {
-  if (index % 5 === 0) return "p-10";
-  if (index % 2 === 0) return "p-8";
-  return "p-6";
-}
-
-export function PremiumMasonry({ articles }: { articles: ContentNavigate[] }) {
+export function PremiumMasonry({ articles: items }: { articles: ContentNavigate[] }) {
   return (
-    <div className="columns-1 gap-6 space-y-6 px-2 md:columns-2 lg:columns-3 xl:gap-8">
-      {articles.map((article, index) => (
-        <MasonryItem key={article.slug + index} article={article} index={index} />
-      ))}
+    <div className="grid grid-cols-1 gap-4 px-2 md:grid-cols-3 md:gap-6 lg:gap-8 auto-rows-[minmax(180px,auto)] grid-flow-dense">
+      {items.map((article, index) => {
+        const config = getBentoConfig(index);
+
+        return (
+          <MasonryItemGlow
+            key={`${article.slug}-${index}`}
+            article={article}
+            index={index}
+            config={config}
+          />
+        );
+      })}
     </div>
   );
 }
 
-function MasonryItem({ article, index }: { article: ContentNavigate; index: number }) {
+function MasonryItemGlow({
+  article,
+  index,
+  config,
+}: {
+  article: ContentNavigate;
+  index: number;
+  config: BentoConfig;
+}) {
   const { push } = useRouter();
-  const theme = useMemo(() => ACCENTS[index % ACCENTS.length], [index]);
+  const formatDate = (date: string | Date) =>
+    new Intl.DateTimeFormat("es-AR", { dateStyle: "long" }).format(new Date(date));
 
-  const showImage = hasImage(index);
-  const padding = getPadding(index);
+  const { color, gradients } = usePaletteColors(index);
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 80 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-120px" }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="break-inside-avoid">
-      <div
-        onClick={() => push(ENDPOINTS.FURTHER_TIME_ARTICLE(article.slug))}
-        className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-[#0f1115] ${padding} transition-all duration-700`}>
-        {/* noise */}
-        <div className="pointer-events-none absolute inset-0 bg-[url('/noise.svg')] opacity-[0.035]" />
+    <GlowCard
+      data-slot={"further-card-" + String(Number(index))}
+      onClick={() => push(ENDPOINTS.FURTHER_TIME_ARTICLE(article.slug))}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.05 }}
+      className={cn("relative group h-full w-full", config.span)}>
+      <GlowCardSurface gradient={gradients} className="h-full flex flex-col justify-between">
+        <HoverBoxShadowGlow color={color} className="rounded-2xl sm:rounded-3xl" />
 
-        {/* hover glow (fantasma) */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 rounded-2xl"
-          style={{
-            boxShadow: `inset 0 0 0 1px ${theme.color}70, 0 30px 80px ${theme.color}60`,
-          }}
-        />
-
-        {/* IMAGE (opcional) */}
-        {showImage && article.header?.url && (
-          <div className="relative mb-6 rounded-xl">
-            <Image
+        {config.hasImage && article.header?.url ? (
+          <div className={cn("absolute w-full overflow-hidden rounded-t-2xl h-full inset-0 z-0")}>
+            <GlowCardImage
               src={article.header.url}
               alt={article.title}
-              width={800}
-              height={600}
-              className="w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-99"
+              className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+              placement={config.placementImage as "side" | "center"}
             />
-            {/* <div className="absolute inset-0 bg-black/30" /> */}
           </div>
-        )}
+        ) : null}
 
-        {/* category / section */}
-        <div className="mb-2 text-[11px] uppercase tracking-widest text-white/40">
-          Más acá en el tiempo
-        </div>
-
-        {/* title */}
-        <h3 className="mb-4 text-xl font-medium leading-tight text-white/90">{article.title}</h3>
-
-        {/* geolocation */}
-        {/* {article.geolocations?.[0]?.geolocation?.location && (
-          <div className="mb-4 text-xs italic text-white/30">
-            — {article.geolocations[0].geolocation.location}
-          </div>
-        )} */}
-
-        {/* meta */}
-        <div className="flex items-center gap-2 text-xs text-white/40">
-          <CalendarDays className="h-3 w-3" />
-          <span>Oct 24, 2024</span>
-        </div>
-
-        {/* hover hint */}
         <div
-          className="absolute bottom-4 right-6 text-xs opacity-0 transition-opacity duration-500 group-hover:opacity-60"
-          style={{ color: theme.color }}>
-          Leer →
+          className={cn(
+            "relative z-20 flex flex-col h-full justify-between",
+            config.isFeatured ? "p-8" : "p-6",
+          )}>
+          <GlowCardContent>
+            {!config.isFeatured && (
+              <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                Mas acá en el tiempo
+              </div>
+            )}
+            <h3
+              className={cn(
+                "font-bold leading-tight text-balance text-white transition-colors",
+                config.isFeatured ? "text-3xl md:text-4xl lg:text-5xl" : "text-2xl md:text-3xl",
+                `group-hover:${color.replace("text-", "text-")}`,
+              )}>
+              {article.title}
+            </h3>
+          </GlowCardContent>
+
+          {article.createdAt && (
+            <GlowCardFooter accent={color} icon={CalendarDays} className="mt-4">
+              <span className="text-lg text-white/70">{formatDate(article.createdAt)}</span>
+            </GlowCardFooter>
+          )}
         </div>
-      </div>
-    </motion.article>
+      </GlowCardSurface>
+    </GlowCard>
   );
 }

@@ -19,7 +19,7 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
 
   return (
     <TOCProvider articlePromise={articlePromise}>
-      <FurtherTimeArticleRender articlePromise={articlePromise} />
+      <FurtherTimeArticleRender furtherTimeArticlePromise={articlePromise} />
       <Navigation
         redirect={APP_ROUTES.furtherTime}
         typeOfOrder={[

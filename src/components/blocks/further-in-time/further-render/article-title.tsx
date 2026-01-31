@@ -4,17 +4,17 @@ import { getNormalizedTitleText } from "@/lib/utils";
 import React from "react";
 
 type ArticleHeaderProps = {
-  articlePromise: ArticlePromise;
+  furtherTimeArticlePromise: ArticlePromise;
 };
 
-export function ArticleTitle({ articlePromise }: ArticleHeaderProps) {
-  const articlePromiseData = use(articlePromise);
+export function FurtherTimeArticleTitle({ furtherTimeArticlePromise }: ArticleHeaderProps) {
+  const furtherTimeArticleData = use(furtherTimeArticlePromise);
 
-  if (!articlePromiseData) return null;
+  if (!furtherTimeArticleData) return null;
 
   const {
     data: { ...article },
-  } = articlePromiseData;
+  } = furtherTimeArticleData;
 
   return (
     <section className="flex items-center justify-center overflow-x-hidden p-8">

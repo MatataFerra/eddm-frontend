@@ -1,6 +1,6 @@
 import { Suspense, use } from "react";
 import type { ArticlePromise } from "@/lib/interfaces/articles";
-import { ArticleHeader } from "@/components/blocks/further-in-time/further-render/article-header";
+import { FurtherTimeArticleHeader } from "@/components/blocks/further-in-time/further-render/further-time-article-header";
 import {
   HeaderLoader,
   ContentLoader,
@@ -13,11 +13,11 @@ import { ContentSummary } from "@/components/blocks/share/content-render/content
 import { Content } from "@/components/blocks/share/content-render/content";
 
 export type ArticleRenderProps = {
-  articlePromise: ArticlePromise;
+  furtherTimeArticlePromise: ArticlePromise;
 };
 
-export function FurtherTimeArticleRender({ articlePromise }: ArticleRenderProps) {
-  const articleData = use(articlePromise);
+export function FurtherTimeArticleRender({ furtherTimeArticlePromise }: ArticleRenderProps) {
+  const articleData = use(furtherTimeArticlePromise);
 
   if (!articleData || objectIsEmpty(articleData.data)) return notFound();
 
@@ -26,14 +26,14 @@ export function FurtherTimeArticleRender({ articlePromise }: ArticleRenderProps)
       <section className="p-4">
         <div className="max-w-full">
           <Suspense fallback={<HeaderLoader />}>
-            <ArticleHeader articlePromise={articlePromise} />
+            <FurtherTimeArticleHeader furtherTimeArticlePromise={furtherTimeArticlePromise} />
           </Suspense>
           <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
             <Suspense fallback={<SummaryLoader />}>
-              <ContentSummary contentPromise={articlePromise} />
+              <ContentSummary contentPromise={furtherTimeArticlePromise} />
             </Suspense>
             <Suspense fallback={<ContentLoader />}>
-              <Content contentPromise={articlePromise} />
+              <Content contentPromise={furtherTimeArticlePromise} />
             </Suspense>
           </article>
           <DesktopTableOfContents />
