@@ -72,8 +72,6 @@ export function getBentoConfig(
   customSlotConfigs?: Partial<Record<number, Partial<SlotConfig>>>,
 ): BentoConfig {
   const slotIndex = index % 10;
-
-  // Merge de configuraciones: custom > default > fallback
   const baseConfig = DEFAULT_SLOT_CONFIGS[slotIndex] || DEFAULT_CONFIG;
   const customConfig = customSlotConfigs?.[slotIndex];
 
