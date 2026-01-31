@@ -8,7 +8,7 @@ export default async function Page() {
   return (
     <>
       <Nav />
-      <ShareTitle title="Relatos y escritos" />
+      <ShareTitle title="Relatos y escritos" className="text-7xl lg:text-9xl mt-2 mb-8" />
       <Suspense fallback={<ListSkeleton />}>
         <ResolvedTale />
       </Suspense>
