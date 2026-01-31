@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const articleSchema = z.object({
+export const BaseArticleSchema = z.object({
   id: z.number().optional(),
   documentId: z.uuid().optional(),
   notionPageId: z.uuid().optional(),
@@ -23,11 +23,7 @@ export const articleSchema = z.object({
   coverId: z.number().nullable().optional(),
 });
 
-export const deleteSchema = articleSchema.pick({
-  id: true,
-});
-
-const geolocationMetadataSchema = z.object({
+const GeolocationMetadataSchema = z.object({
   id: z.number().optional(),
   country: z.string().optional(),
   region: z.string().optional(),
@@ -39,15 +35,15 @@ const geolocationMetadataSchema = z.object({
   url: z.string().optional(),
 });
 
-const geolocationSchema = {
+const GeolocationSchema = {
   geolocation: z.object({
     id: z.number().nullable(),
     location: z.string(),
-    metadata: geolocationMetadataSchema.optional(),
+    metadata: GeolocationMetadataSchema.optional(),
   }),
 };
 
-export const relationSchema = z.object({
+export const RelationWithBaseArticleSchema = z.object({
   media: z.array(
     z.object({
       id: z.number(),
@@ -79,64 +75,9 @@ export const relationSchema = z.object({
     name: z.string(),
     bio: z.string().nullable(),
   }),
-  geolocations: z.array(z.object(geolocationSchema)).nullable(),
+  geolocations: z.array(z.object(GeolocationSchema)).nullable(),
 });
 
-export const statusSchema = articleSchema.pick({
-  published: true,
-  slug: true,
-  id: true,
-});
+export const ExtendedArticleSchema = BaseArticleSchema.extend(RelationWithBaseArticleSchema.shape);
 
-// Esquema para crear un artículo (sin campos generados automáticamente)
-export const createArticleSchema = articleSchema
-  .omit({
-    id: true,
-    documentId: true,
-    createdAt: true,
-    updatedAt: true,
-    coverId: true,
-    headerId: true,
-  })
-  .merge(
-    relationSchema.extend({
-      header: z
-        .object({
-          type: z.string(),
-          url: z.string(),
-        })
-        .optional(),
-
-      cover: z
-        .object({
-          type: z.string(),
-          url: z.string(),
-        })
-        .optional(),
-
-      geolocations: z.array(
-        z.object({
-          location: z.string(),
-          id: z.number().nullable(),
-          metadata: geolocationMetadataSchema.optional(),
-        }),
-      ),
-    }),
-  );
-
-export const updateArticleSchema = articleSchema.partial();
-
-export const fullArticleSchema = articleSchema.merge(relationSchema);
-
-// Zod Schemas
-export const authorSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  bio: z.string().optional(),
-  email: z.email("Invalid email"),
-});
-
-export const categorySchema = z.object({
-  name: z.string().min(1, "Name is required"),
-});
-
-export type GeolocationWithMetadata = z.infer<typeof geolocationSchema.geolocation>;
+export type GeolocationWithMetadata = z.infer<typeof GeolocationSchema.geolocation>;
