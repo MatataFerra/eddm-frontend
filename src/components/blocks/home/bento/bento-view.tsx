@@ -1,11 +1,13 @@
 import { GlassTitle } from "@/components/ui/glass-title";
 import { BentoGrid, BentoItem } from "@/components/blocks/home/bento/bento-grid";
 import { cn } from "@/lib/utils";
-import { BentoCard1 } from "@/components/blocks/home/bento/bento-card-1";
-import { BentoCard2 } from "@/components/blocks/home/bento/bento-card-2";
-import { BentoCard3 } from "@/components/blocks/home/bento/bento-card-3";
-import { BentoCard4 } from "@/components/blocks/home/bento/bento-card-4";
-import { BentoCard5 } from "@/components/blocks/home/bento/bento-card-5";
+import {
+  BentoCard1,
+  BentoCard2,
+  BentoCard4,
+  BentoCard5,
+  BentoCard6,
+} from "@/components/blocks/home/bento/cards";
 
 const BIO = `
   Escribo desde que tengo memoria, no recuerdo un momento en el que no escriba al menos una vez al año. Sea por deshago o porque necesito ordenar mis pensamientos, la escritura ha estado allí; no me ha abandonado.
@@ -49,13 +51,19 @@ export function BentoView() {
           </BentoItem>
 
           <BentoItem colSpan={{ md: 2, base: 1, lg: 2 }} rowSpan={{ base: 1, md: 1, lg: 3 }}>
-            <BentoCard3 />
+            <BentoCard6 />
           </BentoItem>
 
-          <BentoItem colSpan={{ md: 4, base: 2, lg: 3 }} rowSpan={{ base: 1, md: 1, lg: 2 }}>
+          {/* Card Viajes */}
+          <BentoItem colSpan={{ md: 3, base: 2, lg: 3 }} rowSpan={{ base: 1, md: 1, lg: 2 }}>
             <BentoCard4 />
           </BentoItem>
+          {/* Card avatar
           <BentoItem colSpan={{ md: 4, base: 2, lg: 1 }} rowSpan={{ base: 1, md: 2, lg: 2 }}>
+            <BentoCard3 />
+          </BentoItem> */}
+          {/* Card próximo destino */}
+          <BentoItem colSpan={{ md: 1, base: 2, lg: 1 }} rowSpan={{ base: 1, md: 1, lg: 2 }}>
             <BentoCard5 />
           </BentoItem>
         </BentoGrid>

@@ -1,25 +1,24 @@
 import { Route } from "lucide-react";
 
 export function TotalDistanceCard({ totalDistance }: { totalDistance: number }) {
-    const formatKm = (km: number) => Math.round(km).toLocaleString("es-AR");
+  const formatKm = (km: number) => Math.round(km).toLocaleString("es-AR");
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 p-6 hover:border-white/20 transition-all">
-                <div className="absolute inset-0 bg-linear-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-violet-500/20 border border-violet-500/30">
-                      <Route className="w-5 h-5 text-violet-400" />
-                    </div>
-                    <span className="text-sm text-white/50 font-light uppercase tracking-wider">
-                      Distancia
-                    </span>
-                  </div>
-                  <div className="text-4xl font-light text-white">
-                    {formatKm(totalDistance)}
-                    <span className="text-lg text-white/40 ml-2">km</span>
-                  </div>
-                </div>
-              </div>
-
-  )
+      <div className="absolute inset-0 bg-linear-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="relative">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 rounded-lg bg-violet-500/20 border border-violet-500/30">
+            <Route className="w-5 h-5 text-violet-400" />
+          </div>
+          <span className="text-sm text-white/50 font-light uppercase tracking-wider">
+            Distancia
+          </span>
+        </div>
+        <div className="text-4xl font-light text-white">
+          {formatKm(totalDistance)}
+          <span className="text-lg text-white/40 ml-2">km</span>
+        </div>
+      </div>
+    </div>
+  );
 }

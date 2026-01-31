@@ -34,15 +34,13 @@ export function CarouselWrapper({ children }: { children: React.ReactNode }) {
             );
           }
 
-          // console.log({ child: child.props });
-
           const src = getSource(child.props as { href?: string; src?: string });
           const isVid = isVideo(src);
 
           return (
             <CarouselItem
               key={index}
-              className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-[100%] [&>div]:max-w-[100%]">
+              className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-full [&>div]:max-w-full">
               {isVid ? (
                 <Video src={src} size="medium" />
               ) : (
@@ -51,7 +49,7 @@ export function CarouselWrapper({ children }: { children: React.ReactNode }) {
                   alt="carousel item"
                   width={500}
                   height={500}
-                  className="object-cover max-w-[100%] h-full rounded-md"
+                  className="object-cover max-w-full h-full rounded-md"
                 />
               )}
             </CarouselItem>

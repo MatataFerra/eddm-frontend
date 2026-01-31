@@ -1,15 +1,15 @@
 import { Suspense, use } from "react";
 import type { TalePromise } from "@/lib/interfaces/tales";
-import { TaleSummary } from "@/components/blocks/tales/tale-summary";
 import { TaleHeader } from "@/components/blocks/tales/tale-header";
-import { TaleContent } from "@/components/blocks/tales/tale-content";
 import {
   HeaderLoader,
-  SummaryLoader,
   ContentLoader,
-} from "@/components/blocks/tales/tale-skeleton";
+  SummaryLoader,
+} from "@/components/blocks/share/content-render/content-skeleton";
 import { notFound } from "next/navigation";
 import { objectIsEmpty } from "@/lib/utils";
+import { Content } from "@/components/blocks/share/content-render/content";
+import { ContentSummary } from "@/components/blocks/share/content-render/content-summary";
 
 type TaleRenderProps = {
   tale: TalePromise;
@@ -28,10 +28,10 @@ export function TaleRender({ tale }: TaleRenderProps) {
         </Suspense>
         <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert p-4">
           <Suspense fallback={<SummaryLoader />}>
-            <TaleSummary talePromise={tale} />
+            <ContentSummary contentPromise={tale} />
           </Suspense>
           <Suspense fallback={<ContentLoader />}>
-            <TaleContent contentPromise={tale} />
+            <Content contentPromise={tale} />
           </Suspense>
         </article>
       </section>

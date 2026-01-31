@@ -6,6 +6,7 @@ import type { ContentNavigate } from "@/lib/interfaces/articles";
 interface RootDataContextType {
   articles: ContentNavigate[] | null;
   tales: ContentNavigate[] | null;
+  furtherTimeArticles?: ContentNavigate[] | null;
 }
 
 interface RootDataProviderType extends PropsWithChildren<Omit<RootDataContextType, "isLoading">> {
@@ -14,12 +15,18 @@ interface RootDataProviderType extends PropsWithChildren<Omit<RootDataContextTyp
 
 const RootDataContext = createContext<RootDataProviderType | undefined>(undefined);
 
-export function RootDataProvider({ articles, tales, children }: RootDataProviderType) {
-  const entries = [...(articles || []), ...(tales || [])];
+export function RootDataProvider({
+  articles,
+  tales,
+  furtherTimeArticles,
+  children,
+}: RootDataProviderType) {
+  const entries = [...(articles || []), ...(tales || []), ...(furtherTimeArticles || [])];
 
   const ctx = {
     articles,
     tales,
+    furtherTimeArticles,
     entries,
   };
 

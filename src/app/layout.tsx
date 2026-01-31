@@ -10,6 +10,7 @@ import type { ApiResponse } from "@/lib/fetch/caller";
 import { RootDataProvider } from "@/lib/providers/root-data-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { BackgroundMap } from "@/components/blocks/share/background-map";
+import { getContentNavigateFurtherTimeArticles } from "@/lib/api_methods/get-further-time-articles";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,9 +35,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [articles, tales] = await Promise.all([
+  const [articles, tales, furtherTime] = await Promise.all([
     getContentNavigateArticles<ApiResponse<ContentNavigate[]>>(),
     getContentNavigateTales<ApiResponse<ContentNavigate[]>>(),
+    getContentNavigateFurtherTimeArticles<ApiResponse<ContentNavigate[]>>(),
   ]);
 
   return (
@@ -44,7 +46,10 @@ export default async function RootLayout({
       <body
         className={`${playfair.variable} ${inter.variable} relative antialiased bg-background text-foreground font-playfair`}>
         <IndexContentProvider>
-          <RootDataProvider articles={articles?.data || []} tales={tales?.data || []}>
+          <RootDataProvider
+            articles={articles?.data || []}
+            tales={tales?.data || []}
+            furtherTimeArticles={furtherTime?.data || []}>
             <BackgroundMap />
             {children}
             <Toaster richColors />

@@ -14,7 +14,7 @@ export function ListItem({ tale: { slug, title, header } }: ListItemProps) {
     <li
       onClick={() => router.push(`/relatos/${slug}`)}
       className={cn(
-        "relative w-full min-h-60 font-semibold text-2xl rounded-lg p-4 cursor-pointer transform transition-all duration-300 hover:shadow-md hover:shadow-slate-900 hover:-translate-y-1 hover:translate-x-0.5 overflow-hidden group"
+        "relative w-full min-h-60 font-semibold text-2xl rounded-lg p-4 cursor-pointer transform transition-all duration-300 hover:shadow-md hover:shadow-slate-900 hover:-translate-y-1 hover:translate-x-0.5 overflow-hidden group",
       )}>
       <div
         style={{
@@ -26,9 +26,9 @@ export function ListItem({ tale: { slug, title, header } }: ListItemProps) {
       <div
         className={cn(
           "absolute inset-0 opacity-30 dark:opacity-40 z-30",
-          "bg-gradient-to-br from-gray-900 to-gray-600"
+          "bg-linear-to-br from-gray-900 to-gray-600",
         )}></div>
-      <div className="relative z-50 h-fit flex items-center rounded-md bg-gradient-to-r from-slate-500 to-yellow-100 text-black w-fit px-2 py-1.5 backdrop-blur-sm responsive-text-sm">
+      <div className="relative z-50 h-fit flex items-center rounded-md bg-linear-to-r from-slate-500 to-yellow-100 text-black w-fit px-2 py-1.5 backdrop-blur-sm responsive-text-sm">
         {title}
       </div>
     </li>

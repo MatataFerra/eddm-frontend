@@ -7,7 +7,7 @@ export function Nav() {
     <nav className="flex justify-end w-full md:max-w-5xl mx-auto p-8">
       <ul>
         <Link href={APP_ROUTES.main}>
-          <li className="flex items-center justify-between gap-2 border border-zinc-950 px-4 py-2 rounded-md bg-gradient-to-br from-zinc-900 to-zinc-800 hover:from-black hover:to-zinc-900 transition-colors duration-300 cursor-pointer group/nav">
+          <li className="flex items-center justify-between gap-2 border border-zinc-950 px-4 py-2 rounded-md bg-linear-to-br from-zinc-900 to-zinc-800 hover:from-black hover:to-zinc-900 transition-colors duration-300 cursor-pointer group/nav">
             <ArrowLeft className="transform transition-transform duration-300 group-hover/nav:-translate-x-2 group-active/nav:-translate-x-2" />
             Home
           </li>

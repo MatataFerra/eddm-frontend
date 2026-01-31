@@ -1,6 +1,7 @@
 import { fetchData } from "@/lib/fetch/caller";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS, NOTION_PARAM_KEY } from "@/lib/constants";
 import { cacheLife, cacheTag } from "next/cache";
+import type { ApiResponse } from "@/lib/fetch/caller";
 
 type GetNotionContentType = {
   strategy: "slug" | "notionPageId";
@@ -47,6 +48,33 @@ export async function getArticleContentFromNotion<T>({
       params: { [NOTION_PARAM_KEY.slug]: query, strategy },
       tags: CACHE_TAGS.NOTION_ARTICLE(query),
     });
+
+    return response;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getFurtherTimeArticlesContentFromNotion<T>({
+  strategy,
+  query,
+}: GetNotionContentType): Promise<ApiResponse<T> | null> {
+  "use cache";
+
+  if (!query) return null;
+
+  cacheLife({ expire: 3600, stale: 300, revalidate: 60 });
+  cacheTag(CACHE_TAGS.NOTION_FURTHER_TIME_ARTICLE(query));
+
+  try {
+    const response = await fetchData<ApiResponse<T>>(
+      EXTERNAL_API_ENDPOINTS.NOTION_FURTHER_TIME_ARTICLE,
+      {
+        params: { [NOTION_PARAM_KEY.slug]: query, strategy },
+        tags: CACHE_TAGS.NOTION_FURTHER_TIME_ARTICLE(query),
+      },
+    );
 
     return response;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
