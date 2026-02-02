@@ -2,7 +2,6 @@ import type { ArticlePromise } from "@/lib/interfaces/articles";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { use } from "react";
-import { isMobile } from "react-device-detect";
 
 type ArticleHeaderProps = {
   articlePromise: ArticlePromise;
@@ -10,7 +9,6 @@ type ArticleHeaderProps = {
 
 export function ArticleHeader({ articlePromise }: ArticleHeaderProps) {
   const articlePromiseData = use(articlePromise);
-
   if (!articlePromiseData) return null;
 
   const {
@@ -23,7 +21,6 @@ export function ArticleHeader({ articlePromise }: ArticleHeaderProps) {
         <h2 className="col-start-1 col-end-2 row-start-1 row-end-auto p-6 z-10 self-center text-7xl text-white font-bold group-hover/header:opacity-40 transition-opacity duration-300">
           {article?.title}
         </h2>
-
         {article?.header?.url ? (
           <Image
             src={article?.header?.url}
@@ -31,10 +28,9 @@ export function ArticleHeader({ articlePromise }: ArticleHeaderProps) {
             height={738}
             alt={article.slug}
             className={cn(
-              "w-full h-80 z-0 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover ",
-              isMobile
-                ? "aspect-auto object-center opacity-100"
-                : "aspect-video object-center opacity-40",
+              "w-full h-80 z-0 col-start-1 col-end-2 row-start-1 rounded-2xl row-end-auto group-hover/header:h-96 transition-all duration-300 group-hover/header:rounded-lg group-hover/header:opacity-70 object-cover",
+              "aspect-auto object-center opacity-100",
+              "md:aspect-video md:opacity-40",
             )}
           />
         ) : null}

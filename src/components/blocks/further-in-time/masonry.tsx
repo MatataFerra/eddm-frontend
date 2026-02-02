@@ -20,7 +20,7 @@ export function MasonryFurther({ furtherPromise }: MasonryProps) {
   }
 
   return (
-    <Masonry>
+    <Masonry className="max-w-7xl mx-auto">
       {items.map((article, index) => {
         const config = getBentoConfig(index);
 

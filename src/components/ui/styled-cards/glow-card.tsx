@@ -42,7 +42,7 @@ export function GlowCardSurface({
       <div
         data-slot="surface"
         className={cn(
-          "relative overflow-hidden rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/10 via-white/5 to-white/2 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 transition-all duration-500 hover:shadow-3xl",
+          "relative overflow-hidden rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/10 via-white/5 to-white/2 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 transition-all duration-500 hover:shadow-3xl size-full",
           className,
         )}>
         <div

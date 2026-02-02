@@ -1,4 +1,4 @@
-import { BentoWrapper } from "@/components/blocks/articles/bento-grid";
+import { BentoWrapper } from "@/components/blocks/share/bento-wrapper";
 
 export function NoEntryFound({ message }: { message: string }) {
   return (

@@ -2,9 +2,9 @@
 
 import { useOutsideClick } from "@/lib/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
-import { isMobile, isTablet } from "react-device-detect";
 import { AnimatePresence, motion, type MotionProps } from "motion/react";
 import { type ReactNode, createContext, use, useEffect, useRef, useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 interface ModalContextType {
   open: boolean;
@@ -46,6 +46,7 @@ export const ModalTrigger = ({
   className?: string;
 } & MotionProps) => {
   const { setOpen } = useModal();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <motion.button
@@ -55,7 +56,7 @@ export const ModalTrigger = ({
       animate="rest"
       className={cn(
         "px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden",
-        className
+        className,
       )}
       onClick={() => {
         if (isMobile) {
@@ -73,6 +74,8 @@ export const ModalTrigger = ({
 
 export const ModalBody = ({ children, className }: { children: ReactNode; className?: string }) => {
   const { open } = useModal();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1024px)");
 
   useEffect(() => {
     if (open) {
@@ -85,6 +88,13 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
   const modalRef = useRef(null);
   const { setOpen } = useModal();
   useOutsideClick(modalRef, () => setOpen(false));
+
+  // Calcular maxWidth basado en media queries
+  const getMaxWidth = () => {
+    if (isMobile && !isTablet) return "100%";
+    if (isTablet) return "70%";
+    return "40%";
+  };
 
   return (
     <AnimatePresence>
@@ -106,10 +116,10 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
 
           <motion.div
             ref={modalRef}
-            style={{ maxWidth: isMobile && !isTablet ? "100%" : isTablet ? "70%" : "40%" }}
+            style={{ maxWidth: getMaxWidth() }}
             className={cn(
               "min-h-[50%] max-h-[90%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
-              className
+              className,
             )}
             initial={{
               opacity: 0,

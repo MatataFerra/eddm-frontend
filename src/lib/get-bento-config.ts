@@ -4,9 +4,11 @@ export type SlotConfig = {
   isFeatured: boolean;
   placementImage: "center" | "side";
   aspect: string;
+  location?: string;
 };
 
 export type BentoConfig = SlotConfig;
+export type BentoOverride = Partial<Record<number, Partial<SlotConfig>>>;
 
 const DEFAULT_SLOT_CONFIGS: Record<number, SlotConfig> = {
   0: {
@@ -24,14 +26,14 @@ const DEFAULT_SLOT_CONFIGS: Record<number, SlotConfig> = {
     aspect: "aspect-[9/16]",
   },
   3: {
-    span: "md:col-span-1 md:row-span-1",
+    span: "md:col-span-2 md:row-span-1",
     hasImage: true,
     isFeatured: false,
     placementImage: "side",
     aspect: "aspect-square",
   },
   4: {
-    span: "md:col-span-1 md:row-span-4",
+    span: "md:col-span-3 md:row-span-3",
     hasImage: true,
     isFeatured: false,
     placementImage: "center",
@@ -45,7 +47,7 @@ const DEFAULT_SLOT_CONFIGS: Record<number, SlotConfig> = {
     aspect: "aspect-[2/1]",
   },
   7: {
-    span: "md:col-span-1 md:row-span-1",
+    span: "md:col-span-1 md:row-span-3",
     hasImage: true,
     isFeatured: false,
     placementImage: "side",
@@ -61,23 +63,16 @@ const DEFAULT_CONFIG: SlotConfig = {
   aspect: "aspect-[4/3]",
 };
 
-/**
- * Obtiene la configuración de un slot del Bento grid
- * @param index - Índice del elemento
- * @param customSlotConfigs - Configuración personalizada de slots (opcional)
- * @returns Configuración del slot
- */
-export function getBentoConfig(
-  index: number,
-  customSlotConfigs?: Partial<Record<number, Partial<SlotConfig>>>,
-): BentoConfig {
+export function getBentoConfig(index: number, customSlotConfigs?: BentoOverride): BentoConfig {
   const slotIndex = index % 10;
+
   const baseConfig = DEFAULT_SLOT_CONFIGS[slotIndex] || DEFAULT_CONFIG;
-  const customConfig = customSlotConfigs?.[slotIndex];
+  const absoluteCustomConfig = customSlotConfigs?.[index];
+  const patternCustomConfig = customSlotConfigs?.[slotIndex];
 
-  if (customConfig) {
-    return { ...baseConfig, ...customConfig };
-  }
-
-  return baseConfig;
+  return {
+    ...baseConfig,
+    ...(patternCustomConfig || {}),
+    ...(absoluteCustomConfig || {}),
+  };
 }
