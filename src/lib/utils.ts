@@ -13,7 +13,7 @@ export function isCategory(item: EntriesOrderByCategory): item is Category {
   return item.type === "category";
 }
 
-export const MONTHS_ORDERED: EntriesOrderByCategory[] = [
+export const MONTHS_ORDERED: Category[] = [
   { type: "category", name: "context" },
   { type: "category", name: "febrero" },
   { type: "category", name: "marzo" },
@@ -32,7 +32,7 @@ export const MONTHS_ORDERED: EntriesOrderByCategory[] = [
 
 export const groupByMonth = (items: ContentNavigate[] | null) => {
   const orderedMonths = MONTHS_ORDERED.filter(
-    (month): month is Category => isCategory(month) && month.name !== "tale"
+    (month): month is Category => isCategory(month) && month.name !== "tale",
   ).map((month) => month.name);
 
   const groupedItems = Object.groupBy(items ?? [], (item) => item.category.name);
@@ -144,7 +144,17 @@ export function groupArticles(articles: ContentNavigate[] | null) {
     list.sort((a, b) => a.order - b.order);
   }
 
-  return map;
+  const categoryOrderIndex = new Map(MONTHS_ORDERED.map((item, index) => [item.name, index]));
+
+  const sortedMap = new Map(
+    Array.from(map.entries()).sort(([keyA], [keyB]) => {
+      const orderA = categoryOrderIndex.get(keyA as Category["name"]) ?? Number.MAX_SAFE_INTEGER;
+      const orderB = categoryOrderIndex.get(keyB as Category["name"]) ?? Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    }),
+  );
+
+  return sortedMap;
 }
 
 export const getCategoryStyle = (category: PhraseListItem | CategoryListItem) => {

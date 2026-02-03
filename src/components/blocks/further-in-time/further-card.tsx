@@ -9,90 +9,14 @@ import {
 } from "@/components/ui/styled-cards/glow-card";
 import { HoverBoxShadowGlow } from "@/components/ui/styled-cards/hover-glow";
 import { ENDPOINTS } from "@/lib/constants";
+import { BentoConfig } from "@/lib/get-bento-config";
 import { usePaletteColors } from "@/lib/hooks/use-pallette-color";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { cn } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-type BentoConfig = ReturnType<typeof getBentoConfig>;
-
-export function getBentoConfig(index: number) {
-  const i = index % 10;
-
-  switch (i) {
-    case 0:
-      return {
-        span: "md:col-span-2 md:row-span-2",
-        hasImage: true,
-        isFeatured: true,
-        placementImage: "center",
-        aspect: "aspect-square",
-      };
-    case 1:
-      return {
-        span: "md:col-span-1 md:row-span-2",
-        hasImage: true,
-        isFeatured: false,
-        placementImage: "side",
-        aspect: "aspect-[9/16]",
-      };
-    case 5:
-      return {
-        span: "md:col-span-2 md:row-span-2",
-        hasImage: true,
-        isFeatured: false,
-        placementImage: "side",
-        aspect: "aspect-[2/1]",
-      };
-    case 4:
-      return {
-        span: "md:col-span-1 md:row-span-4",
-        hasImage: true,
-        isFeatured: false,
-        placementImage: "center",
-        aspect: "aspect-square",
-      };
-    case 3:
-    case 7:
-      return {
-        span: "md:col-span-1 md:row-span-1",
-        hasImage: true,
-        isFeatured: false,
-        placementImage: "side",
-        aspect: "aspect-square",
-      };
-    default:
-      return {
-        span: "md:col-span-1 md:row-span-2",
-        hasImage: true,
-        isFeatured: false,
-        placementImage: "side",
-        aspect: "aspect-[4/3]",
-      };
-  }
-}
-
-export function PremiumMasonry({ articles: items }: { articles: ContentNavigate[] }) {
-  return (
-    <div className="grid grid-cols-1 gap-4 px-2 md:grid-cols-3 md:gap-6 lg:gap-8 auto-rows-[minmax(180px,auto)] grid-flow-dense">
-      {items.map((article, index) => {
-        const config = getBentoConfig(index);
-
-        return (
-          <MasonryItemGlow
-            key={`${article.slug}-${index}`}
-            article={article}
-            index={index}
-            config={config}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-function MasonryItemGlow({
+export function MasonryItemGlow({
   article,
   index,
   config,

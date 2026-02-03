@@ -1,4 +1,7 @@
 import { Skeleton } from "@/components/blocks/share/skeleton";
+import { Masonry } from "@/components/ui/masonry";
+import { getBentoConfig } from "@/lib/get-bento-config";
+import { cn } from "@/lib/utils";
 
 export function TitleLoader() {
   return (
@@ -55,10 +58,14 @@ export function ContentLoader() {
 
 export function ListSkeleton() {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-1/2 mx-auto p-4 justify-center">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <Skeleton className="w-full min-h-60" key={index} />
-      ))}
-    </ul>
+    <Masonry className="max-w-7xl mx-auto">
+      {Array.from({ length: 4 }).map((_, index) => {
+        const config = getBentoConfig(index);
+
+        return (
+          <Skeleton key={index} className={cn("h-full w-full rounded-2xl mb-4", config.span)} />
+        );
+      })}
+    </Masonry>
   );
 }

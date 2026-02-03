@@ -17,7 +17,7 @@ export const ENDPOINTS = {
   TRIP: `${APP_ROUTES.trip}`,
   FURTHER_TIME: `${APP_ROUTES.furtherTime}`,
   FURTHER_TIME_ARTICLE: (slug: string) => `${APP_ROUTES.furtherTime}/${slug}`,
-};
+} as const;
 
 export const EXTERNAL_API_ENDPOINTS = {
   SETTINGS: "/settings",
@@ -36,7 +36,7 @@ export const EXTERNAL_API_ENDPOINTS = {
   ARTICLE: (slug: string) => `/articles/${slug}`,
   TALE: (slug: string) => `/tales/${slug}`,
   FURTHER_TIME_ARTICLE: (slug: string) => `/further-time/${slug}`,
-};
+} as const;
 
 export const CACHE_TAGS = {
   ARTICLES: "articles",

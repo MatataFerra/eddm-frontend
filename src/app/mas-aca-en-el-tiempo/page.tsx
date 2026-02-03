@@ -1,5 +1,7 @@
-import { FurtherContainer } from "@/components/blocks/further-in-time/further-container";
+import { ResolvedFurtherArticles } from "@/components/blocks/further-in-time/resolver-further";
+import { ListSkeleton } from "@/components/blocks/share/content-render/content-skeleton";
 import { Nav } from "@/components/blocks/share/nav";
+import { Suspense } from "react";
 
 export default function BlogPage() {
   return (
@@ -20,8 +22,9 @@ export default function BlogPage() {
             </p>
           </div>
         </div>
-
-        <FurtherContainer />
+        <Suspense fallback={<ListSkeleton />}>
+          <ResolvedFurtherArticles />
+        </Suspense>
       </div>
     </>
   );

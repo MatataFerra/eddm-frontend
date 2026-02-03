@@ -4,19 +4,23 @@ import { QuoteIcon } from "@/components/ui/quote-icon";
 import { useResponsiveFontSize } from "@/lib/hooks/use-responsive-text";
 import { SPANISH_COMMON_BLACKLIST } from "@/lib/text-highlighter";
 import { RandomizedTextHighlighter } from "@/components/blocks/articles/text-render/text-highlighter";
+import { cn } from "@/lib/utils";
 
 type ResponsiveQuoteTextProps = {
   text: string;
-  color?: string;
+  className?: string;
 };
 
-export function ResponsiveQuoteText({ text, color }: ResponsiveQuoteTextProps) {
+export function ResponsiveQuoteText({ text, className }: ResponsiveQuoteTextProps) {
   const { containerRef, textRef, isReady } = useResponsiveFontSize(text);
 
   return (
     <div
       ref={containerRef}
-      className="relative size-full flex flex-col justify-center items-center p-6 md:p-8 overflow-hidden">
+      className={cn(
+        "relative size-full flex flex-col justify-center items-center p-6 md:p-8 overflow-hidden rounded-2xl",
+        className,
+      )}>
       <div className="self-start mb-2 shrink-0">
         <QuoteIcon />
       </div>
@@ -24,11 +28,10 @@ export function ResponsiveQuoteText({ text, color }: ResponsiveQuoteTextProps) {
       <p
         ref={textRef}
         style={{
-          color,
           opacity: isReady ? 1 : 0,
           transition: "opacity 0.3s ease-in-out",
         }}
-        className="w-full text-balance leading-snug font-medium">
+        className={cn("w-full text-balance leading-snug font-medium")}>
         <RandomizedTextHighlighter
           text={text}
           blacklist={SPANISH_COMMON_BLACKLIST}
