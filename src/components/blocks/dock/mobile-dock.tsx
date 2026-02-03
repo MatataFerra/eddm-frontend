@@ -8,7 +8,7 @@ const DynamicMobileItem = dynamic(
   () => import("@/components/blocks/dock/mobile-item").then((mod) => mod.MobileItem),
   {
     ssr: false,
-  }
+  },
 );
 
 export function FloatingDockMobile({
@@ -23,13 +23,13 @@ export function FloatingDockMobile({
   return (
     <AnimatePresence mode="wait">
       {!shouldHide && (
-        <motion.div
+        <motion.nav
           key="mobile-dock"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className={cn("fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden", className)}>
+          className={cn("fixed bottom-6 left-1/2 -translate-x-1/2 z-40 md:hidden", className)}>
           <div className="flex items-center gap-4 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 px-4 py-3 rounded-2xl shadow-2xl">
             {items.map((item) => {
               if (item.title === "separator") return null;
@@ -41,7 +41,7 @@ export function FloatingDockMobile({
               );
             })}
           </div>
-        </motion.div>
+        </motion.nav>
       )}
     </AnimatePresence>
   );

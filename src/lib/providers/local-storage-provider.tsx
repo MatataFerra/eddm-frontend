@@ -10,9 +10,13 @@ import type {
   LocalStorageConfigUpdateFunction,
 } from "@/lib/interfaces/share";
 
-interface LocalStorageContextValue {
-  config: LocalStorageConfig;
+interface Actions {
   update: LocalStorageConfigUpdateFunction;
+  getArticleReadingStatus: (slug: string) => string | undefined;
+}
+
+interface LocalStorageContextValue extends Actions {
+  config: LocalStorageConfig;
   bookmarked: string[];
   articlesReadStatus: ArticleStatusMap;
 }
@@ -30,12 +34,17 @@ export function LocalStorageConfigProvider({ children }: LocalStorageConfigProvi
       version: 1,
       bookmarked: [],
       "articles-read-status": {},
-    }
+    },
   );
+
+  function getArticleReadingStatus(slug: string) {
+    return value["articles-read-status"][slug];
+  }
 
   const contextValue: LocalStorageContextValue = {
     config: value,
     update,
+    getArticleReadingStatus,
     bookmarked: value.bookmarked,
     articlesReadStatus: value["articles-read-status"],
   };

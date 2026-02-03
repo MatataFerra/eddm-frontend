@@ -10,7 +10,7 @@ const containerVariants = {
   collapsed: {
     width: 32,
     padding: "8px 0",
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(24, 24, 27, 0)",
   },
   expanded: {
     width: 260,
@@ -27,7 +27,7 @@ export function DesktopTableOfContents() {
 
   return (
     <motion.nav
-      className="hidden md:flex flex-col fixed top-1/4 right-4 z-50 rounded-lg backdrop-blur-md border border-transparent hover:border-zinc-800/50 overflow-hidden"
+      className="hidden md:flex flex-col fixed top-1/4 right-4 z-40 rounded-lg backdrop-blur-md border border-transparent hover:border-zinc-800/50 overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       initial="collapsed"
@@ -64,7 +64,7 @@ function CompactLines({ items, activeId }: { items: TOCItem[]; activeId: string 
                 "rounded-full transition-all duration-300 h-0.5",
                 isActive
                   ? "bg-blue-500 w-4 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
-                  : "bg-zinc-600 w-2"
+                  : "bg-zinc-600 w-2",
               )}
             />
           </div>
@@ -101,7 +101,7 @@ function ExpandedList({ items, activeId }: { items: TOCItem[]; activeId: string 
                 "block w-full px-3 py-1.5 rounded-md text-xs font-medium truncate transition-colors",
                 isActive
                   ? "bg-blue-500/10 text-blue-400"
-                  : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50"
+                  : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50",
               )}>
               {item.title}
             </Link>

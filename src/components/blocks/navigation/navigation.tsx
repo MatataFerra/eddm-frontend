@@ -1,7 +1,6 @@
 import { type EntriesOrderByCategory } from "@/lib/interfaces/share";
 import { type RoutePaths } from "@/lib/constants";
 import { EntryNavWrapper } from "@/components/blocks/navigation/entry-nav-wrapper";
-import { LocalStorageConfigProvider } from "@/lib/providers/local-storage-provider";
 
 type NavigationProps = {
   redirect: RoutePaths;
@@ -11,10 +10,8 @@ type NavigationProps = {
 
 export function Navigation({ typeOfOrder, redirect }: NavigationProps) {
   return (
-    <div className="md:bg-accent-foreground flex items-center justify-center mx-auto">
-      <LocalStorageConfigProvider>
-        <EntryNavWrapper redirect={redirect} typeOfOrder={typeOfOrder} />
-      </LocalStorageConfigProvider>
+    <div className="md:bg-accent-foreground flex items-center justify-center mx-auto z-10">
+      <EntryNavWrapper redirect={redirect} typeOfOrder={typeOfOrder} />
     </div>
   );
 }

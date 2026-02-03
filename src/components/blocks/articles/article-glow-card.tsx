@@ -6,11 +6,20 @@ import {
   GlowCardImage,
   GlowCardContent,
 } from "@/components/ui/styled-cards/glow-card";
-import { ContentNavigate } from "@/lib/interfaces/articles";
-import { type BentoConfig } from "@/lib/get-bento-config";
+import type { ContentNavigate } from "@/lib/interfaces/articles";
+import type { BentoConfig } from "@/lib/get-bento-config";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { ENDPOINTS } from "@/lib/constants";
+import dynamic from "next/dynamic";
+
+const Badge = dynamic(
+  () =>
+    import("@/components/blocks/articles/badge-reading-status").then(
+      (mod) => mod.BadgeReadingStatus,
+    ),
+  { ssr: false },
+);
 
 export function ArticleGlowCard({
   article,
@@ -54,6 +63,7 @@ export function ArticleGlowCard({
           <GlowCardTitle className="text-3xl md:text-5xl wrap-break-word font-semibold relative z-20 text-shadow-2xs">
             {article.title}
           </GlowCardTitle>
+          <Badge article={article} />
         </GlowCardContent>
       </GlowCardSurface>
     </GlowCard>
