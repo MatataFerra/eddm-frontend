@@ -16,7 +16,7 @@ export function ArticlesGridView() {
   }
 
   return (
-    <section className="flex flex-col gap-16 space-y-8 md:space-y-12 max-w-7xl mx-auto">
+    <section className="flex flex-col gap-16 space-y-8 md:space-y-12 max-w-7xl mx-auto p-8">
       {Array.from(articlesByCategory.entries()).map(
         ([categoryName, categoryArticles], groupIndex) => {
           const title = categoryName === "context" ? "Prólogo" : capitalize(categoryName);
@@ -34,7 +34,7 @@ export function ArticlesGridView() {
                     article={article}
                     index={articleIndex}
                     data-slot={`article-glow-card-${groupIndex}-${articleIndex}`}
-                    className={categoryName === "context" ? "w-full h-80" : "size-80"}
+                    className="w-full h-80"
                   />
                 ))}
               </div>

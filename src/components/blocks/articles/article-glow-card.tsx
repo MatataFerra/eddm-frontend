@@ -44,7 +44,7 @@ export function ArticleGlowCard({
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onClick={() => push(ENDPOINTS.ARTICLE(article.slug))}
       className={cn(
-        "hover:scale-[1.02] transition-transform cursor-pointer size-full",
+        "hover:scale-[1.02] transition-transform cursor-pointer h-full w-full",
         config?.span,
         className,
       )}>
