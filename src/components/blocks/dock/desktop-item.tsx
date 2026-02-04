@@ -1,10 +1,10 @@
+"use client";
+
 import { DockItemProps } from "@/lib/interfaces/dock";
 import { AnimatePresence, MotionValue, motion, useSpring, useTransform } from "motion/react";
-import { memo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-export const IconContainerMemoized = memo(IconContainer);
-
-function IconContainer({
+export function IconContainer({
   mouseX,
   title,
   icon,

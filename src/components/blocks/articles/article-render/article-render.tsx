@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-table-of-contents";
 import { ContentSummary } from "@/components/blocks/share/content-render/content-summary";
 import { Content } from "@/components/blocks/share/content-render/content";
+import { MarkAsReadButton } from "./mark-as-read-button";
 
 export type ArticleRenderProps = {
   articlePromise: ArticlePromise;
@@ -28,18 +29,20 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
       <Suspense fallback={<TitleLoader />}>
         <ArticleTitle articlePromise={articlePromise} />
       </Suspense>
+
       <section className="p-4">
         <div className="max-w-full">
           <Suspense fallback={<HeaderLoader />}>
             <ArticleHeader articlePromise={articlePromise} />
           </Suspense>
-          <article className="max-w-xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
+          <article className="max-w-2xl mx-auto prose prose-h1:text-4xl prose-invert prose-ul:list-none">
             <Suspense fallback={<SummaryLoader />}>
               <ContentSummary contentPromise={articlePromise} />
             </Suspense>
             <Suspense fallback={<ContentLoader />}>
               <Content contentPromise={articlePromise} />
             </Suspense>
+            <MarkAsReadButton />
           </article>
           <DesktopTableOfContents />
         </div>
