@@ -11,6 +11,7 @@ import { RootDataProvider } from "@/lib/providers/root-data-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { BackgroundMap } from "@/components/blocks/share/background-map";
 import { getContentNavigateFurtherTimeArticles } from "@/lib/api_methods/get-further-time-articles";
+import { LocalStorageConfigProvider } from "@/lib/providers/local-storage-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,16 +46,18 @@ export default async function RootLayout({
     <html lang="es">
       <body
         className={`${playfair.variable} ${inter.variable} relative antialiased bg-background text-foreground font-playfair`}>
-        <IndexContentProvider>
-          <RootDataProvider
-            articles={articles?.data || []}
-            tales={tales?.data || []}
-            furtherTimeArticles={furtherTime?.data || []}>
-            <BackgroundMap />
-            {children}
-            <Toaster richColors />
-          </RootDataProvider>
-        </IndexContentProvider>
+        <LocalStorageConfigProvider>
+          <IndexContentProvider>
+            <RootDataProvider
+              articles={articles?.data || []}
+              tales={tales?.data || []}
+              furtherTimeArticles={furtherTime?.data || []}>
+              <BackgroundMap />
+              {children}
+              <Toaster richColors />
+            </RootDataProvider>
+          </IndexContentProvider>
+        </LocalStorageConfigProvider>
       </body>
     </html>
   );

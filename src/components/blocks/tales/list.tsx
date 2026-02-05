@@ -31,7 +31,7 @@ export function ListTales({
   }
 
   return (
-    <Masonry className="max-w-7xl mx-auto">
+    <Masonry className="max-w-7xl mx-auto my-8 p-8 auto-rows-[minmax(350px,auto)] md:auto-rows-[minmax(180px,auto)]">
       {tales
         ?.toSorted((a, b) => a.order - b.order)
         ?.map((tale, index) => {

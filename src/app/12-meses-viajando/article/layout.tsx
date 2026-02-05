@@ -1,5 +1,4 @@
 import { ResponsiveIndexContent } from "@/components/blocks/index-content/responsive-index-content";
-import { LocalStorageConfigProvider } from "@/lib/providers/local-storage-provider";
 
 export default async function Layout({
   children,
@@ -8,10 +7,8 @@ export default async function Layout({
 }>) {
   return (
     <>
-      <LocalStorageConfigProvider>
-        <ResponsiveIndexContent />
-        {children}
-      </LocalStorageConfigProvider>
+      <ResponsiveIndexContent />
+      {children}
     </>
   );
 }
