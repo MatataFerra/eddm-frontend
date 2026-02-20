@@ -20,6 +20,10 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[180px] md:auto-rows-[200px] gap-3 md:gap-4 my-8">
         {React.Children.map(children, (child, i) => {
+          const childSrc = React.isValidElement(child)
+            ? ((child.props as { src?: string; href?: string }).src ??
+              (child.props as { src?: string; href?: string }).href)
+            : undefined;
           const isHero = i === 0;
           const isLast = i === itemCount - 1;
           const desktopRemainder = itemCount % 3;
@@ -40,7 +44,10 @@ export function BentoGridMarkdown({ children, slides }: BentoGridProps) {
 
           return (
             <div
-              key={i}
+              key={childSrc ?? `item-${i}`}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIndex(i); }}
               className={`
                 relative overflow-hidden rounded-lg md:rounded-xl border border-zinc-800 bg-zinc-900 cursor-zoom-in group
                 ${spanClasses}

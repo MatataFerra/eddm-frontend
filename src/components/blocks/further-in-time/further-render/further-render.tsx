@@ -12,7 +12,7 @@ import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-t
 import { ContentSummary } from "@/components/blocks/share/content-render/content-summary";
 import { Content } from "@/components/blocks/share/content-render/content";
 
-export type ArticleRenderProps = {
+type ArticleRenderProps = {
   furtherTimeArticlePromise: ArticlePromise;
 };
 

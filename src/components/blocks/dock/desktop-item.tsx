@@ -1,7 +1,7 @@
 "use client";
 
 import { DockItemProps } from "@/lib/interfaces/dock";
-import { AnimatePresence, MotionValue, motion, useSpring, useTransform } from "motion/react";
+import { AnimatePresence, MotionValue, m, useSpring, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 
 export function IconContainer({
@@ -55,7 +55,7 @@ export function IconContainer({
     <>
       {href ? (
         <a href={href}>
-          <motion.div
+          <m.div
             ref={ref}
             style={{ width, height }}
             onMouseEnter={() => setHovered(true)}
@@ -63,25 +63,25 @@ export function IconContainer({
             className="relative flex aspect-square items-center justify-center rounded-full bg-neutral-800">
             <AnimatePresence>
               {hovered && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10, x: "-50%" }}
                   animate={{ opacity: 1, y: 0, x: "-50%" }}
                   exit={{ opacity: 0, y: 2, x: "-50%" }}
                   className="absolute -top-8 left-1/2 w-fit rounded-md border px-2 py-0.5 text-xs whitespace-pre border-neutral-900 bg-neutral-800 text-white">
                   {title}
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
-            <motion.div
+            <m.div
               style={{ width: widthIcon, height: heightIcon }}
               className="flex items-center justify-center">
               {icon}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </a>
       ) : (
         onClick && (
-          <motion.div
+          <m.div
             ref={ref}
             style={{ width, height }}
             onClick={onClick}
@@ -90,21 +90,21 @@ export function IconContainer({
             className="relative flex aspect-square items-center justify-center rounded-full bg-neutral-800 cursor-pointer active:bg-accent transition-colors">
             <AnimatePresence>
               {hovered && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10, x: "-50%" }}
                   animate={{ opacity: 1, y: 0, x: "-50%" }}
                   exit={{ opacity: 0, y: 2, x: "-50%" }}
                   className="absolute -top-8 left-1/2 w-fit select-none rounded-md border px-2 py-0.5 text-xs whitespace-pre border-neutral-900 bg-neutral-800 text-white">
                   {title}
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
-            <motion.div
+            <m.div
               style={{ width: widthIcon, height: heightIcon }}
               className="flex items-center justify-center">
               {icon}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )
       )}
     </>

@@ -3,7 +3,7 @@
 // debug-fetch.ts — util minimal para loguear y ver si una request salió del caché
 
 type ParamValue = string | number | boolean | null | undefined;
-export type FetchOptions = {
+type FetchOptions = {
   params?: Record<string, ParamValue>;
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   isExternalUrl?: boolean;
@@ -153,34 +153,3 @@ export async function debugFetch(
   }
 }
 
-/**
- * withDebug: envuelve una función async con logs begin/ok/err.
- */
-export function withDebug<TArgs extends any[], TRes>(
-  fn: (...args: TArgs) => Promise<TRes>,
-  name = fn.name || "fn"
-) {
-  return async (...args: TArgs): Promise<TRes> => {
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    const t0 = performance.now();
-    if (isDebugEnabled) console.log(`${dim(`[${name}]`)} ${cyan(id)} start`, args);
-    try {
-      const out = await fn(...args);
-      const t1 = performance.now();
-      if (isDebugEnabled)
-        console.log(
-          `${dim(`[${name}]`)} ${green("OK")} ${cyan(id)} ${dim(`${(t1 - t0).toFixed(1)}ms`)}`
-        );
-      return out;
-    } catch (e: any) {
-      const t1 = performance.now();
-      if (isDebugEnabled)
-        console.log(
-          `${dim(`[${name}]`)} ${red("ERR")} ${cyan(id)} ${dim(`${(t1 - t0).toFixed(1)}ms`)} ${
-            e?.message ?? ""
-          }`
-        );
-      throw e;
-    }
-  };
-}

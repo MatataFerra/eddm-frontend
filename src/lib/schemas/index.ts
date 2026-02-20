@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const BaseArticleSchema = z.object({
+const BaseArticleSchema = z.object({
   id: z.number().optional(),
   documentId: z.uuid().optional(),
   notionPageId: z.uuid().optional(),
@@ -43,7 +43,7 @@ const GeolocationSchema = {
   }),
 };
 
-export const RelationWithBaseArticleSchema = z.object({
+const RelationWithBaseArticleSchema = z.object({
   media: z.array(
     z.object({
       id: z.number(),

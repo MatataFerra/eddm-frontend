@@ -21,6 +21,9 @@ export function DualGridMarkdown({ children, slides }: DualGridProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
         {React.Children.map(children, (child, i) => (
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIndex(i); }}
             className={`
               relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 cursor-zoom-in group
               h-64 md:h-96 w-full

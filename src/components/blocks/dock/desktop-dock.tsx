@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { useHideElementScroll } from "@/lib/hooks/use-hide-element-scroll";
 import type { DockItemProps } from "@/lib/interfaces/dock";
 import { cn } from "@/lib/utils";
-import { useMotionValue, motion, AnimatePresence } from "motion/react";
+import { useMotionValue, m, AnimatePresence } from "motion/react";
 import { IconContainer } from "@/components/blocks/dock/desktop-item";
 
 export function FloatingDockDesktop({
@@ -18,7 +18,7 @@ export function FloatingDockDesktop({
   return (
     <AnimatePresence mode="popLayout">
       {!shouldHide && (
-        <motion.nav
+        <m.nav
           key="dock"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -52,7 +52,7 @@ export function FloatingDockDesktop({
               </div>
             );
           })}
-        </motion.nav>
+        </m.nav>
       )}
     </AnimatePresence>
   );

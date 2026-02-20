@@ -6,7 +6,6 @@ export const APP_ROUTES = {
   furtherTime: "/mas-aca-en-el-tiempo",
 } as const;
 
-export type AppRoutes = typeof APP_ROUTES;
 export type RoutePaths = (typeof APP_ROUTES)[keyof typeof APP_ROUTES];
 
 export const ENDPOINTS = {

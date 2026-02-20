@@ -1,14 +1,11 @@
 import "server-only";
 import { debugFetch } from "@/lib/fetch/debug";
-import { unstable_cache } from "next/cache";
 import { Article } from "@lib/interfaces/articles";
 import { generateToken } from "../services/jwt";
 
-export type Methods = "GET" | "POST" | "PUT" | "DELETE";
-export type Params = Partial<keyof PopulateOptions> | Partial<keyof PopulateOptions>[];
-type PopulateOptions = Pick<Article, "cover" | "header" | "media">;
+type Methods = "GET" | "POST" | "PUT" | "DELETE";
 type AvailableFields<T> = Exclude<keyof T, "cover" | "header" | "media" | "blocks">;
-export type Fields<T> = Array<AvailableFields<T>> | AvailableFields<T>;
+type Fields<T> = Array<AvailableFields<T>> | AvailableFields<T>;
 type Url = string;
 type Flat = string | number | boolean;
 type ParamValue = Flat | Flat[] | Record<string, unknown>;
@@ -107,22 +104,3 @@ async function _fetchData<T>(url: Url, opts: FetchOptions = {}): Promise<T> {
 }
 
 export const fetchData = <T>(url: Url, opts?: FetchOptions) => _fetchData<T>(url, opts);
-
-export const fetchDataCached = <T>(url: Url, opts?: FetchOptions) =>
-  unstable_cache(
-    () => _fetchData<T>(url, opts),
-    [
-      `fetch:${typeof url === "string" ? url : JSON.stringify(url)}:${JSON.stringify({
-        ...opts,
-        headers: undefined,
-      })}`,
-    ],
-    {
-      ...(opts?.revalidate !== undefined ? { revalidate: opts.revalidate } : {}),
-      ...(opts?.tags
-        ? { tags: Array.isArray(opts.tags) ? opts.tags : [opts.tags] }
-        : typeof url === "string" && !opts?.isExternalUrl
-        ? { tags: [url.split("/")[1]] }
-        : {}),
-    }
-  )();
