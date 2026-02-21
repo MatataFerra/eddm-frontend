@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -10,6 +11,11 @@ import { CreatedAtCard } from "@/components/blocks/trip/created-at-card";
 import { StopLenCard } from "@/components/blocks/trip/stop-len-card";
 import { TotalDistanceCard } from "@/components/blocks/trip/total-distance-card";
 import { TripHeader } from "@/components/blocks/trip/trip-header";
+
+export const metadata: Metadata = {
+  title: "Mi viaje | El diario de Mati",
+  description: "Un mapa interactivo de todos los lugares que he visitado en mi viaje.",
+};
 
 export default async function TripDetailsPage() {
   const trip = await getTrip<Trip>();

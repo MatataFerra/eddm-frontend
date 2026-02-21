@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { ResolvedFurtherArticles } from "@/components/blocks/further-in-time/resolver-further";
 import { ListSkeleton } from "@/components/blocks/share/content-render/content-skeleton";
 import { Nav } from "@/components/blocks/share/nav";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Historias que están Pasando | El diario de Mati",
+  description: "Historias recientes que quizás no sean correlativas pero siempre son reales.",
+};
 
 export default function BlogPage() {
   return (

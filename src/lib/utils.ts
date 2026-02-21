@@ -2,14 +2,13 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ContentNavigate } from "@/lib/interfaces/articles";
 import { Category, EntriesOrderByCategory } from "@/lib/interfaces/share";
-import type { CategoryListItem, PhraseListItem } from "@/lib/interfaces/cards";
 import { CONTEXT_TITLE } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function isCategory(item: EntriesOrderByCategory): item is Category {
+function isCategory(item: EntriesOrderByCategory): item is Category {
   return item.type === "category";
 }
 
@@ -50,16 +49,6 @@ export function capitalize(text: string) {
   const capitalize = first.toUpperCase();
 
   return [capitalize, ...rest].join("");
-}
-
-export function stripColSpan(cls?: string | null) {
-  if (!cls) return "";
-  return cls.replace(/\bcol-span-\d+\b/g, "").trim();
-}
-
-export function columnsClass(n?: number) {
-  const x = Math.min(6, Math.max(1, n ?? 1));
-  return `span ${x}`;
 }
 
 export function delay(ms: number) {
@@ -156,26 +145,6 @@ export function groupArticles(articles: ContentNavigate[] | null) {
 
   return sortedMap;
 }
-
-export const getCategoryStyle = (category: PhraseListItem | CategoryListItem) => {
-  const baseStyle = {
-    gridColumn: `span ${category.columns}`,
-    gridRow: `span ${category.rows}`,
-  };
-
-  if (category.type === "phrase" && category.gradient) {
-    const direction = category.gradient.direction.replace(/_/g, " ").toLowerCase();
-    return {
-      ...baseStyle,
-      background: `linear-gradient(${direction}, ${category.gradient.from}, ${
-        category.gradient.via ?? category.gradient.from
-      }, ${category.gradient.to})`,
-      color: category.gradient.textColor,
-    };
-  }
-
-  return baseStyle;
-};
 
 export const getNormalizedTitleText = (text: string) =>
   text === "context" ? CONTEXT_TITLE.es : capitalize(text) || "Artículos";

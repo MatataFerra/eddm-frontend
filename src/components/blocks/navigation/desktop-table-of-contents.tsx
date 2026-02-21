@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { m, AnimatePresence } from "motion/react";
 import { type TOCItem, useTOC } from "@/lib/providers/toc-entry-provider";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -26,7 +26,7 @@ export function DesktopTableOfContents() {
   if (items.length === 0) return null;
 
   return (
-    <motion.nav
+    <m.nav
       className="hidden md:flex flex-col fixed top-1/4 right-4 z-40 rounded-lg backdrop-blur-md border border-transparent hover:border-zinc-800/50 overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
@@ -43,13 +43,13 @@ export function DesktopTableOfContents() {
           )}
         </AnimatePresence>
       </div>
-    </motion.nav>
+    </m.nav>
   );
 }
 
 function CompactLines({ items, activeId }: { items: TOCItem[]; activeId: string }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -70,13 +70,13 @@ function CompactLines({ items, activeId }: { items: TOCItem[]; activeId: string 
           </div>
         );
       })}
-    </motion.div>
+    </m.div>
   );
 }
 
 function ExpandedList({ items, activeId }: { items: TOCItem[]; activeId: string }) {
   return (
-    <motion.ul
+    <m.ul
       initial="hidden"
       animate="visible"
       exit="hidden"
@@ -88,7 +88,7 @@ function ExpandedList({ items, activeId }: { items: TOCItem[]; activeId: string 
       {items.map((item) => {
         const isActive = activeId === item.id;
         return (
-          <motion.li
+          <m.li
             key={item.id}
             variants={{
               hidden: { opacity: 0, x: 20 },
@@ -105,9 +105,9 @@ function ExpandedList({ items, activeId }: { items: TOCItem[]; activeId: string 
               )}>
               {item.title}
             </Link>
-          </motion.li>
+          </m.li>
         );
       })}
-    </motion.ul>
+    </m.ul>
   );
 }

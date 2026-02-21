@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { DockItemProps } from "@/lib/interfaces/dock";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "motion/react";
+import { m, AnimatePresence } from "motion/react";
 import { useHideElementScroll } from "@/lib/hooks/use-hide-element-scroll";
 
 const DynamicMobileItem = dynamic(
@@ -23,7 +23,7 @@ export function FloatingDockMobile({
   return (
     <AnimatePresence mode="wait">
       {!shouldHide && (
-        <motion.nav
+        <m.nav
           key="mobile-dock"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -41,7 +41,7 @@ export function FloatingDockMobile({
               );
             })}
           </div>
-        </motion.nav>
+        </m.nav>
       )}
     </AnimatePresence>
   );

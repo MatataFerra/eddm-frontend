@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { motion, type Variants } from "motion/react";
+import { m, type Variants } from "motion/react";
 
 const item: Variants = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -17,12 +17,12 @@ const item: Variants = {
 export function TimelineItem({ children, index }: { children: React.ReactNode; index: number }) {
   const offset = index % 2 === 0 ? "lg:ml-0" : "lg:ml-16";
   return (
-    <motion.div
+    <m.div
       className={cn("relative pl-10 sm:pl-14 md:pl-20", offset)}
       variants={item}
       initial="hidden"
       animate="show">
       <div className="relative z-20">{children}</div>
-    </motion.div>
+    </m.div>
   );
 }

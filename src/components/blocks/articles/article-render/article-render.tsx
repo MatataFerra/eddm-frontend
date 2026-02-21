@@ -15,7 +15,7 @@ import { ContentSummary } from "@/components/blocks/share/content-render/content
 import { Content } from "@/components/blocks/share/content-render/content";
 import { MarkAsReadButton } from "./mark-as-read-button";
 
-export type ArticleRenderProps = {
+type ArticleRenderProps = {
   articlePromise: ArticlePromise;
 };
 

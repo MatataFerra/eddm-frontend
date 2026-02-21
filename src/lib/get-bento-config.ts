@@ -1,4 +1,4 @@
-export type SlotConfig = {
+type SlotConfig = {
   span: string;
   hasImage: boolean;
   isFeatured: boolean;
@@ -8,7 +8,7 @@ export type SlotConfig = {
 };
 
 export type BentoConfig = SlotConfig;
-export type BentoOverride = Partial<Record<number, Partial<SlotConfig>>>;
+type BentoOverride = Partial<Record<number, Partial<SlotConfig>>>;
 
 const DEFAULT_SLOT_CONFIGS: Record<number, SlotConfig> = {
   0: {

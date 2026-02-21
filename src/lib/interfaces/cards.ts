@@ -1,4 +1,3 @@
-import type { ApiResponse } from "@lib/fetch/caller";
 import type { Category } from "@lib/interfaces/share";
 
 enum GradientDirection {
@@ -46,7 +45,4 @@ export type PhraseListItem = BaseListItem & {
   text: string; // c.text ?? ""
 };
 
-// Unión discriminada
 export type SettingsListItem = CategoryListItem | PhraseListItem;
-
-export type SettingsListItemResponse = ApiResponse<SettingsListItem[]>;

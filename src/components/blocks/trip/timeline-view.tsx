@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, type Variants } from "motion/react";
+import { m, useScroll, useTransform, type Variants } from "motion/react";
 import { getDistanceFromLatLonInKm } from "@/lib/distance-in-km";
 import type { Trip } from "@/lib/interfaces/trip";
 import { useRef } from "react";
@@ -26,7 +26,7 @@ export function TimeLineTripView({ trip }: { trip: Trip }) {
     index === trip.stops.length - 1 || index === trip.stops.length - 2;
 
   return (
-    <motion.section
+    <m.section
       ref={ref}
       variants={container}
       initial="hidden"
@@ -34,17 +34,17 @@ export function TimeLineTripView({ trip }: { trip: Trip }) {
       className="relative mt-12 md:mt-20 lg:mt-32 pl-8 sm:pl-16 md:pl-24 lg:pl-32 pr-4 sm:pr-6">
       <div className="absolute left-4 sm:left-7 md:left-10 top-0 h-full w-px bg-linear-to-b from-white/15 via-white/5 to-transparent z-10" />
 
-      <motion.div
+      <m.div
         style={{ scaleY: lineScale }}
         className="origin-top absolute left-4 sm:left-7 md:left-10 top-0 h-full w-px z-10">
         <div className="h-full w-full bg-linear-to-b from-violet-400 via-cyan-400 to-pink-400" />
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         style={{ scaleY: lineScale }}
         className="origin-top absolute left-4 sm:left-7 md:left-10 top-0 h-full w-1 blur-2xl z-10">
         <div className="h-full w-full bg-linear-to-b from-violet-400/40 via-cyan-400/40 to-pink-400/40" />
-      </motion.div>
+      </m.div>
 
       <div className="space-y-16 sm:space-y-20 md:space-y-24 lg:space-y-32 pb-32 sm:pb-48 md:pb-64 lg:pb-80">
         {trip.stops.map((stop, index) => {
@@ -74,8 +74,8 @@ export function TimeLineTripView({ trip }: { trip: Trip }) {
         })}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
+      <m.div
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: trip.stops.length * 0.15 + 0.4, duration: 0.6 }}
         className="absolute left-4 sm:left-7 md:left-10 bottom-0 -translate-x-1/2">
@@ -83,7 +83,7 @@ export function TimeLineTripView({ trip }: { trip: Trip }) {
           <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-linear-to-br from-pink-400 to-purple-400 shadow-lg shadow-pink-500/40" />
           <div className="absolute inset-0 rounded-full bg-pink-400/40 blur-xl animate-pulse" />
         </div>
-      </motion.div>
-    </motion.section>
+      </m.div>
+    </m.section>
   );
 }

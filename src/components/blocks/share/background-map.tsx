@@ -8,6 +8,7 @@ export function BackgroundMap() {
           src="/fondo-mini-dark.webp"
           alt="Mapa de fondo"
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />

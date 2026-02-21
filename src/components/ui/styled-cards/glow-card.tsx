@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { type HTMLMotionProps, motion, MotionValue } from "motion/react";
+import { type HTMLMotionProps, m, MotionValue } from "motion/react";
 import Image from "next/image";
 import { forwardRef } from "react";
 import { type LucideIcon } from "lucide-react";
@@ -13,7 +13,7 @@ export const GlowCard = forwardRef<HTMLDivElement, GlowCardProps>(
     }
 
     return (
-      <motion.article
+      <m.article
         ref={ref}
         onClick={link ? handleClick : undefined}
         role={link ? "link" : undefined}
@@ -21,7 +21,7 @@ export const GlowCard = forwardRef<HTMLDivElement, GlowCardProps>(
         className={cn("relative group", link && "cursor-pointer")}
         {...props}>
         {children}
-      </motion.article>
+      </m.article>
     );
   },
 );
@@ -72,25 +72,25 @@ export function GlowCardImage({
 }) {
   if (placement === "center") {
     return (
-      <motion.div
+      <m.div
         data-slot="image"
         style={{ filter: blur }}
         className="relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl -z-10">
-        <Image src={src} alt={alt} fill className={cn("object-cover", className)} />
+        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" className={cn("object-cover", className)} />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/10 to-transparent" />
-      </motion.div>
+      </m.div>
     );
   }
 
   return (
     <div className="absolute inset-y-0 right-0 w-3/5 sm:w-5/6 pointer-events-none">
-      <motion.div
+      <m.div
         data-slot="image"
         style={{ filter: blur }}
         className="relative w-full h-full translate-x-6 sm:translate-x-10 opacity-80 mask-[linear-gradient(to_left,rgba(0,0,0,1)_40%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_left,rgba(0,0,0,1)_40%,rgba(0,0,0,0)_100%)]">
-        <Image src={src} alt={alt} fill className={cn("object-cover", className)} />
+        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 33vw" className={cn("object-cover", className)} />
         <div className="absolute inset-0 bg-linear-to-l from-white/10 via-transparent to-transparent" />
-      </motion.div>
+      </m.div>
     </div>
   );
 }
@@ -186,7 +186,7 @@ export function GlowCardFooter({
   className?: string;
 }) {
   return (
-    <motion.div
+    <m.div
       data-slot="footer"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -201,6 +201,6 @@ export function GlowCardFooter({
         </div>
       )}
       <div className="flex-1 min-w-0">{children}</div>
-    </motion.div>
+    </m.div>
   );
 }

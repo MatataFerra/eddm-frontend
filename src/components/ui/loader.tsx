@@ -1,5 +1,6 @@
 "use client";
-import { motion } from "motion/react";
+import { m } from "motion/react";
+import { useMemo } from "react";
 
 export const LoaderOne = () => {
   const transition = (x: number) => {
@@ -13,7 +14,7 @@ export const LoaderOne = () => {
   };
   return (
     <div className="flex items-center gap-2">
-      <motion.div
+      <m.div
         initial={{
           y: 0,
         }}
@@ -23,7 +24,7 @@ export const LoaderOne = () => {
         transition={transition(0)}
         className="h-4 w-4 rounded-full border border-neutral-300 bg-linear-to-b from-neutral-400 to-neutral-300"
       />
-      <motion.div
+      <m.div
         initial={{
           y: 0,
         }}
@@ -33,7 +34,7 @@ export const LoaderOne = () => {
         transition={transition(1)}
         className="h-4 w-4 rounded-full border border-neutral-300 bg-linear-to-b from-neutral-400 to-neutral-300"
       />
-      <motion.div
+      <m.div
         initial={{
           y: 0,
         }}
@@ -59,7 +60,7 @@ export const LoaderTwo = () => {
   };
   return (
     <div className="flex items-center">
-      <motion.div
+      <m.div
         transition={transition(0)}
         initial={{
           x: 0,
@@ -69,7 +70,7 @@ export const LoaderTwo = () => {
         }}
         className="h-4 w-4 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500"
       />
-      <motion.div
+      <m.div
         initial={{
           x: 0,
         }}
@@ -79,7 +80,7 @@ export const LoaderTwo = () => {
         transition={transition(0.4)}
         className="h-4 w-4 -translate-x-2 rounded-full bg-neutral-200 shadow-md dark:bg-neutral-500"
       />
-      <motion.div
+      <m.div
         initial={{
           x: 0,
         }}
@@ -95,7 +96,7 @@ export const LoaderTwo = () => {
 
 export const LoaderThree = () => {
   return (
-    <motion.svg
+    <m.svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -106,8 +107,8 @@ export const LoaderThree = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="h-20 w-20 stroke-neutral-500 [--fill-final:var(--color-yellow-300)] [--fill-initial:var(--color-neutral-50)] dark:stroke-neutral-100 dark:[--fill-final:var(--color-yellow-500)] dark:[--fill-initial:var(--color-neutral-800)]">
-      <motion.path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <motion.path
+      <m.path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <m.path
         initial={{ pathLength: 0, fill: "var(--fill-initial)" }}
         animate={{ pathLength: 1, fill: "var(--fill-final)" }}
         transition={{
@@ -118,14 +119,14 @@ export const LoaderThree = () => {
         }}
         d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11"
       />
-    </motion.svg>
+    </m.svg>
   );
 };
 
 export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
   return (
     <div className="relative font-bold text-black perspective-[1000px] dark:text-white">
-      <motion.span
+      <m.span
         animate={{
           skewX: [0, 20, -20, 0],
           skewY: [0, -10, 10, 0],
@@ -142,8 +143,8 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
         }}
         className="relative z-20 inline-block">
         {text}
-      </motion.span>
-      <motion.span
+      </m.span>
+      <m.span
         className="absolute inset-0 text-[#00e571]/50 blur-[0.5px] dark:text-[#00e571]"
         animate={{
           x: [-2, 4, -3, 1.5, -2],
@@ -158,8 +159,8 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
           times: [0, 0.2, 0.5, 0.8, 1],
         }}>
         {text}
-      </motion.span>
-      <motion.span
+      </m.span>
+      <m.span
         className="absolute inset-0 text-[#8b00ff]/50 dark:text-[#8b00ff]"
         animate={{
           x: [0, 1, -1.5, 1.5, -1, 0],
@@ -174,17 +175,22 @@ export const LoaderFour = ({ text = "Loading..." }: { text?: string }) => {
           times: [0, 0.3, 0.6, 0.8, 1],
         }}>
         {text}
-      </motion.span>
+      </m.span>
     </div>
   );
 };
 
 export const LoaderFive = ({ text }: { text: string }) => {
+  const chars = useMemo(
+    () => text.split("").map((char, i) => ({ char, key: `c${i}`, delay: i * 0.05 })),
+    [text],
+  );
+
   return (
     <div className="font-sans font-bold [--shadow-color:var(--color-neutral-500)] dark:[--shadow-color:var(--color-neutral-100)]">
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
+      {chars.map(({ char, key, delay }) => (
+        <m.span
+          key={key}
           className="inline-block text-2xl"
           initial={{ scale: 1, opacity: 0.5 }}
           animate={{
@@ -200,12 +206,12 @@ export const LoaderFive = ({ text }: { text: string }) => {
             duration: 0.5,
             repeat: Infinity,
             repeatType: "loop",
-            delay: i * 0.05,
+            delay,
             ease: "easeInOut" as const,
             repeatDelay: 2,
           }}>
           {char === " " ? "\u00A0" : char}
-        </motion.span>
+        </m.span>
       ))}
     </div>
   );

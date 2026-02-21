@@ -18,7 +18,7 @@ type Stats = {
   type: keyof TStatsFromDB;
 };
 
-export const STATS: Stats[] = [
+const STATS: Stats[] = [
   { label: "Países", value: "3", StatIcon: MapIcon, type: "countries" },
   { label: "Recorridos", value: "12", StatIcon: TravelIcon, type: "km" },
   { label: "Notas", value: "50", StatIcon: NotebookPen, type: "notes" },

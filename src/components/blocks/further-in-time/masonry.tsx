@@ -26,7 +26,7 @@ export function MasonryFurther({ furtherPromise }: MasonryProps) {
 
         return (
           <MasonryItemGlow
-            key={`${article.slug}-${index}`}
+            key={article.slug}
             article={article}
             index={index}
             config={config}

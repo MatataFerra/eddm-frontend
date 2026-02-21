@@ -4,7 +4,7 @@ import { ArticleReadStatus } from "@/lib/interfaces/share";
 import { useLocalStorageConfig } from "@/lib/providers/local-storage-provider";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
+import { m, AnimatePresence } from "motion/react";
 import { CheckCircle2 } from "lucide-react";
 
 export function MarkAsReadButton() {
@@ -28,7 +28,7 @@ export function MarkAsReadButton() {
 
   return (
     <section className="mb-8 flex justify-end w-full z-10">
-      <motion.div
+      <m.div
         layout
         onClick={handleMarkAsRead}
         className={cn(
@@ -39,26 +39,26 @@ export function MarkAsReadButton() {
         )}>
         <AnimatePresence mode="wait" initial={false}>
           {isRead ? (
-            <motion.div
+            <m.div
               key="status-read"
               initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 fill-emerald-500/20" />
               <span className="text-sm font-medium">Leído</span>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.span
+            <m.span
               key="status-unread"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -10 }}
               className="text-sm font-medium">
               Marcar como leído
-            </motion.span>
+            </m.span>
           )}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

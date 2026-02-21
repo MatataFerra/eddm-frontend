@@ -25,10 +25,10 @@ export function CarouselWrapper({ children }: { children: React.ReactNode }) {
   return (
     <Carousel className="w-full">
       <CarouselContent className="p-4">
-        {React.Children.map(children, (child, index) => {
+        {React.Children.map(children, (child) => {
           if (!React.isValidElement(child)) {
             return (
-              <CarouselItem key={index} className="flex justify-center basis-1/2">
+              <CarouselItem key={String(child)} className="flex justify-center basis-1/2">
                 <div className="flex items-center h-full">{child}</div>
               </CarouselItem>
             );
@@ -39,7 +39,7 @@ export function CarouselWrapper({ children }: { children: React.ReactNode }) {
 
           return (
             <CarouselItem
-              key={index}
+              key={src}
               className="flex justify-center basis-1/2 select-none *:select-none [&>p]:max-w-full [&>div]:max-w-full">
               {isVid ? (
                 <Video src={src} size="medium" />

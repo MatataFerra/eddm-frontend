@@ -2,7 +2,7 @@
 
 import { useTOC } from "@/lib/providers/toc-entry-provider";
 import { cn, generateSlug } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import Link from "next/link";
 
 const menuVariants = {
@@ -17,7 +17,7 @@ export function FloatingEntryContentList() {
     <AnimatePresence>
       {isTocOpen && items.length > 0 && (
         <>
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -25,7 +25,7 @@ export function FloatingEntryContentList() {
             className="fixed inset-0 z-30 bg-black/20 backdrop-blur-[1px]"
           />
 
-          <motion.div
+          <m.div
             initial="closed"
             animate="open"
             exit="closed"
@@ -68,7 +68,7 @@ export function FloatingEntryContentList() {
                 );
               })}
             </ul>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
