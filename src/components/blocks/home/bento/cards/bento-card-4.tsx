@@ -19,9 +19,9 @@ type Stats = {
 };
 
 const STATS: Stats[] = [
-  { label: "Países", value: "3", StatIcon: MapIcon, type: "countries" },
-  { label: "Recorridos", value: "12", StatIcon: TravelIcon, type: "km" },
-  { label: "Notas", value: "50", StatIcon: NotebookPen, type: "notes" },
+  { label: "Países", value: "4", StatIcon: MapIcon, type: "countries" },
+  { label: "Recorridos", value: "59.439 km.", StatIcon: TravelIcon, type: "km" },
+  { label: "Notas", value: "20", StatIcon: NotebookPen, type: "notes" },
 ];
 
 export async function BentoCard4() {

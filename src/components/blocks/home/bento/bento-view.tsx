@@ -58,10 +58,7 @@ export function BentoView() {
           <BentoItem colSpan={{ md: 3, base: 2, lg: 3 }} rowSpan={{ base: 1, md: 1, lg: 2 }}>
             <BentoCard4 />
           </BentoItem>
-          {/* Card avatar
-          <BentoItem colSpan={{ md: 4, base: 2, lg: 1 }} rowSpan={{ base: 1, md: 2, lg: 2 }}>
-            <BentoCard3 />
-          </BentoItem> */}
+
           {/* Card próximo destino */}
           <BentoItem colSpan={{ md: 1, base: 2, lg: 1 }} rowSpan={{ base: 1, md: 1, lg: 2 }}>
             <BentoCard5 />
