@@ -56,12 +56,9 @@ export function delay(ms: number) {
 }
 
 export function objectIsEmpty(obj: unknown): boolean {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    Object.keys(obj).length === 0 &&
-    obj.constructor === Object
-  );
+  if (typeof obj !== "object" || obj === null) return false;
+  if (obj.constructor !== undefined && obj.constructor !== Object) return false;
+  return Object.keys(obj).length === 0;
 }
 
 export function extractSlugFromPathname(pathname: string) {

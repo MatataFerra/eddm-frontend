@@ -8,7 +8,6 @@ import {
   ContentLoader,
   SummaryLoader,
 } from "@/components/blocks/share/content-render/content-skeleton";
-import { objectIsEmpty } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { DesktopTableOfContents } from "@/components/blocks/navigation/desktop-table-of-contents";
 import { ContentSummary } from "@/components/blocks/share/content-render/content-summary";
@@ -22,7 +21,7 @@ type ArticleRenderProps = {
 export function ArticleRender({ articlePromise }: ArticleRenderProps) {
   const articleData = use(articlePromise);
 
-  if (!articleData || objectIsEmpty(articleData.data)) return notFound();
+  if (!articleData?.data) return notFound();
 
   return (
     <main className="relative min-h-dvh w-11/12 mx-auto">
