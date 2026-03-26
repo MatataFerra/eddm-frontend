@@ -26,8 +26,9 @@ export async function getTaleContentFromNotion<T>({
     });
 
     return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("[getTaleContentFromNotion]", { query, strategy, error });
     return null;
   }
 }
@@ -50,8 +51,9 @@ export async function getArticleContentFromNotion<T>({
     });
 
     return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("[getArticleContentFromNotion]", { query, strategy, error });
     return null;
   }
 }
@@ -77,8 +79,9 @@ export async function getFurtherTimeArticlesContentFromNotion<T>({
     );
 
     return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("[getFurtherTimeArticlesContentFromNotion]", { query, strategy, error });
     return null;
   }
 }

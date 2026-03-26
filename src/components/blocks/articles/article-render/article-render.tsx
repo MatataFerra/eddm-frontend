@@ -19,12 +19,12 @@ type ArticleRenderProps = {
 };
 
 export function ArticleRender({ articlePromise }: ArticleRenderProps) {
-  const articleData = use(articlePromise);
-
-  if (!articleData?.data) return notFound();
-
   return (
     <main className="relative min-h-dvh w-11/12 mx-auto">
+      <Suspense fallback={null}>
+        <ArticleAvailabilityGuard articlePromise={articlePromise} />
+      </Suspense>
+
       <Suspense fallback={<TitleLoader />}>
         <ArticleTitle articlePromise={articlePromise} />
       </Suspense>
@@ -48,4 +48,12 @@ export function ArticleRender({ articlePromise }: ArticleRenderProps) {
       </section>
     </main>
   );
+}
+
+function ArticleAvailabilityGuard({ articlePromise }: ArticleRenderProps) {
+  const articleData = use(articlePromise);
+
+  if (!articleData?.data) return notFound();
+
+  return null;
 }

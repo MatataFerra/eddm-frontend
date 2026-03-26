@@ -8,6 +8,8 @@ import type { Article } from "@/lib/interfaces/articles";
 import type { ContentBySlug } from "@/lib/interfaces/share";
 import { TOCProvider } from "@/lib/providers/toc-entry-provider";
 import { Navigation } from "@/components/blocks/navigation/navigation";
+import { Suspense } from "react";
+import { TOCItemsStream } from "@/components/blocks/navigation/toc-items-stream";
 
 export async function generateMetadata({
   params,
@@ -15,17 +17,23 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const data = await getArticleContentFromNotion<ApiResponse<ContentBySlug<Article>>>({
-    query: slug,
-    strategy: "slug",
-  });
+  try {
+    const data = await getArticleContentFromNotion<ApiResponse<ContentBySlug<Article>>>({
+      query: slug,
+      strategy: "slug",
+    });
 
-  return {
-    title: data?.data?.title
-      ? `${data.data.title} | El diario de Mati`
-      : "El diario de Mati",
-    description: data?.data?.description ?? data?.data?.summary ?? undefined,
-  };
+    return {
+      title: data?.data?.title
+        ? `${data.data.title} | El diario de Mati`
+        : "El diario de Mati",
+      description: data?.data?.description ?? data?.data?.summary ?? undefined,
+    };
+  } catch {
+    return {
+      title: "El diario de Mati",
+    };
+  }
 }
 
 export default async function Entry({ params }: { params: Promise<{ slug: string }> }) {
@@ -37,7 +45,10 @@ export default async function Entry({ params }: { params: Promise<{ slug: string
   });
 
   return (
-    <TOCProvider articlePromise={articlePromise}>
+    <TOCProvider>
+      <Suspense fallback={null}>
+        <TOCItemsStream articlePromise={articlePromise} />
+      </Suspense>
       <ArticleRender articlePromise={articlePromise} />
       <Navigation redirect={APP_ROUTES.journey} typeOfOrder={MONTHS_ORDERED} />
     </TOCProvider>

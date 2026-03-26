@@ -16,12 +16,12 @@ type ArticleRenderProps = {
 };
 
 export function FurtherTimeArticleRender({ furtherTimeArticlePromise }: ArticleRenderProps) {
-  const articleData = use(furtherTimeArticlePromise);
-
-  if (!articleData?.data) return notFound();
-
   return (
     <main className="relative min-h-dvh w-11/12 mx-auto">
+      <Suspense fallback={null}>
+        <FurtherTimeArticleAvailabilityGuard furtherTimeArticlePromise={furtherTimeArticlePromise} />
+      </Suspense>
+
       <section className="p-4">
         <div className="max-w-full">
           <Suspense fallback={<HeaderLoader />}>
@@ -40,4 +40,12 @@ export function FurtherTimeArticleRender({ furtherTimeArticlePromise }: ArticleR
       </section>
     </main>
   );
+}
+
+function FurtherTimeArticleAvailabilityGuard({ furtherTimeArticlePromise }: ArticleRenderProps) {
+  const articleData = use(furtherTimeArticlePromise);
+
+  if (!articleData?.data) return notFound();
+
+  return null;
 }

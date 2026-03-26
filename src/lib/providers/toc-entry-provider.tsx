@@ -1,10 +1,6 @@
 "use client";
 
 import { createContext, useState, useEffect, use, useEffectEvent } from "react";
-import { parseHeadings } from "@/lib/utils";
-import type { ApiResponse } from "@/lib/fetch/caller";
-import type { Article } from "@/lib/interfaces/articles";
-import type { ContentBySlug } from "@/lib/interfaces/share";
 
 export type TOCItem = { title: string; id: string };
 
@@ -12,6 +8,7 @@ type TOCContextType = {
   items: TOCItem[];
   activeId: string;
   isTocOpen: boolean;
+  setItems: React.Dispatch<React.SetStateAction<TOCItem[]>>;
   setIsTocOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -19,6 +16,7 @@ const TOCContext = createContext<TOCContextType>({
   items: [],
   activeId: "",
   isTocOpen: false,
+  setItems: () => {},
   setIsTocOpen: () => {},
 });
 
@@ -26,15 +24,11 @@ export const useTOC = () => use(TOCContext);
 
 type TOCProviderProps = {
   children: React.ReactNode;
-  articlePromise: Promise<ApiResponse<ContentBySlug<Article>> | null>;
 };
 
-export const TOCProvider = ({ children, articlePromise }: TOCProviderProps) => {
-  const articleData = use(articlePromise);
+export const TOCProvider = ({ children }: TOCProviderProps) => {
   const [isTocOpen, setIsTocOpen] = useState(false);
-
-  const content = articleData?.data?.md_content || "";
-  const items = parseHeadings(content);
+  const [items, setItems] = useState<TOCItem[]>([]);
 
   const [activeId, setActiveId] = useState("");
 
@@ -59,7 +53,28 @@ export const TOCProvider = ({ children, articlePromise }: TOCProviderProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [items]);
 
-  const value = { items, activeId, isTocOpen, setIsTocOpen };
+  const value = { items, activeId, isTocOpen, setItems, setIsTocOpen };
 
   return <TOCContext.Provider value={value}>{children}</TOCContext.Provider>;
 };
+
+type TOCItemsSyncProps = {
+  items: TOCItem[];
+};
+
+export function TOCItemsSync({ items }: TOCItemsSyncProps) {
+  const { items: currentItems, setItems, setIsTocOpen } = use(TOCContext);
+
+  useEffect(() => {
+    const sameItems =
+      currentItems.length === items.length &&
+      currentItems.every((item, index) => item.id === items[index]?.id);
+
+    if (sameItems) return;
+
+    setItems(items);
+    setIsTocOpen(false);
+  }, [currentItems, items, setItems, setIsTocOpen]);
+
+  return null;
+}
