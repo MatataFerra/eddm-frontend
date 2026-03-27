@@ -1,6 +1,7 @@
 import { fetchData } from "@lib/fetch/caller";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
 import { cacheLife, cacheTag } from "next/cache";
+import { logError } from "@/lib/logger";
 
 export async function getTrip<T>(): Promise<T | null> {
   "use cache";
@@ -13,7 +14,8 @@ export async function getTrip<T>(): Promise<T | null> {
     });
 
     return response;
-  } catch {
+  } catch (error) {
+    logError(error, { function: "getTrip" });
     return null;
   }
 }

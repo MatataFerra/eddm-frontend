@@ -2,6 +2,7 @@ import { fetchData } from "@/lib/fetch/caller";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS, NOTION_PARAM_KEY } from "@/lib/constants";
 import { cacheLife, cacheTag } from "next/cache";
 import type { ApiResponse } from "@/lib/fetch/caller";
+import { logError } from "@/lib/logger";
 
 type GetNotionContentType = {
   strategy: "slug" | "notionPageId";
@@ -27,8 +28,7 @@ export async function getTaleContentFromNotion<T>({
 
     return response;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("[getTaleContentFromNotion]", { query, strategy, error });
+    logError(error, { function: "getTaleContentFromNotion", query, strategy });
     return null;
   }
 }
@@ -52,8 +52,7 @@ export async function getArticleContentFromNotion<T>({
 
     return response;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("[getArticleContentFromNotion]", { query, strategy, error });
+    logError(error, { function: "getArticleContentFromNotion", query, strategy });
     return null;
   }
 }
@@ -80,8 +79,7 @@ export async function getFurtherTimeArticlesContentFromNotion<T>({
 
     return response;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("[getFurtherTimeArticlesContentFromNotion]", { query, strategy, error });
+    logError(error, { function: "getFurtherTimeArticlesContentFromNotion", query, strategy });
     return null;
   }
 }

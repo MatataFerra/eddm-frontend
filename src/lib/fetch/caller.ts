@@ -92,8 +92,6 @@ async function _fetchData<T>(url: Url, opts: FetchOptions = {}): Promise<T> {
       "Content-Type": "application/json",
       ...headers,
     },
-    // 👇 Dejamos que el caller decida revalidate. Si NO lo pasa y arriba usás "use cache" + cacheLife,
-    // no forzamos reglas conflictivas.
     next: {
       ...(tagList.length ? { tags: tagList } : {}),
     },

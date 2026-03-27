@@ -1,6 +1,7 @@
 import { fetchData } from "@lib/fetch/caller";
 import { cacheTag, cacheLife } from "next/cache";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
+import { logError } from "@/lib/logger";
 
 export async function getStats<T>(): Promise<T | null> {
   "use cache";
@@ -14,7 +15,8 @@ export async function getStats<T>(): Promise<T | null> {
     });
 
     return response;
-  } catch {
+  } catch (error) {
+    logError(error, { function: "getStats" });
     return null;
   }
 }
