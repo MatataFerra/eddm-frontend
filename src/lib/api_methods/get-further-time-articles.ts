@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { CACHE_TAGS, EXTERNAL_API_ENDPOINTS } from "@/lib/constants";
 import { fetchData } from "@lib/fetch/caller";
+import { logError } from "@/lib/logger";
 
 export async function getContentNavigateFurtherTimeArticles<T>(): Promise<T | null> {
   "use cache";
@@ -14,9 +15,8 @@ export async function getContentNavigateFurtherTimeArticles<T>(): Promise<T | nu
     });
 
     return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    logError(error, { function: "getContentNavigateFurtherTimeArticles" });
     return null;
   }
 }
-
