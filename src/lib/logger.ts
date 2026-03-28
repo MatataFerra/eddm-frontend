@@ -24,7 +24,7 @@ export async function logError(error: unknown, context?: Record<string, string |
     route: typeof window !== "undefined" ? window.location.pathname : undefined,
     context: {
       ...context,
-      app: "eddm-back-nextjs",
+      app: "eddm-frontend",
     },
   };
 
