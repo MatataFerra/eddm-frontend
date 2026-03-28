@@ -22,8 +22,10 @@ export async function logError(error: unknown, context?: Record<string, string |
     message: isError ? error.message.slice(0, 200) : String(error).slice(0, 200),
     stack: isError ? error.stack?.split("\n").slice(0, 5) : undefined,
     route: typeof window !== "undefined" ? window.location.pathname : undefined,
-    app: "eddm-frontend",
-    context,
+    context: {
+      ...context,
+      app: "eddm-back-nextjs",
+    },
   };
 
   try {
